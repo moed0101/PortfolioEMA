@@ -127,3 +127,45 @@ document.addEventListener("mousemove", (e) => {
         item.style.transform = `translateX(${x}px) translateY(${y}px)`;
     });
 });
+
+
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const counters = document.querySelectorAll('.num');
+        const speed = 200; // كل ما الرقم زاد السرعة بتقل
+
+        const startCount = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target'); // الرقم النهائي
+                    const count = +counter.innerText; // الرقم الحالي
+
+                    // حساب سرعة الزيادة
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        // زيادة الرقم وتقريبه لأقرب عدد صحيح
+                        counter.innerText = Math.ceil(count + inc);
+                        // تكرار العملية كل 10 ميلي ثانية
+                        setTimeout(updateCount, 10);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        };
+
+        // تشغيل العداد مرة واحدة عند فتح الصفحة
+        startCount();
+    });
+
+
+
+    window.onscroll = function() {
+    let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    let scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+};
