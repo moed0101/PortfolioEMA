@@ -402,15 +402,30 @@ footer {
     align-items: center !important;    /* سنترة أفقية */
     
     /* 3. التصميم */
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
     border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
     cursor: pointer;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.2, 0, 0.4, .5);
+ 
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(15px) saturate(180%) !important; /* تنقية الصورة ورا الكارت */
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+
 }
 
+
+
+.skill-card img, .skill-card i {
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 5px rgba(255, 152, 0, 0.5)); /* ظل منور */
+}
+
+.skill-item-group:hover .skill-card img {
+    transform: scale(1.1) rotate(5deg); /* حركة خفيفة */
+    filter: drop-shadow(0 0 15px #ff9800); /* لمعان قوي عند الوقوف عليه */
+}
 
 
 /* حركة انسيابية للأقسام اللي بتختفي */
@@ -706,6 +721,13 @@ padding: 25px 15px;
     gap: 10px;
     margin-bottom: 15px;
 }
+
+
+
+.skill-section.is-open .skill-item-group:nth-child(1) { transition-delay: 0.2s; }
+.skill-section.is-open .skill-item-group:nth-child(2) { transition-delay: 0.3s; }
+.skill-section.is-open .skill-item-group:nth-child(3) { transition-delay: 0.4s; }
+.skill-section.is-open .skill-item-group:nth-child(4) { transition-delay: 0.5s; }
 
 
 
