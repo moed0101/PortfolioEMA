@@ -115,3 +115,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 }); // إغلاق الـ DOMContentLoaded بشكل سليم
+
+
+
+document.addEventListener("mousemove", (e) => {
+    const items = document.querySelectorAll(".floating-item");
+    const x = (window.innerWidth - e.pageX * 2) / 100;
+    const y = (window.innerHeight - e.pageY * 2) / 100;
+
+    items.forEach(item => {
+        item.style.transform = `translateX(${x}px) translateY(${y}px)`;
+    });
+});
