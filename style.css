@@ -84,303 +84,164 @@ header .btn-alt {
     font-weight: bold;
 }
 
-footer {
+
+
+
+
+
+
+
+
+/* ====== Modern Intelligent Footer ====== */
+.modern-footer {
+    background: #0a192f; /* لون كحلي أعمق يعطي فخامة */
+    padding: 80px 20px 40px;
     text-align: center;
-    padding: 15px;
-    background: #0a2540;
-    color: white;
-
-}
-.btn-download {
-    display: inline-block;
-    padding: 14px 28px;
-    margin: 5px;
-    background: #ff9800;
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
+    border-top: 2px solid rgba(255, 152, 0, 0.3);
+    margin-top: 100px;
+    position: relative;
 }
 
-.btn-download:hover {
-    background: #e68900;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(0,0,0,0.4);
+.footer-title {
+    font-size: 32px;
+    color: #ff9800;
+    margin-bottom: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
-/* الشكل الاحترافي لجميع الأزرار */
-.btn, .btn-alt, .btn-download {
-    display: inline-block;
-    padding: 14px 28px;
-    margin: 5px;
-    background: #ff9800;        /* لون برتقالي جذاب */
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
-}
-
-.btn:hover, .btn-alt:hover, .btn-download:hover {
-    background: #e68900;        /* لون أغمق عند hover */
-    transform: translateY(-2px); /* حركة صغيرة عند المرور */
-    box-shadow: 0 6px 8px rgba(0,0,0,0.4);
-}
-
-/* تغيير مظهر الزر عند الضغط */
-.btn:active, .btn-alt:active, .btn-download:active {
-    transform: translateY(1px); /* حركة بسيطة عند الضغط */
-    box-shadow: 0 3px 4px rgba(0,0,0,0.3);
-}
-
-/* نصوص الأزرار واضحة */
-.btn, .btn-alt, .btn-download {
+.footer-subtitle {
     font-size: 16px;
-    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 50px;
 }
-/* ====== Professional Unified Buttons ====== */
-.btn,
-.btn-download,
-.social-btn {
-    display: inline-flex;
+
+.footer-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 60px;
+    perspective: 1000px; /* لإعطاء عمق للحركة */
+}
+
+/* الأيقونة الذكية */
+.social-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 14px 28px;
-    margin: 6px;
-    background: #2c2f36;        /* اللون الأساسي (هندسي) */
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 16px;
-    text-decoration: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.25);
-    transition: all 0.3s ease;
-}
-
-/* Hover Effect */
-.btn:hover,
-.btn-download:hover,
-.social-btn:hover {
-    background: #ff9800;        /* يتحول برتقالي */
-    transform: translateY(-3px);
-    box-shadow: 0 8px 12px rgba(0,0,0,0.35);
-}
-
-/* Click Effect */
-.btn:active,
-.btn-download:active,
-.social-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 3px 5px rgba(0,0,0,0.25);
-}
-
-/* أيقونات جوه الزر */
-.btn i,
-.btn-download i,
-.social-btn i {
-    font-size: 18px;
-}
-
-/* ===== Contact Box ===== */
-.contact-box {
-    position: relative;
-    display: inline-block;
-    padding: 14px 40px;
-    margin-bottom: 25px;
-    border: 2px solid #ff9800;
-    border-radius: 40px;
-    color: #ff9800;
-    font-weight: 700;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-}
-
-.contact-box:hover {
-    background: #ff9800;
+    justify-content: center;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
     color: #fff;
-}
-
-/* ===== Arrows ===== */
-.arrow {
-    position: absolute;
-    opacity: 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: #ff9800;
-    transition: all 0.5s ease;
-}
-
-/* سهم واتساب (منحني) */
-.arrow-whatsapp {
-    top: 60px;
-    left: -60px;
-    transform: rotate(-20deg);
-}
-
-/* سهم فيسبوك */
-.arrow-facebook {
-    top: 60px;
-    right: -70px;
-    transform: rotate(20deg);
-}
-
-/* سهم CV */
-.arrow-cv {
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%) rotate(0deg);
-}
-
-/* Hover Animation */
-.contact-box:hover .arrow {
-    opacity: 1;
-}
-
-/* لمسة حركة ناعمة */
-.contact-box:hover .arrow-whatsapp {
-    left: -90px;
-}
-
-.contact-box:hover .arrow-facebook {
-    right: -100px;
-}
-
-.contact-box:hover .arrow-cv {
-    top: 130px;
-}
-
-footer {
+    font-size: 26px;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
-    padding: 60px 20px;
 }
 
-/* Contact Bubble */
-.contact-box {
-    position: relative;
-    display: inline-block;
-    padding: 14px 50px;
-    margin-bottom: 40px;
-    border: 2px solid #ff9800;
-    border-radius: 40px;
-    color: #ff9800;
+/* تنسيق خاص لمحتوى الـ CV ليظهر النص تحت الأيقونة */
+.cv-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.cv-text {
+    font-size: 9px;
     font-weight: 700;
-    font-size: 18px;
-    cursor: pointer;
+    text-transform: uppercase;
+    opacity: 0.7;
 }
 
-/* Hide arrows by default */
-.arrow {
+/* تأثيرات الـ Hover الملونة والذكية */
+.social-icon.whatsapp:hover {
+    background: #25D366;
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+    transform: translateY(-10px) rotate(5deg);
+}
+
+.social-icon.facebook:hover {
+    background: #1877F2;
+    box-shadow: 0 10px 25px rgba(24, 119, 242, 0.4);
+    transform: translateY(-10px) rotate(-5deg);
+}
+
+.social-icon.cv:hover {
+    background: #ff4b2b;
+    box-shadow: 0 10px 25px rgba(255, 75, 43, 0.4);
+    transform: translateY(-10px) scale(1.05);
+}
+
+/* الـ Tooltip الذكي */
+.tooltip {
     position: absolute;
-    opacity: 0;
-    width: auto;
-    height: auto;
-}
-
-/* Position arrows */
-.arrow-left {
-    top: 50%;
-    left: -110px;
-}
-.arrow-right {
-    top: 50%;
-    right: -110px;
-}
-.arrow-down {
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-/* Hover animation */
-.contact-box:hover .arrow-left,
-.contact-box:hover .arrow-right,
-.contact-box:hover .arrow-down {
-    opacity: 1;
-    animation: glowArrow 0.6s ease forwards;
-}
-
-/* Glow effect */
-.arrow path, .arrow polygon {
-    filter: drop-shadow(0 0 6px #ff9800);
-    transition: all 0.4s ease;
-}
-
-/* Keyframes لظهور السهم */
-@keyframes glowArrow {
-    0% { opacity: 0; transform: translate(0,0); }
-    100% { opacity: 1; }
-}
-
-/* Contact Bubble */
-.contact-box {
-    position: relative;
-    display: inline-block;
-    padding: 14px 50px;
-    margin-bottom: 40px;
-    border: 2px solid #ff9800;
-    border-radius: 40px;
-    color: #ff9800;
-    font-weight: 700;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-/* النقاط مخفية افتراضيًا */
-.dot {
-    position: absolute;
-    width: 12px;
-    height: 12px;
+    top: -20px;
     background: #ff9800;
-    border-radius: 50%;
+    color: #0a2540;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
     opacity: 0;
+    visibility: hidden;
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
-/* نقاط فوق/تحت الأيقونات */
-.dot-whatsapp {
-    left: 20%;
-    bottom: -25px; /* تحت أيقونة واتساب */
-}
-
-.dot-facebook {
+.tooltip::after { /* سهم صغير للـ tooltip */
+    content: '';
+    position: absolute;
+    bottom: 35px;
     left: 50%;
-    bottom: -25px; /* تحت أيقونة فيسبوك */
     transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #ff9800;
 }
 
-.dot-cv {
-    right: 20%;
-    bottom: -25px; /* تحت أيقونة CV */
-}
-
-/* Hover أو Click يظهر النقاط */
-.contact-box:hover .dot,
-.contact-box:active .dot {
+.social-icon:hover .tooltip {
     opacity: 1;
+    visibility: visible;
+    top: 85px;
 }
+
+.footer-bottom {
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.highlight {
+    color: #ff9800;
+}
+
+
+
+
+
+
+
+
+
 
 
 
 .skills-wrapper {
-     flex-direction: row !important;
-     grid-template-columns: repeat(4, 1fr);
-    flex-wrap: wrap !important; /* يمنع نزولهم في سطر جديد */
-    align-items: flex-start;
-    justify-items: center;
+    display: flex !important; /* نعتمد الفليكس فقط */
+    flex-wrap: wrap !important;
+    flex-direction: row !important;
+    align-items: flex-start !important; /* أهم سطر: بيثبت الكروت في "سقف" الصف */
+    justify-content: center; /* سنترة الكروت في نص الشاشة */
+    gap: 25px;
     width: 100%;
     max-width: 1200px;
     margin: 40px auto;
-   padding: 0 10px;
-   display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    justify-content: center;
-    transition: all 0.7s ease-in-out;
     position: relative;
+    transition: all 0.5s ease;
 }
 
 
@@ -388,11 +249,12 @@ footer {
 /* تحسين السكشن نفسه */
 .skill-section {
 /* 1. الحجم والارتفاع */
-    flex: 1 1 250px;
+flex: 0 0 calc(25% - 25px) !important; /* 4 كروت في الصف بالظبط */
+min-width: 250px;
     max-width: 580px;
     min-height: 70px; /* قللنا الارتفاع عشان ميبقاش طويل بزيادة وهو مقفول */
 
-    margin: 10px;
+    margin: 0px;
     box-sizing: border-box;
 
     /* 2. التوسيط المطلق للعنوان */
@@ -411,7 +273,12 @@ footer {
     -webkit-backdrop-filter: blur(15px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    /* نضمن إن الكارت مش بياخد مساحة متغيرة تخليه يتهز */
+    align-self: flex-start; 
+    
+    /* لو مستخدم Grid، نمنع الـ Row من إنه يغير مقاسه فجأة */
+    grid-row-start: auto;
 
 }
 
@@ -540,9 +407,9 @@ transform: translateY(20px) scale(1.04);
      /* التأكد من إخفاء المحتوى قبل الفتح */
     max-height: 0;
     visibility: hidden;
-    ttransition: opacity 0.3s ease-in-out;
+    transition: opacity 0.2s ease; /* سرعة الاختفاء */
 pointer-events: none;
-    transform: translateY(20px);
+    transform: translateY(-10px);
     opacity: 0;
     overflow: hidden;
 opacity: 0;
@@ -1107,21 +974,19 @@ body {
   text-shadow: 0 0 10px #ff9800;
 }
 
-.hero-name {
-  font-size: 56px;
-  font-weight: 800;
-  background: linear-gradient(90deg, #ff9800, #ffc107);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 .hero-name {
-  font-size: 60px;
-  font-weight: 900;
-  background: linear-gradient(90deg, #ff9800, #ffc107);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 10px;
+ position: relative; /* يخليه يظهر فوق أي خلفية */
+    z-index: 10;
+    font-size: 60px;
+    font-weight: 900;
+    /* تأكد إن الـ Gradient مكتوب صح كدة */
+    background: linear-gradient(90deg, #ff9800, #ffc107);
+    -webkit-background-clip: text; /* دي أهم واحدة عشان اللون يظهر على الخط */
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+    display: block; /* نضمن إنه واخد مساحته */
 }
 
 .hero-engineer {
@@ -1148,13 +1013,6 @@ body {
   gap: 12px;
 }
 
-.hero-name {
-  font-size: 64px;
-  font-weight: 900;
-  background: linear-gradient(90deg, #ff9800, #ffc107);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 .hero-title {
   font-size: 28px;
@@ -1237,45 +1095,60 @@ body {
   fill: white;
 }
 
-/* Scroll Indicator Container */
-#scroll-indicator {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  width: 80px;
-  height: 80px;
-  cursor: pointer;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+
+/* ====== Scroll to Top Progress Circle ====== */
+.progress-wrap {
+    /* 1. التثبيت في الشاشة */
+    position: fixed !important; 
+    right: 30px;
+    bottom: 30px;
+    
+    /* 2. الأبعاد والظهور */
+    width: 46px;
+    height: 46px;
+    z-index: 999999 !important; /* أعلى من أي كروت أو صور */
+    opacity: 1 !important; 
+    visibility: visible !important;
+    
+    /* 3. التنسيق الجمالي */
+    background: #0a2540;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 2px rgba(255,152,0,0.2);
+    transition: transform 200ms linear;
 }
 
-/* السهم */
-#scroll-indicator .arrow {
-  width: 28px;
-  height: 28px;
-  fill: white;
-  filter: drop-shadow(0 0 6px #ff9800);
-  position: absolute;
+/* شيلنا أي خصائص تانية لـ active-progress عشان متعملش تضارب */
+
+/* عشان نضمن إن السهم دايمًا في النص */
+.progress-wrap .scroll-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ff9800;
 }
 
-/* حلقات الدائرة */
-#scroll-indicator svg {
-  position: absolute;
-  inset: 0;
+.progress-wrap svg path { 
+    fill: none; 
+    stroke: #ff9800; 
+    stroke-width: 4; 
+    box-sizing: border-box; 
+    transition: stroke-dashoffset 10ms linear;
 }
 
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease-out;
+.progress-wrap:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.4);
 }
 
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
+
+
+
+
+
+
 
 
 

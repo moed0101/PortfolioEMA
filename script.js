@@ -1,163 +1,117 @@
-/* ===============================
-   Scroll Reveal (About Me / Sections)
-================================ */
-const reveals = document.querySelectorAll(".reveal");
-
-function revealOnScroll() {
-  reveals.forEach(el => {
-    const top = el.getBoundingClientRect().top;
-    if (top < window.innerHeight - 100) {
-      el.classList.add("active");
-    }
-  });
-}
-
-window.addEventListener("scroll", revealOnScroll);
-revealOnScroll();
-
-/* ===============================
-   Skills Cards Logic (Progress Bars & Counters)
-================================ */
-document.querySelectorAll('.skill-section').forEach(card => {
+document.addEventListener('DOMContentLoaded', function() {
     
-    card.addEventListener('click', function(e) {
-        // منع القفل لو الضغط على لينكات التحميل
-        if (e.target.tagName === 'A' || e.target.closest('.skill-links')) return;
+    /* ===============================
+       1. Scroll Progress Circle
+    ================================ */
+    const progressWrap = document.querySelector('.progress-wrap');
+    const progressPath = document.querySelector('.progress-wrap path');
+    
+    if (progressPath) {
+        const pathLength = progressPath.getTotalLength();
+        progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
+        progressPath.style.strokeDasharray = pathLength + ' ' + pathLength;
+        progressPath.style.strokeDashoffset = pathLength;
+        progressPath.getBoundingClientRect();
+        progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';
 
-        const isOpen = this.classList.contains('is-open');
+        const updateProgress = () => {
+            const scroll = window.scrollY;
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = pathLength - (scroll * pathLength / height);
+            progressPath.style.strokeDashoffset = progress;
+        };
 
-        // 1. قفل الكروت التانية وتصفيرها تماماً (خطوط وأرقام)
-        document.querySelectorAll('.skill-section').forEach(otherCard => {
-            if (otherCard !== this) {
-                otherCard.classList.remove('is-open');
-                otherCard.querySelectorAll('.progress-bar').forEach(bar => bar.style.width = "0");
-                otherCard.querySelectorAll('.percentage-text').forEach(t => t.innerText = "0%");
+        updateProgress();
+        window.addEventListener('scroll', updateProgress);
+
+        progressWrap.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    /* ===============================
+       2. Scroll Reveal (About Sections)
+    ================================ */
+    const reveals = document.querySelectorAll(".reveal");
+    const revealOnScroll = () => {
+        reveals.forEach(el => {
+            const top = el.getBoundingClientRect().top;
+            if (top < window.innerHeight - 100) {
+                el.classList.add("active");
             }
         });
+    };
+    window.addEventListener("scroll", revealOnScroll);
+    revealOnScroll();
 
-        // 2. تبديل حالة الكارت الحالي
-        this.classList.toggle('is-open');
+    /* ===============================
+       3. Skills Logic (Fixed Margin Issue)
+    ================================ */
+    const allSkillSections = document.querySelectorAll('.skill-section');
 
-        // 3. لو الكارت اتفتح، شغل الأنميشن
-        if (this.classList.contains('is-open')) {
-            
-            // --- أ: تحريك خطوط التحميل (الزحف) ---
-            const progressBars = this.querySelectorAll('.progress-bar');
-            // تأخير 50ms عشان نضمن إن الـ CSS Transition يلقط الحركة من صفر
-            setTimeout(() => {
-                progressBars.forEach(bar => {
-// بنجيب القيمة اللي إنت كاتبها في الـ style جوه الـ HTML
-        // سواء كانت 40% أو 70% أو 100%
-        let targetW = bar.style.getPropertyValue('--w') || 
-                      bar.getAttribute('style').match(/--w:\s*(\d+)/)[1] + '%';
-        
-        // بنطبق القيمة دي بالظبط على الـ width
-        bar.style.width = targetW; 
-    });
-}, 100);
-            // --- ب: تشغيل عداد الأرقام ---
-            const counters = this.querySelectorAll('.percentage-text');
-            counters.forEach(counter => {
-                counter.innerText = "0%"; 
-                const target = +counter.getAttribute('data-target'); 
-                const duration = 2000; // ثانيتين ليتوافق مع الخط
-                const startTime = performance.now();
+    allSkillSections.forEach(card => {
+        card.addEventListener('click', function(e) {
+            if (e.target.closest('.skill-links') || e.target.tagName === 'A') return;
 
-                function updateNumber(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    
-                    // EaseOut ليكون ناعم ومتزامن مع الخط
-                    const easeOutQuad = 1 - (1 - progress) * (1 - progress);
-                    const currentNumber = Math.floor(easeOutQuad * target);
-                    
-                    counter.innerText = currentNumber + "%";
+            const isExpanding = !this.classList.contains('active-card');
 
-                    if (progress < 1) {
-                        requestAnimationFrame(updateNumber);
-                    } else {
-                        counter.innerText = target + "%";
-                    }
-                }
-                requestAnimationFrame(updateNumber);
-            });
-        } else {
-            // 4. لو الكارت اتقفل، صفر كل حاجة عشان الحركة تعيد نفسها المرة الجاية
-            this.querySelectorAll('.progress-bar').forEach(bar => bar.style.width = "0");
-            this.querySelectorAll('.percentage-text').forEach(t => t.innerText = "0%");
-        }
-    });
-});
+            if (isExpanding) {
+                allSkillSections.forEach(other => {
+                    other.classList.remove('is-open', 'active-card');
+                    // حل مشكلة المارجن: نستخدم التعتيم بدل الإخفاء التام
+                    other.style.opacity = "0.2"; 
+                    other.style.filter = "blur(2px)";
+                    other.querySelectorAll('.progress-bar').forEach(b => b.style.width = "0");
+                    other.querySelectorAll('.percentage-text').forEach(t => t.innerText = "0%");
+                });
 
+                this.classList.add('is-open', 'active-card');
+                this.style.opacity = "1";
+                this.style.filter = "blur(0)";
+                
+                // تشغيل الأنميشن
+                const bars = this.querySelectorAll('.progress-bar');
+                setTimeout(() => {
+                    bars.forEach(bar => {
+                        const styleAttr = bar.getAttribute('style') || "";
+                        const match = styleAttr.match(/--w:\s*(\d+%)/);
+                        if (match) bar.style.width = match[1];
+                    });
+                }, 400);
 
-document.querySelectorAll('.skill-section').forEach(card => {
-    card.addEventListener('click', function(e) {
-        if (e.target.closest('.skill-links')) return;
+                const counters = this.querySelectorAll('.percentage-text');
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    animateNumber(counter, 0, target, 2000);
+                });
 
-        const isExpanding = !this.classList.contains('active-card');
-
-        if (isExpanding) {
-            // 1. تفعيل الكارت الحالي
-            this.classList.add('is-open', 'active-card');
-            
-            // 2. إخفاء باقي الكروت
-            document.querySelectorAll('.skill-section').forEach(other => {
-                if (other !== this) {
-                    other.classList.add('hidden-card');
-                }
-            });
-
-            // 3. تشغيل أنميشن الزحف والعد (نفس كودك القديم)
-            startAnimations(this);
-
-        } else {
-            // 4. لو ضغطت عليه وهو مفتوح.. يرجع كل حاجة مكانها
-            resetAllCards();
-        }
-    });
-});
-
-function resetAllCards() {
-    const allCards = document.querySelectorAll('.skill-section');
-    const activeCard = document.querySelector('.skill-section.active-card');
-
-    if (activeCard) {
-        // 1. قفل محتوى المهارات الأول (الخطوط والأرقام)
-        activeCard.classList.remove('is-open');
-        activeCard.querySelectorAll('.progress-bar').forEach(b => b.style.width = "0");
-        
-        // 2. رجوع الكارت لحجمه الطبيعي
-        activeCard.classList.remove('active-card');
-
-        // 3. تأخير بسيط (200ms) قبل إظهار باقي الكروت عشان نمنع التعليقة
-        setTimeout(() => {
-            allCards.forEach(card => {
-                card.classList.remove('hidden-card');
-            });
-        }, 200); 
-    }
-}
-
-function startAnimations(container) {
-    const bars = container.querySelectorAll('.progress-bar');
-    setTimeout(() => {
-        bars.forEach(bar => {
-            const targetW = bar.getAttribute('style').match(/--w:\s*(\d+%)/);
-            if (targetW) bar.style.width = targetW[1];
+            } else {
+                resetAllCards();
+            }
         });
-    }, 300); // تأخير بسيط لحد ما الكارت يخلص تمدد
-    
-    // كود العداد الرقمي (animateValue) اللي معاك سيبه زي ما هو
-}
+    });
 
+    function resetAllCards() {
+        allSkillSections.forEach(card => {
+            card.classList.remove('is-open', 'active-card');
+            card.style.opacity = "1";
+            card.style.filter = "blur(0)";
+            card.querySelectorAll('.progress-bar').forEach(b => b.style.width = "0");
+            card.querySelectorAll('.percentage-text').forEach(t => t.innerText = "0%");
+        });
+    }
 
+    function animateNumber(obj, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const easeOut = 1 - Math.pow(1 - progress, 3); 
+            obj.innerHTML = Math.floor(easeOut * (end - start) + start) + "%";
+            if (progress < 1) window.requestAnimationFrame(step);
+        };
+        window.requestAnimationFrame(step);
+    }
 
-
-card.addEventListener('click', function() {
-    this.classList.add('is-open');
-    
-    // بنستنى 500ms (وقت فتح الكارت) وبعدين نظهر اللي جوه
-    setTimeout(() => {
-        this.querySelector('.skills-container').style.opacity = '1';
-    }, 500);
-});
+}); // إغلاق الـ DOMContentLoaded بشكل سليم
