@@ -1,13 +1,36 @@
 body {
-    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     font-family: 'Dubai', sans-serif;
-    background: #f4f4f4;
-    color: #222;
+    font-weight: 500;
+    /* كبرنا الخط شوية بناءً على طلبك */
+    font-size: 19px; 
+    color: #fff;
+    line-height: 1.6;
 }
+
+
+
+
+
+ /* كود تنظيف لإظهار أي نص مخفي جوه كروت المهارات */
+.skill-card *, .skill-card span, .skill-card i {
+    color: #000000 !important; /* إجبار اللون الأسود */
+    opacity: 1 !important;      /* إجبار الشفافية الكاملة */
+    visibility: visible !important; /* إجبار الظهور */
+}
+
+
+
+
+
 
 html {
     scroll-behavior: smooth;
 }
+
+
+
 
 
 header {
@@ -46,58 +69,6 @@ header .btn-alt {
     margin-right: 30px;
     border: 4px solid #0a2540;
 }
-
-
-.skills {
-    padding: 60px 20px;
-    background: #ffffff;
-    text-align: center;
-}
-
-.skills h1 { font-size: 6vw; } /* حجم ديناميكي حسب الشاشة */
-.skill-card .skill-title { font-size: 1rem; }
-
-@media screen and (max-width: 768px) {
-    .skills-container {
-        grid-template-columns: 1fr; /* عمود واحد على الموبايل */
-    }
-    .skill-card {
-        width: 80%;
-    }
-}
-
-
-.skills-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 25px;
-    justify-items: center;
-}
-
-.skill {
-    background: #f4f6f8;
-    padding: 20px 15px;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: all 0.3s ease;
-    cursor: default;
-}
-
-.skill i {
-    font-size: 22px;
-    color: #ff9800;
-}
-
-/* Hover effect */
-.skill:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
-}
-
 
 .project-card {
     background: white;
@@ -392,159 +363,402 @@ footer {
     opacity: 1;
 }
 
-.skills {
-    padding: 60px 20px;
-    text-align: center;
-    background: #f4f4f8;
+
+
+.skills-wrapper {
+     flex-direction: row !important;
+     grid-template-columns: repeat(4, 1fr);
+    flex-wrap: wrap !important; /* يمنع نزولهم في سطر جديد */
+    align-items: flex-start;
+    justify-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+   padding: 0 10px;
+   display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+    transition: all 0.7s ease-in-out;
+    position: relative;
 }
 
-.skills h1 {
-    font-size: 32px;
-    margin-bottom: 50px;
-    color: #0a2540;
-}
 
-/* الأقسام */
+
+/* تحسين السكشن نفسه */
 .skill-section {
-    margin-bottom: 20px;
-    border-radius: 15px;
-    background: var(--gradient);
-    color: #0a2540;
+/* 1. الحجم والارتفاع */
+    flex: 1 1 250px;
+    max-width: 580px;
+    min-height: 70px; /* قللنا الارتفاع عشان ميبقاش طويل بزيادة وهو مقفول */
+
+    margin: 10px;
+    box-sizing: border-box;
+
+    /* 2. التوسيط المطلق للعنوان */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important; /* سنترة رأسية */
+    align-items: center !important;    /* سنترة أفقية */
+    
+    /* 3. التصميم */
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     cursor: pointer;
-    padding: 20px;
-    transition: all 0.3s ease;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.2, 0, 0.4, .5);
 }
 
-/* Hover على القسم */
+
+
+/* حركة انسيابية للأقسام اللي بتختفي */
+.skill-section.is-hidden {
+    flex: 0 !important;
+    max-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+
+/* حالة الكارت لما يختفي */
+.skill-section.hidden-card {
+    opacity: 0;
+    pointer-events: none; /* عشان ميعطلش الضغط */
+    position: absolute; /* يخرج من مسار الصفحة عشان المفتوح يتوسط */
+   transform: scale(0.5);
+    flex: 0 0 0% !important; /* بتصغر حجمها خالص عشان متزقش الكارت المفتوح */
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+/* حالة الكارت لما يفتح بعرض الشاشة */
+.skill-section.active-card {
+    flex: 0 0 100% !important; /* ياخد عرض السطر كله */
+    max-width: 2500px !important; /* أو العرض اللي تحبه */
+    min-height: 400px;
+    z-index: 100;
+    cursor: default;
+}
+
+
+
+/* لما الكارت يفتح.. الارتفاع يبقى حر */
+.skill-section.is-open {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    height: auto !important; 
+    min-height: 500px;
+    justify-content: flex-start !important; /* عشان العنوان يطلع فوق والمهارات تنزل تحته */
+    padding-top: 40px;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+
+
 .skill-section:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+transform: translateY(20px) scale(1.04);
+    background: rgba(255, 255, 255, 0.12); /* تفتيح بسيط للخلفية
+/* الجلو اللي تحت الكارت (Shadow Glow) */
+                border-color: #ff9800; /* يخلي الإطار ينور بلون تخصصك */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                0 0 20px rgba(255, 152, 0, 0.2);
 }
 
-/* عنوان القسم */
-.skill-section h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
+
+
+
+
+/* الجلو على الكلمة (العنوان) */
+.skill-section h3 {
+    transition: all 0.3s ease;
+    margin: 0;
+    font-size: 1.3rem;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+    line-height: 1.2; /* بيساعد في التوسيط الرأسي */
+    
 }
 
-/* المهارات مخفية افتراضيًا */
+.skill-section:hover h3 {
+    color: #ff9800; /* تغيير لون الكلمة للبرتقالي */
+    text-shadow: 0 0 10px rgba(255, 152, 0, 0.8), 
+                 0 0 20px rgba(255, 152, 0, 0.4); /* توهج الكلمة */
+}
+
+
+/* إضافة خط Glow تحت الكارت كديكور إضافي */
+.skill-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ff9800, transparent);
+    transition: all 0.4s ease;
+    transform: translateX(-50%);
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.5);
+}
+
+.skill-section:hover::after {
+    width: 80%; /* الخط بيفرد لما تلمس الكارت */
+}
+
+
+
+
+
+/* حركة ظهور المهارات داخل القسم */
 .skills-container {
+    width: 100%;
+    /* نلغي الـ max-height هنا عشان ميعملش رعشة */
+    display: none !important;
+    /* تقسيم الأعمدة: اقل عرض للمهارة 280px وتملأ الباقي */
+    grid-template-columns: repeat(4, 1fr) !important; 
+     /* التأكد من إخفاء المحتوى قبل الفتح */
     max-height: 0;
+    visibility: hidden;
+    ttransition: opacity 0.3s ease-in-out;
+pointer-events: none;
+    transform: translateY(20px);
     opacity: 0;
     overflow: hidden;
-    transform: translateY(-20px);
-    transition: all 0.5s ease;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-    justify-items: center;
+opacity: 0;
+    gap: 20px; /* مسافة أمان بين كل كارت والتاني لمنع التداخل */
+    padding: 40px 20px; /* متنفس من فوق وتحت ومن الجوانب */
+    justify-content: center; /* توسيط الشبكة نفسها */
+    align-items: start;
+    box-sizing: border-box; /* أهم سطر عشان الحواف متدخلش في بعضها */
 }
 
-.skills-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-    justify-items: center;
-}
 
-/* عند الضغط يظهر القسم */
-.skill-section.active .skills-container {
-    max-height: 1000px;
+.skill-section.is-open .skills-container {
+    display: grid !important; 
     opacity: 1;
     transform: translateY(0);
+   max-height: none !important; /* شيل السقف تماماً */
+    margin-top: 20px;
+    padding-bottom: 10px;
+    visibility: visible;
+    /* سطر السحر: تأخير ظهور المهارات لحد ما الكارت يفتح */
+    pointer-events: auto;
+    
+    /* تأخير الظهور لـ 0.5 ثانية (بعد ما الكارت يفتح لآخره) */
+    transition-delay: 0.5s; 
+
+    /* أنيميشن إضافي لظهور المهارات واحدة ورا التانية (اختياري) */
+    animation: smoothFadeIn 0.5s ease forwards;
+    animation-delay: 0.4s;
+    
 }
 
-/* البطاقة */
+/* أنيميشن احترافي لظهور الكروت */
+@keyframes smoothFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
 .skill-card {
-    background: #fff;
-    padding: 12px 15px;
-    border-radius: 12px;
+    background: #ffffff !important; /* أبيض صريح عشان التباين */
+    border: 2px solid #e0e0e0 !important; /* إطار يحدد الكبسولة */
+    padding: 10px 25px;
+    border-radius: 50px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease;
+    visibility: visible !important; /* لضمان الظهور */
+    opacity: 1 !important; /* لضمان عدم الشفافية */
+    flex-direction: column;
+    font-size: 1.1rem;
+    font-weight: 600;
+    width: fit-content;
+    color: #000; /* عشان الكلام يبان على الأبيض */
+    margin: 0 auto; /* لضمان التوسيط */
+    min-height: 80px; /* ارتفاع مناسب جداً */
 }
 
-/* Hover على البطاقة */
+.skill-card span {
+    /* لون كحلي غامق جداً (أوضح من الأسود العادي على الأبيض) */
+    color: #0a2540 !important; 
+    font-size: 17px !important;
+    font-weight: 800 !important; /* أقصى درجة ثقل للخط */
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    text-transform: capitalize; /* يخلي أول حرف كبير وشكله أنظف */
+}
+
+.skill-card i {
+    color: #ff9800 !important;
+    font-size: 2rem !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+   display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    justify-content: flex-start; /* الأيقونة والاسم يبدأوا من الشمال */
+}
+
 .skill-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 15px rgba(255, 152, 0, 0.2);
 }
 
-/* أيقونة المهارة */
-/* البطاقة - Skill Card */
-.skill-card {
-    background: #ffffff;
-    padding: 15px 12px;
-    border-radius: 12px;
+
+
+
+
+
+
+
+.skill-links {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-
-    /* أهم التعديلات */
-    width: 180px;      /* نفس العرض لكل البطاقات */
-    min-height: 120px; /* نفس الإرتفاع لكل البطاقات */
-    justify-content: center; /* يوزع المحتوى بشكل مركزي */
-    text-align: center;      /* يوسّط النص داخل البطاقة */
+    justify-content: center;
+    width: 220px; /* نفس عرض الكبسولة اللي فوقها بالظبط */
+    margin-top: 10px;
+    gap: 15px;
 }
 
-/* نص اسم البرنامج داخل البطاقة */
-.skill-card .skill-title {
-    font-size: 16px;         /* حجم مناسب للمربع */
-    font-weight: 600;        /* ليظهر بشكل أكثر بروز */
-    color: #0a2540;          /* لون نص واضح، متناسق مع المربع */
-    text-align: center;      /* يوسّط النص داخل البطاقة */
-    transition: all 0.3s ease;
-}
-
-/* Hover effect للنص داخل البطاقة */
-.skill-card:hover .skill-title {
-    color: #ff9800;          /* اللون يتحول للبرتقالى عند المرور بالماوس */
-    transform: scale(1.05);  /* نص يكبر شويه يعطي حيوية */
-}
-
-
-/* إطار الروابط داخل المهارة */
-.skill-link-frame {
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* عمودين: ملف + Drive */
-    gap: 8px;
-    justify-items: center;
-    align-items: center;
-}
-
-/* تصميم الرابط */
-.skill-link-frame a {
-    background: #0a2540;      /* لون الخلفية الأساسي */
-    color: #fff;              /* لون النص */
-    padding: 6px 12px;        /* حجم مناسب */
-    border-radius: 20px;      /* نصف دائرة */
-    font-size: 13px;
+.skill-links a {
     text-decoration: none;
-    display: inline-flex;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    width: 100px; /* عرض ثابت لكل زرار عشان التساوي */
+    padding: 8px 0;
+    text-align: center;
+    border-radius: 30px;
+    background: #0a2540 !important;
+    color: #ffffff !important;
+    transition: all 0.3s ease;
+}
+
+/* تغيير الألوان عند مرور الماوس (Hover) */
+.skill-links a.file-link:hover {
+    background: #ff5722; /* لون أحمر/برتقالي للملفات */
+    box-shadow: 0 0 10px rgba(255, 87, 34, 0.4);
+}
+
+.skill-links a.web-link:hover {
+    background: #ff9800; /* لون برتقالي للينكات */
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.4);
+}
+
+
+
+
+
+/* حاوية كل مهارة (الكرت + الروابط بتاعته) */
+.skill-item-group {
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.03); /* خلفية خفيفة جداً */
+padding: 25px 15px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+        /* سر التوسيط */
+    display: flex;
+    flex-direction: column; /* العناصر تحت بعضها */
+    align-items: center;    /* توسيط أفقي لكل اللي جوه */
+    text-align: center;     /* توسيط النصوص */
+    
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* بيخلي الـ padding يتحسب من ضمن العرض */
+    /* لمنع التداخل البصري */
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-item-group:hover {
+    transform: translateY(-5px); /* حركة خفيفة عند الوقوف بالماوس */
+    background: rgba(255, 255, 255, 0.07);
+    border-color: #ff9800;
+}
+
+
+/* 3. تنسيق الهيدر اللي جواه الاسم والرقم */
+.skill-header {
+    width: 100%; /* عشان التوسيط يظبط */
+    display: flex;
+    flex-direction: column; /* الاسم فوق الرقم بشكل شيك */
     align-items: center;
-    gap: 4px;
-    transition: all 0.3s ease;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-/* Hover glow */
-.skill-link-frame a:hover {
-    background: #ff9800;
-    color: #fff;
-    box-shadow: 0 0 8px #ff9800;
-    transform: scale(1.05);
+
+
+
+
+
+/* 6. تحسينات الموبايل (شاشات التابلت والموبايل الكبير) */
+@media (max-width: 768px) {
+    .skills-wrapper {
+        flex-direction: column !important; /* الأقسام الـ 4 فوق بعض */
+        align-items: center;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .skill-section {
+        width: 100% !important;
+        max-width: 350px;
+        flex: none !important; /* نلغي الـ flex عشان ياخد العرض المكتوب فوق */
+    }
+
+    .skill-section.is-open .skills-container {
+        /* المهارات جوه السكشن تظهر 2 في كل صف */
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px;
+    }
 }
 
-/* أيقونة داخل الرابط */
-.skill-link-frame a i {
-    color: #fff; /* أيقونة بيضاء على أي لون خلفية */
-    transition: all 0.3s ease;
+/* 7. الموبايلات الصغيرة جداً */
+@media (max-width: 480px) {
+    .skill-section.is-open .skills-container {
+        /* المهارات تظهر واحدة واحدة تحت بعض */
+        grid-template-columns: 1fr !important;
+        
+    }
 }
+
+/* 8. أنيميشن ظهور المهارات */
+@keyframes fadeInSkills {
+    from { 
+        opacity: 0; 
+        transform: translateY(15px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+
+
+
+
+
 
 /* ===== About Section ===== */
 
@@ -553,12 +767,57 @@ footer {
   background: #f6f7f9;
 }
 
-.section-title {
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 40px;
-  color: #0d2b45;
+.section-title.about-title {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #0d2b45;
+    position: relative;
+    z-index: 10;
+    display: table; /* خليناه بلوك عشان يترسنتر */
+    text-align: center;
+   margin: 60px auto 40px !important; /* 60px مسافة من فوق، auto في النص، 40px مسافة من تحت */
+    display: block;          /* عشان يقبل تحديد العرض */
+    width: fit-content;      /* هيخلي الكارت على قد الكلمة بالظبط */
+    max-width: 400px;        /* حدود قصوى عشان ميكبرش زيادة */
+    margin: 60 auto 40px;     /* السطر ده هو اللي بيخليه في النص بالظبط */
+    padding: 10px 30px;
+    animation: float 3s ease-in-out infinite;
+    /* لو عايزه يبان كأنه كارت منفصل زي الأباوت ضيف السطور دي */
+    background: rgba(255, 255, 255, 0.1); 
+    border-radius: 50px;     /* يخليه واخد شكل كبسولة شيك */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer !important; /* دي اللي بتخلي السهم يبقى إيد */
+    transition: all 0.4s ease; /* عشان أي تأثير يحصل بنعومة */
+    /* جلو خفيف جداً تحت الكارت (Shadow) */
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05), 
+                0 0 10px rgba(255, 152, 0, 0.1); 
+    
+    /* توهج خفيف للخط نفسه */
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
+
+
+/* حركة اختيارية: لو عايز الكارت يكبر سنة بسيطة لما تقف عليه بالإيد */
+.section-title.about-title:hover {
+   transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15); /* يزود شفافية الخلفية شوية */
+   /* جلو برتقالي هادي جداً وقت الهوفر */
+    box-shadow: 0 8px 25px rgba(255, 152, 0, 0.15), 
+                0 0 15px rgba(255, 152, 0, 0.1);
+    /* توهج الكلمة يزيد حاجة بسيطة */
+    text-shadow: 0 0 12px rgba(255, 152, 0, 0.3);
+}
+
+
+
+
+
+
+
+
 
 .about-card {
   max-width: 950px;
@@ -649,48 +908,32 @@ footer {
 
 .cv-btn {
   display: inline-block;
-  margin-top: 20px;
   padding: 12px 26px;
   border-radius: 30px;
   font-weight: 600;
   color: white;
   text-decoration: none;
-
   background: linear-gradient(135deg, #0d2b45, #ff9f1c);
   box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-
   transition: all 0.35s ease;
 }
 
 .cv-btn:hover {
   transform: translateY(-4px);
-  box-shadow:
-    0 18px 40px rgba(0,0,0,0.35),
-    0 0 20px rgba(255,159,28,0.6);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.35), 0 0 20px rgba(255,159,28,0.6);
 }
 
 
-.section-title {
-  font-size: 42px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  color: #0d2b45;
-  position: relative;
-  display: inline-block;
-  margin-bottom: 40px;
+
+.section-title.reveal {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    position: relative;
+    display: block;
 }
 
-/* خط متحرك تحت العنوان */
-.section-title::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -10px;
-  width: 60%;
-  height: 4px;
-  background: linear-gradient(90deg, #0d2b45, #ff9f1c);
-  border-radius: 5px;
-}
+
 
 /* ===== Mobile Responsive ===== */
 
@@ -732,4 +975,412 @@ body {
   border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.2);
   box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.12);   /* خلفية شفافة */
+  backdrop-filter: blur(14px);              /* تأثير الزجاج */
+  -webkit-backdrop-filter: blur(14px);     /* Safari */
+  border-radius: 20px;                      /* حواف دائرية */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25); /* Shadow خفيف */
+  transition: all 0.3s ease;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+.timeline {
+  position: relative;
+  max-width: 700px;
+  margin: 50px auto;
+  padding-left: 30px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: linear-gradient(#ff9800, transparent);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item .dot {
+  position: absolute;
+  left: -2px;
+  top: 10px;
+  width: 16px;
+  height: 16px;
+  background: #ff9800;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #ff9800;
+}
+
+.timeline-item .content {
+  padding: 20px;
+  margin-left: 30px;
+}
+
+.timeline-item h4 {
+  margin-bottom: 6px;
+  color: #ff9800;
+}
+
+#scrollProgress {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: conic-gradient(#ff9800 0%, rgba(255,255,255,0.1) 0%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+}
+
+#scrollProgress span {
+  font-size: 26px;
+  color: white;
+}
+
+#progress-circle {
+  stroke: #ff9800;
+  stroke-dasharray: 188;
+  stroke-dashoffset: 188;
+  transition: stroke-dashoffset 0.2s linear;
+}
+
+.arrow {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #fff;
+  text-shadow: 0 0 10px #ff9800;
+}
+
+.hero-name {
+  font-size: 56px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ff9800, #ffc107);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-name {
+  font-size: 60px;
+  font-weight: 900;
+  background: linear-gradient(90deg, #ff9800, #ffc107);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.hero-engineer {
+  font-size: 28px;
+  font-weight: 600;
+  color: #0d2b45;
+  margin-bottom: 20px;
+}
+
+.about-description {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.hero-name {
+  font-size: 64px;
+  font-weight: 900;
+  background: linear-gradient(90deg, #ff9800, #ffc107);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-title {
+  font-size: 28px;
+  opacity: 0.85;
+}
+
+.hero-sub {
+  font-size: 16px;
+  opacity: 0.7;
+  margin-bottom: 25px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.about-section {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.about-title {
+  font-size: 40px;
+  padding: 10px 30px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.15);
+  animation: float 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.timeline {
+  max-width: 700px;
+  margin: 50px auto;
+  position: relative;
+  padding-left: 30px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(#ff9800, transparent);
+}
+
+.timeline-item {
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.timeline-item .dot {
+  position: absolute;
+  left: -2px;
+  top: 10px;
+  width: 16px;
+  height: 16px;
+  background: #ff9800;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #ff9800;
+}
+
+#progress {
+  stroke: #ff9800;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+}
+
+.arrow {
+  width: 26px;
+  height: 26px;
+  fill: white;
+}
+
+/* Scroll Indicator Container */
+#scroll-indicator {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* السهم */
+#scroll-indicator .arrow {
+  width: 28px;
+  height: 28px;
+  fill: white;
+  filter: drop-shadow(0 0 6px #ff9800);
+  position: absolute;
+}
+
+/* حلقات الدائرة */
+#scroll-indicator svg {
+  position: absolute;
+  inset: 0;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+
+
+/* حاوية الشريط والرقم */
+.skill-stats {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* التغيير هنا: يبدأ من الشمال */
+    width: 100%; /* عشان ميبقاش لازق في حواف الكارت */
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.progress-wrapper {
+    flex-grow: 1; /* بيخليه يملأ المكان الفاضي */
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 15px 0;
+    overflow: hidden;
+    /* نضمن إن الاتجاه من اليسار لليمين */
+    direction: ltr;
+}
+
+/* تنسيق نص النسبة المئوية */
+.percentage-text {
+    color: #ff9800; /* لون التخصص بتاعك */
+    font-variant-numeric: tabular-nums; /* بيخلي الأرقام عرضها ثابت عشان متهزش */
+    font-size: 2.2rem;         /* حجم كبير وواضح */
+    font-weight: 800;          /* خط عريض (Extra Bold) */
+    font-family: 'Poppins', sans-serif; /* تأكد إنك مستخدم خط شيك */
+        /* لمسة احترافية: ظل خفيف يخلي الرقم "منور" */
+    text-shadow: 0 0 10px rgba(255, 152, 0, 0.3); 
+        display: inline-block;
+    min-width: 60px;           /* عشان الرقم ميهزش الكلام وهو بيعد */
+    text-align: right;
+margin: 10px 0;
+    display: block;   
+     letter-spacing: -1px;      /* تقريب الأرقام لبعضها بيدي شكل مودرن */
+}
+
+/* لو عايز كلمة % تكون أصغر شوية من الرقم (حركة براندات) */
+.percentage-text::after {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-left: 2px;
+    opacity: 0.8;
+}
+
+
+.progress-bar {
+    height: 100%;
+    width: 0; /* بيبدأ من صفر */
+    background: linear-gradient(90deg, #0d2b45, #ff9800);
+    border-radius: 10px;
+    display: block;
+    /* نقطة الأصل للحركة تكون الشمال */
+    transform-origin: left; 
+    /* زيادة الوقت لـ 4 ثواني وتغيير المنحنى لنعومة أكتر */
+    transition: width 4s cubic-bezier(0.1, 0.5, 0.2, 1) !important;
+    position: relative;
+}
+
+/* لما الكارت يتفتح (is-open) املأ الخط للنسبة المطلوبة */
+.skill-section.is-open .progress-bar {
+    width: var(--w) !important; /* الـ --w هي النسبة اللي إنت كاتبها في الـ HTML */
+}
+
+
+.progress-bar::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shine-progress 2s infinite;
+}
+
+@keyframes shine-progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+
+/* الشريط بيملأ فقط لما الكارت الكبير ياخد كلاس is-open */
+.skill-section.is-open .progress-bar {
+    width: var(--w); /* هنا بياخد القيمة اللي إنت كاتبها في الـ HTML */
+}
+
+/* لما السكشن يفتح العداد يشتغل */
+.is-open .progress-bar {
+    width: var(--w);
+}
+
+
+
+
+
+.neon-bg-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; /* ورا الكروت */
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.neon-ball {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    animation: moveGlow 15s linear infinite alternate;
+}
+
+.ball-1 { background: #ff9800; top: 10%; left: 10%; }
+.ball-2 { background: #0d2b45; bottom: 10%; right: 10%; animation-delay: -5s; }
+
+@keyframes moveGlow {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(100px, 50px); }
 }
