@@ -1,0 +1,235 @@
+/* --- 1. التنسيقات الأساسية للصفحة (عشان الألوان والخطوط متروحش) --- */
+:root {
+    --primary-color: #ff9800;
+    --bg-dark: #0f172a;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+}
+
+body.tools-page {
+    background-color: var(--bg-dark);
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+}
+
+/* --- 2. تقسيم الصفحة الجديد (الحل الجذري للتداخل) --- */
+.suite-wrapper {
+    display: grid;
+    grid-template-columns: 280px 1fr; /* السايدبار على اليمين والمحتوى على الشمال */
+    gap: 20px;
+    min-height: 80vh;
+    align-items: start;
+}
+
+/* الحاوية اللي بتجمع المدخلات مع كروت الحديد */
+.calculator-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr; /* توسيع مساحة المدخلات وفصلها عن الكروت */
+    gap: 40px; /* زيادة الفراغ بين القسمين لمنع التداخل */
+    align-items: start;
+}
+
+/* --- 3. تنظيم المدخلات (Straining Actions) --- */
+.calc-row.three-cols-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* شبكة متجاوبة للمدخلات */
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 13px;
+    color: #a8b2d1;
+}
+
+input[type="number"], select.glass-select {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* تأثير التركيز (Focus State) - إضاءة الحقل عند الكتابة */
+input[type="number"]:focus, select.glass-select:focus {
+    border-color: var(--primary-color);
+    background: rgba(255, 152, 0, 0.15);
+    box-shadow: 0 0 15px rgba(255, 152, 0, 0.3); /* توهج برتقالي */
+}
+
+/* --- 4. تنسيق كروت الحديد (Steel Grade) لتجنب الزحام --- */
+.steel-grade-section {
+    background: rgba(255, 152, 0, 0.05);
+    border: 1px solid rgba(255, 152, 0, 0.2);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.steel-cards-container {
+    display: grid;
+    grid-template-columns: 1fr; /* رص الكروت فوق بعضها بنظام الشبكة */
+    gap: 20px; /* مسافة أمان كافية لمنع تداخل النصوص */
+}
+
+.steel-card { cursor: pointer; }
+.steel-card input { display: none; }
+
+.card-content {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.steel-card input:checked + .card-content {
+    border-color: var(--primary-color);
+    background: rgba(255, 152, 0, 0.15);
+    box-shadow: 0 0 15px rgba(255, 152, 0, 0.2);
+}
+
+/* تأثير Hover متوهج لكروت الحديد */
+.steel-card:hover .card-content {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 25px rgba(255, 152, 0, 0.5); /* توهج قوي */
+    transform: translateY(-5px);
+}
+
+/* --- 5. زر التحساب والتقرير --- */
+.full-width-btn {
+    grid-column: 1 / -1; /* يمتد على عرض الشبكة بالكامل مهما كان عدد الأعمدة */
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary-color), #ffc107); /* تدرج لوني بارز */
+    color: #000;
+    font-size: 18px;
+    font-weight: 800;
+    padding: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 30px;
+    box-shadow: 0 10px 25px rgba(255, 152, 0, 0.3); /* ظل قوي */
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.full-width-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(255, 152, 0, 0.5);
+}
+
+/* تنسيق المدخلات في صفوف منظمة */
+.three-cols-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+
+/* تصميم السايدبار الاحترافي */
+.suite-sidebar {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 15px;
+    position: sticky;
+    top: 100px; /* عشان يفضل ظاهر وأنت بتعمل Scroll */
+}
+
+
+.sidebar-header {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 152, 0, 0.3);
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* القائمة المنسدلة */
+.nav-item {
+    margin-bottom: 5px;
+    list-style: none;
+}
+
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-header:hover {
+    background: rgba(255, 152, 0, 0.1);
+}
+
+.nav-sub {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 5px;
+    display: none; /* مخفية وهتظهر بالـ JS */
+}
+
+.nav-sub-item {
+    padding: 10px 15px;
+    font-size: 13px;
+    color: #a8b2d1;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2px;
+}
+
+.nav-sub-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--primary-color);
+}
+
+.nav-sub-item small {
+    font-size: 10px;
+    color: #64748b;
+}
+
+/* لإظهار القائمة عند الضغط */
+.nav-item.active .nav-sub {
+    display: block;
+}
+
+.nav-item.active .arrow {
+    transform: rotate(180deg);
+}
+
+/* التجاوب مع الموبايل */
+@media (max-width: 1024px) {
+    .suite-wrapper {
+        grid-template-columns: 1fr;
+    }
+    .suite-sidebar {
+        position: relative;
+        top: 0;
+    }
+}
+
+/* إضافة لمسة جمالية لمنع التداخل */
+.inputs-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

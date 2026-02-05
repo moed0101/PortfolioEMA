@@ -1,0 +1,4909 @@
+/* تم استبدال Inter بـ Cairo في ملف HTML */
+
+/* ============================================================
+   الجزء ده هو "النسخة المعتمدة" لجسم الصفحة (Body)
+   الهدف: مسح التكرار وتوحيد الألوان والخطوط ومساحة الهيدر.
+   ============================================================ */
+body {
+    /* الخلفية: التدرج اللوني اللي إنت اخترته */
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
+    
+    /* الخطوط: استخدام خط دبي المفضل لديك */
+    font-family: 'Dubai', 'Cairo', sans-serif !important; /* استخدام Dubai أو Cairo كبديل */
+    font-weight: 500;
+    font-size: 19px;
+    color: #fff;
+    line-height: 1.6;
+
+    /* المقاسات: ضمان عدم وجود فراغات أو حركة عرضية */
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    margin: 0;
+
+    /* التثبيت: السطر ده "إجباري" عشان تسيب مكان للهيدر الثابت */
+    padding-top: 0 !important; /* إلغاء المسافة العلوية لرفع الصفحة في اللابتوب */
+    
+    position: relative; 
+    
+    /* 1. تأثير انتقال ناعم للألوان عند تغيير الثيم */
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+.page-content-wrapper {
+    animation: pageFadeIn 0.8s ease-out forwards;
+}
+
+/* كلاس لمنع السكرول في الصفحة لما القائمة تفتح */
+body.menu-open {
+    overflow: hidden !important;
+}
+
+
+
+
+/* ============================================================
+   الجزء ده خاص بـ: جميع عناصر الصفحة بلا استثناء (*)
+   المكان في HTML: بيستهدف أي تتاج (div, p, h1, span, etc.)
+   ============================================================ */
+* {
+    box-sizing: border-box; /* بيجبر المتصفح يحسب المسافات (Padding/Border) من جوه العرض مش فوقيه؛ لو اتشال البوكسات هتوسع وتبوظ التنسيق. */
+    margin: 0;  /* تصفير المسافات الخارجية لكل العناصر عشان نتحكم فيها بنفسنا. */
+    padding: 0; /* تصفير المسافات الداخلية لكل العناصر؛ لو اتشال المتصفح هيحط مسافات من عنده (Default). */
+    font-family: 'Dubai', 'Cairo', sans-serif; /* توحيد الخط */
+}
+
+
+
+
+
+/* ============================================================
+   الجزء ده خاص بـ: انسيابية التحرك داخل الصفحة
+   المكان في HTML: وسم الـ <html> نفسه
+   ============================================================ */
+html {
+    /* بيخلي التنقل بين السكاشن (Home, About, etc) زي "الزحلقة" ناعم جداً */
+    /* لو غيرته لـ auto، الموقع هينط للسكشن فجأة كأنه بيعمل Refresh. */
+    scroll-behavior: smooth;
+}
+
+
+
+
+
+
+
+/* ===================================================
+   1. GLOBAL & HEADER (تنسيقات عامة والهيدر)
+   الهدف: التحكم في الهوية البصرية وشريط التنقل العلوي.
+   =================================================== */
+/* ============================================================
+   الجزء ده خاص بـ: الهيدر الأساسي (Main Header)
+   الوظيفة: تثبيت القائمة في أعلى الصفحة طول الوقت
+   ============================================================ */
+.main-header {
+    /* يجعل الهيدر ثابتاً في مكانه حتى عند التمرير لأسفل */
+    position: fixed; 
+
+    /* تحديد نقطة الالتصاق عند أعلى المتصفح تماماً */
+    top: 0; 
+    
+    /* البداية من أقصى يسار الشاشة */
+    left: 0; 
+    
+    /* فرد الهيدر بعرض المتصفح بالكامل 100% */
+    width: 100%; 
+    
+    /* يضمن ظهور الهيدر فوق أي محتوى آخر في الموقع (طبقة عليا) */
+    z-index: 20000; /* رفع الطبقة لتكون فوق كل شيء */
+    height: auto;
+    /* لون الخلفية الداكن لضمان عدم تداخل النصوص مع محتوى الصفحة */
+    background: rgba(12, 26, 33, 0.7); /* خلفية شفافة أكثر */
+    backdrop-filter: blur(20px); /* تأثير زجاجي قوي */
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* حد سفلي خفيف جداً */
+    
+    /* توزيع العناصر (اللوجو والقائمة) بشكل احترافي على الأطراف */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    /* مسافات داخلية لراحة العين (من فوق وتحت 15px ومن الجوانب 5%) */
+    padding: 15px 5px; /* تعديل: تقليل المسافة لأقصى حد لجعل العناصر على الأطراف */
+    
+    /* إضافة ظل أسفل الهيدر ليعطيه عمقاً ويبدو منفصلاً عن الصفحة */
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4); 
+    
+    /* لضمان حساب المسافات (Padding) من ضمن العرض الكلي فلا يتجاوز الشاشة */
+    box-sizing: border-box; 
+    /* انسيابية في الحركة */
+    transition: var(--transition);
+    transition: background 0.5s ease, padding 0.3s ease; /* تنعيم حركة الهيدر */
+}
+
+
+/* الملف المربوط: style.css | الجزء في HTML: <div class="progress-container"> */
+.progress-container {
+    width: 100%;            /* عرض حاوية بار السكرول بعرض الهيدر كله. */
+    height: 3px;            /* سمك الخط؛ لو خليتها 10px البار هيبقى ضخم جداً. */
+    background: transparent; /* الخلفية شفافة عشان متبانش غير لما البار يتحرك. */
+    position: absolute;     /* تثبيت مكانها بالنسبة للهيدر. */
+    bottom: 0;              /* وضع البار في نهاية الهيدر من أسفل. */
+    /* السطر ده هو "الحل": بيخلي الخط فوق اللوجو وأي نص في الهيدر */
+    z-index: 10005;
+}
+
+/* الملف المربوط: style.css | الجزء في HTML: <div id="myBar"> أو .progress-bar */
+.progress-bar {
+    height: 3px;            /* سمك بار التقدم الملون. */
+    background: #ff9800;    /* لون التميز (البرتقالي)؛ لو غيرته اللون اللي بيتحرك فوق هيتغير. */
+    width: 0%;              /* بيبدأ من صفر؛ الـ JavaScript هو اللي بيغير الرقم ده لـ 100% وأنت بتنزل؛ لو خليته 50% هيبان نصه دايماً. */
+}
+
+/* ============================================================
+   MEGA MENU STYLES (القائمة المنسدلة الضخمة)
+   ============================================================ */
+.dropdown {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* تدوير السهم عند فتح القائمة */
+.dropdown .drop-trigger i {
+    transition: transform 0.3s ease;
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+.dropdown:hover .drop-trigger i,
+.dropdown.active .drop-trigger i {
+    transform: rotate(180deg);
+    color: var(--primary-color);
+}
+
+/* حاوية الميجا منيو */
+.mega-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px); /* زيادة مسافة الحركة لتبدو أخف */
+    width: 750px; /* عرض أكبر ليسع 3 أعمدة */
+    background: #0a192f; /* خلفية كحلية مصمتة لضمان القراءة */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 3px solid var(--primary-color); /* خط برتقالي علوي */
+    border-radius: 0 0 12px 12px; /* حواف دائرية من تحت بس */
+    padding: 25px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 أعمدة لتوزيع أفضل */
+    gap: 20px;
+    opacity: 0;
+    visibility: hidden;
+    /* تحسين الأنميشن ليكون أنعم */
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* حركة انسيابية جداً */
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8); /* زيادة الظل لفصل القائمة عن الخلفية */
+    z-index: 20001; /* التأكد إن القائمة فوق أي أنميشن في الصفحة */
+}
+
+/* إظهار القائمة عند الوقوف */
+.dropdown:hover .mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0); /* استقرار ناعم */
+}
+
+/* تنسيق الأعمدة لضبط المسافات */
+.menu-column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* مسافة مريحة بين العناصر */
+}
+
+/* تنسيق عناوين الأعمدة داخل القائمة */
+.menu-column h3 {
+    font-size: 14px !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+    margin-bottom: 15px !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* تنسيق عناصر الميجا منيو (أيقونة + عنوان) */
+.mega-item {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* زيادة المسافة أكثر بين الأيقونة والنص */
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* تنعيم حركة العناصر الداخلية */
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+
+.mega-item:hover {
+    background: rgba(255, 152, 0, 0.08); /* خلفية برتقالي خفيفة جداً */
+    border-color: rgba(255, 152, 0, 0.2); /* إطار برتقالي خفيف */
+    transform: translateX(5px); /* حركة لليمين */
+}
+
+.mega-item i {
+    font-size: 14px;
+    color: var(--accent-color); /* الأيقونة سماوي */
+}
+
+.mega-item h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: #fff;
+}
+
+.mega-item p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin: 2px 0 0 0;
+}
+
+/* تنسيق الأيقونات الصغيرة المضافة بالجافاسكريبت */
+.mega-icon {
+    font-size: 12px !important;
+    margin-right: 8px;
+    color: var(--primary-color) !important;
+    transition: transform 0.3s ease;
+}
+
+.mega-menu a:hover .mega-icon {
+    transform: translateX(5px); /* حركة بسيطة للسهم عند الوقوف عليه */
+}
+
+/* ===================================================
+   تعريف المتغيرات (Root Variables)
+   الهدف: وضع الألوان الأساسية في مكان واحد عشان لو حبيت تغير لون الموقع كله تغيره من هنا بس.
+   =================================================== */
+:root {
+    --primary-color: #ff9800;    /* البرتقالي المفضل لديك */
+    --accent-color: #00d4ff;     /* اللون الاحترافي الجديد (أزرق سماوي كهربائي) */
+    --steel-glow: rgba(0, 212, 255, 0.2); /* توهج للمنشآت المعدنية */
+    --bg-dark: #0f2027;      /* اللون الكحلي الغامق للخلفية. */
+    --glass-bg: rgba(255, 255, 255, 0.05); /* لون الخلفية الزجاجية الخفيف جداً. */
+    --accent-glow: rgba(0, 212, 255, 0.3);  
+    --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* حركة انيميشن احترافية (ناعمة في البداية وسريعة في النهاية). */
+}
+
+/* ============================================================
+   LIGHT MODE (الوضع الفاتح - أبيض وأسود)
+   ============================================================ */
+body.light-mode {
+    background: #f0f4f8 !important; /* خلفية أوف وايت مريحة للعين (هوية بصرية أفضل) */
+    color: #0d2b45 !important; /* كحلي غامق بدلاً من الأسود الصريح */
+    /* عكس الألوان: الأساسي يصبح فرعي والفرعي يصبح أساسي */
+    --primary-color: #00d4ff; 
+    --accent-color: #ff9800;
+}
+
+body.light-mode .main-header {
+    background: rgba(240, 244, 248, 0.9); /* نفس لون الخلفية بس شفاف */
+    border-bottom: 1px solid rgba(13, 43, 69, 0.1);
+}
+
+body.light-mode .nav-links a,
+body.light-mode .main-logo .letter-m,
+body.light-mode .hero-name,
+body.light-mode .stat-box .num,
+body.light-mode .hero-job {
+    color: #0d2b45 !important;
+}
+
+/* تغيير لون اللوجو (الجزء الملون) في الوضع النهاري */
+body.light-mode .name-part {
+    background: none !important;
+    -webkit-text-fill-color: #0d2b45 !important;
+    color: #0d2b45 !important;
+}
+
+body.light-mode .header-logo-img {
+    filter: invert(1); /* عكس ألوان اللوجو في الوضع النهاري ليصبح داكناً */
+}
+
+body.light-mode .hero-description,
+body.light-mode .footer-bio,
+body.light-mode .contact-info,
+body.light-mode .footer-links-col ul li a {
+    color: #333333 !important;
+}
+
+body.light-mode .modern-footer {
+    background: #e2e8f0 !important; /* فوتر فاتح بس مميز عن الخلفية */
+    border-top: 1px solid #cbd5e1;
+}
+
+body.light-mode .footer-col h4 {
+    color: #0d2b45 !important;
+}
+
+
+
+
+/* التنسيق ده بيشتغل لما تنزل سكرول (يضاف الكلاس عن طريق JavaScript) */
+.main-header.scrolled {
+    padding: 12px 8%;       /* المنيو بتصغر (Padding بيقل) وبدخل لجوه؛ لو شلتها المنيو هتفضل بنفس حجمها الضخم. */
+    background: rgba(15, 32, 39, 0.85); /* الخلفية بتغمق شوية عشان الكلام يوضح فوق محتوى الموقع. */
+    backdrop-filter: blur(15px);        /* زيادة الغبش (الضبابية) للخلفية الزجاجية؛ بيدي فخامة للتصميم. */
+    border-bottom: 1px solid rgba(255, 152, 0, 0.2); /* خط برتقالي خفيف جداً تحت المنيو؛ لو شلته الفاصل بين المنيو والموقع هيختفي. */
+}
+
+
+
+/* 2. تطبيق التدرج اللوني على اللوجو ليظهر احترافي */
+.name-part {
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color)) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    font-weight: bold;
+}
+
+/* 3. توحيد الأزرار (توزيع الهوية البصرية) */
+
+
+
+
+/* 4. لمسة احترافية على الـ Progress Bar والـ Progress Circle */
+#myBar, .progress-circle path {
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color)) !important;
+    stroke: var(--accent-color) !important;
+    transition: none !important; /* إلغاء التأخير تماماً لحركة فورية مع السكرول */
+}
+
+/* 6. تحسين شكل الـ Social Icons في الفوتر */
+.social-icon.cv {
+    border-color: var(--accent-color) !important;
+    color: var(--accent-color) !important;
+}
+
+.social-icon.cv:hover {
+    background: var(--accent-color) !important;
+    color: #000 !important;
+}
+
+
+
+
+/* ============================================================
+   تنسيق اللوجو - تصميم هندسي عصري
+   ============================================================ */
+.main-logo {
+    font-size: 30px;            /* حجم الخط ليكون واضحاً في الهيدر */
+    font-weight: 900;           /* خط عريض جداً يعطي إيحاء بالثبات والقوة */
+    text-decoration: none;      /* إلغاء الخط التقليدي أسفل الرابط */
+    text-transform: uppercase;  /* تحويل الحروف لكبيرة لشكل أكثر رسمية */
+    letter-spacing: -1px;       /* تقريب الحروف من بعضها لإعطاء شكل الـ Brand */
+    display: inline-block;
+    
+    /* === تعديلات اللوجو الجديد === */
+    display: flex;              /* استخدام الفليكس لمحاذاة الصورة مع النص */
+    align-items: center;        /* توسيط الصورة والنص رأسياً */
+    gap: 10px;                  /* مسافة بين صورة اللوجو واسمك */
+    /* ========================== */
+
+    position: relative; /* ضروري عشان الخط يتحدد مكانه بالنسبة للاسم */
+    align-items: center;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* حركة ارتدادية ناعمة */
+}
+
+/* حرف الـ M - نجعله كأنه عمود أو ركيزة أساسية */
+.letter-m {
+    color: #ffffff;             /* لون أبيض ناصع */
+    position: relative;
+    padding-right: 2px;
+}
+
+/* حاوية اللوجو لضبط التبديل */
+.logo-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 55px;
+}
+
+/* تنسيق صورة اللوجو في الهيدر */
+.header-logo-img {
+    height: 55px;               /* تكبير اللوجو ليكون واضحاً ومقروءاً */
+    width: auto;                /* العرض يتظبط تلقائي للحفاظ على الأبعاد */
+    object-fit: contain;        /* ضمان ظهور الصورة كاملة */
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* حركة ناعمة جداً */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* تنسيق نص الاسم البديل (مخفي افتراضياً) */
+.logo-text {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    position: absolute; /* عشان يجي فوق الصورة */
+    left: 0;
+    opacity: 0; /* مخفي بالشفافية */
+    transform: translateY(20px); /* نازل لتحت شوية */
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+/* عند السكرول: إخفاء الصورة وإظهار النص */
+.main-header.scrolled .header-logo-img {
+    opacity: 0;
+    transform: translateY(-20px); /* يطلع لفوق ويختفي */
+    pointer-events: none;
+}
+
+.main-header.scrolled .logo-text {
+    opacity: 1;
+    transform: translateY(0); /* يطلع لمكانه الطبيعي */
+}
+
+/* ============================================================
+   زر الاتصال السريع في الهيدر (Call Me Button)
+   ============================================================ */
+.call-btn-header {
+    display: none !important; /* مخفي افتراضياً */
+    background: #25D366;      /* لون أخضر (واتساب/اتصال) */
+    color: #fff !important;
+    padding: 8px 20px !important;
+    border-radius: 50px;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+}
+
+.call-btn-header:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+/* إظهار الزر فقط عند السكرول */
+.main-header.scrolled .call-btn-header {
+    display: flex !important;
+    animation: fadeIn 0.5s ease;
+}
+
+/* تأثير الخط السفلي الهندسي */
+.main-logo::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;               /* مكان الخط تحت اللوجو */
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: #ff9800;        /* لون الخط برتقالي */
+    /* تنعيم الحركة عشان لما يطول وقت الماوس يكون شكله شيك */
+    transition: width 0.6s ease-in-out;
+    border-radius: 2px;         /* حواف ناعمة للخط */
+}
+
+/* ============================================================
+   حركات الماوس (Hover Effects) - التفاعل مع المستخدم
+   ============================================================ */
+
+/* عند الوقوف بالماوس على اللوجو بالكامل */
+.main-logo:hover {
+    transform: scale(1.05);     /* تكبير اللوجو بنسبة بسيطة (5%) */
+    letter-spacing: 2px;        /* تباعد الحروف فجأة يعطي إيحاء بالتوسع */
+}
+
+/* تطويل الخط السفلي عند الـ Hover */
+.main-logo:hover::after {
+    width: 100%;                /* الخط يفرد ليغطي كامل طول الاسم */
+}
+
+/* حركة إضاءة خفيفة (Glow) للجزء الملون */
+.main-logo:hover .name-part {
+    filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.5)); /* توهج برتقالي */
+}
+
+
+/* ============================================================
+   الجزء ده خاص بـ: روابط القائمة (Navigation Links)
+   المكان في HTML: <ul class="nav-links">
+   ============================================================ */
+.nav-links {
+    display: flex;          /* رص الروابط (Home, About...) جمب بعض؛ لو اتشالت هيبقوا فوق بعض كقائمة عادية. */
+    gap: 30px;              /* المسافة بين كل كلمة والتانية؛ لو خليتها 10px هيلزقوا في بعض. */
+    list-style: none;       /* إزالة النقط (Bullets) السوداء بتاعة القائمة. */
+    align-items: center;
+    position: relative;     /* ضروري عشان الخط المتحرك يتحسب مكانه بالنسبة للقائمة */
+}
+
+.nav-links a {
+    position: relative;     /* ضروري عشان الخط اللي "تحت الكلمة" يتحدد مكانه بالنسبة للكلمة دي بس. */
+    text-decoration: none;  /* إزالة الخط التقليدي اللي بيكون تحت اللينكات. */
+    color: #ffffff;         /* لون الكلام أبيض؛ لو غيرته الكلام هيتغير لونه. */
+    font-weight: 500;       /* سمك الخط؛ 400 رفيع، 700 عريض جداً. */
+    display: flex;
+    align-items: center;    /* محاذاة الأيقونة مع النص رأسياً */
+    gap: 8px;               /* مسافة بين الأيقونة والنص */
+    font-size: 16px;        /* حجم الكلمات في المنيو. */
+    transition: color 0.3s ease; /* تنعيم تغيير اللون لما تقف بالماوس. */
+    padding: 0 15px !important;         /* مسافة بسيطة فوق وتحت الكلمة عشان تكبر منطقة الضغط. */
+}
+
+/* تأثير "كامرة الحديد" - الخط اللي بيظهر تحت الكلمة */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: var(--primary-color);
+    transition: width 0.3s ease-in-out;
+}
+
+/* تأثير الـ Hover (لما تحط المماوس على الكلمة) */
+.nav-links a:hover {
+    color: #ff9800;         /* الكلمة نفسها بتتحول برتقالي. */
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* تنسيق الرابط النشط (Active) - الكلمة اللي بتمثل السكشن اللي أنت فيه حالياً */
+.nav-links a.active {
+    color: #ff9800;         /* بتفضل برتقالي دايماً عشان تعرفك أنت فين. */
+}
+
+/* تنسيق الخط المتحرك (Sliding Marker) */
+.nav-marker {
+    position: absolute;
+    bottom: -5px;           /* مكانه تحت الكلام */
+    left: 0;
+    height: 3px;            /* سمك الخط */
+    border-radius: 50px;
+    background: linear-gradient(90deg, #ff9800, #ffc107); /* تدرج لوني زي اللوجو */
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* حركة الانزلاق الناعمة */
+    box-shadow: 0 0 15px rgba(255, 152, 0, 0.6); /* توهج خفيف */
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* تنسيق أيقونات القائمة في الشاشات الكبيرة (الكمبيوتر) */
+.nav-links a i {
+    display: inline-block;
+    color: var(--primary-color); /* لون الأيقونة برتقالي */
+    transition: transform 0.3s ease;
+}
+
+/* حركة بسيطة للأيقونة عند الوقوف عليها */
+.nav-links a:hover i {
+    transform: scale(1.2);
+}
+
+/* تأثير عند الضغط (Click Effect) - انضغاط بسيط */
+.nav-links a:active {
+    transform: scale(0.95); 
+}
+
+/* حركة الأيقونة للرابط النشط (Active) - قفزة ترحيبية */
+.nav-links a.active i {
+    animation: icon-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes icon-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); } /* تكبر فجأة */
+    100% { transform: scale(1); }  /* ترجع لطبيعتها */
+}
+
+/* زرار الهامبرغر (مخفي في الشاشات الكبيرة) */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    z-index: 10001; /* فوق كل حاجة */
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.hamburger .bar {
+    display: block;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 4px;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    width: 24px;
+}
+
+/* تأثير التدرج في الطول (Staggered) */
+.hamburger .bar:nth-child(1) { width: 24px; align-self: flex-end; }
+.hamburger .bar:nth-child(2) { width: 16px; align-self: flex-end; }
+.hamburger .bar:nth-child(3) { width: 8px; align-self: flex-end; }
+
+
+
+
+
+
+
+
+
+/* ===================================================
+   2. HERO SECTION (تنسيق الواجهة الرئيسية)
+   المكان في HTML: <section id="home" class="hero-section">
+   =================================================== */
+
+.hero-section {
+    height: 100vh;     /* إجبار السكشن يأخذ طول الشاشة بالظبط في اللابتوب */
+    min-height: 700px; /* حد أدنى للطول عشان العناصر متدخلش في بعض في الشاشات القصيرة */
+    margin-bottom: 0; /* منع وجود مسافة تحت السكشن؛ عشان يلحم في السكشن اللي بعده مباشرة. */
+    margin-top: 0;
+    display: flex; /* تفعيل الـ Flexbox لرص العناصر (النصوص والصور) جمب بعض. */
+    align-items: center; /* توسيط المحتوى (الكلام والصورة) عمودياً في نص الشاشة. */
+    position: relative; /* ضروري عشان أي عنصر جواه واخد absolute (زي الكمرات أو الجلو) يتحرك بالنسبة للسكشن ده. */
+    
+    /* الحوامش الداخلية: 100px فوق، 5% يمين، 60px تحت، 100px شمال (عشان السيدبار) */
+    /* لو قللت الـ 100px اللي في الآخر، الكلام هيلزق في أيقونات السوشيال ميديا اللي ع الشمال. */
+    padding: 80px 5% 60px 100px; 
+    
+    min-height: 600px; /* أقل طول مسموح به؛ لو فتحت من موبايل شاشته صغيرة، العناصر مش هتدخل في بعضها (هيفضل محتفظ بـ 600px). */
+    padding-top: 20px; /* مسافة أمان إضافية عشان الهيدر الثابت ما يغطيش على أول سطر كلام. */
+    padding-bottom: 20px;
+    background: transparent; /* عشان يظهر تدرج الـ body */
+            overflow: hidden; /* أهم سطر: بيقص أي حركة (زي الكمرات المتحركة) لو خرجت برا حدود السكشن عشان ما تظهرش في السكاشن اللي تحتها. */
+}
+
+/* التنسيق العام لكل السكاشن */
+section {
+    padding: 100px 20px; /* زيادة المسافة لراحة العين وفصل الأقسام بشكل أفضل */
+}
+
+/* ===================================================
+   حاوية الصورة والعناصر البصرية (Hero Visual)
+   المكان في HTML: <div class="photo-wrapper">
+   =================================================== */
+
+.photo-wrapper {
+    position: relative; /* عشان الـ back-glow يتحرك جواها بالظبط. */
+    width: 100%; /* تاخد كامل المساحة المتاحة لها في الـ Flexbox. */
+    height: 100%;
+    display: flex; /* لتوسيط الصورة جوا الحاوية. */
+    justify-content: center; /* توسيط الصورة أفقياً. */
+    align-items: center; /* توسيط الصورة عمودياً. */
+    z-index: 10; /* يضمن إن صورتك تظهر فوق الخلفية المنورة (back-glow). */
+}
+
+/* تنسيق صورتك الشخصية */
+.my-photo {
+    width: 100%; /* الصورة تملا الحاوية. */
+    max-width: 400px; /* أقصى عرض للصورة 400px؛ لو كبرتها لـ 600px صورتك هتبقى ضخمة جداً في الواجهة. */
+    height: auto; /* الحفاظ على أبعاد الصورة عشان ما تتمطش. */
+    object-fit: contain; /* يضمن إن الصورة تظهر كاملة جوا الإطار بتاعها. */
+    
+    /* استدعاء الانيميشن floating-ayman؛ الـ 4s هي السرعة، لو خليتها 1s صورتك هتتهز بسرعة جداً. */
+    animation: floating-ayman 4s infinite ease-in-out; 
+    
+    /* ظل واقعي تحت الصورة؛ بيدي إحساس إن الصورة طايرة وليها عمق (3D). */
+    filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6)); 
+}
+
+/* ===================================================
+   انيميشن الطفو (Floating Animation)
+   =================================================== */
+@keyframes floating-ayman {
+    0%, 100% { 
+        transform: translateY(0); /* البداية والنهاية في مكانها الطبيعي. */
+    }
+    50% { 
+        transform: translateY(-25px); /* عند منتصف الوقت، الصورة تترفع لفوق 25px؛ لو زودتها لـ -50px الصورة هتطير لفوق أكتر. */
+    }
+}
+
+
+
+
+
+/* ============================================================
+   الجزء ده خاص بـ: حاوية الصورة الشخصية (The Frame)
+   المكان في HTML: <div class="photo-container">
+   ============================================================ */
+.photo-container {
+    position: relative; 
+    width: 350px;      /* عرض البرواز؛ لو كبرته لـ 500px الصورة هتعرض جداً وتغطي على الكلام. */
+    height: 450px;     /* طول البرواز؛ لو قللته لـ 300px الصورة هتبقى مربعة أو بالعرض. */
+    z-index: 5;        /* ترتيب الظهور؛ رقم 5 بيضمن إنها فوق الخلفية وتحت المنيو (اللي واخد 1000). */
+    border-radius: 20px; /* دوران الحواف؛ لو خليتها 0 الحواف هتبقى حادة (مربعة)، ولو 50% هتبقى بيضاوية. */
+    overflow: hidden;  /* أهم سطر: بيمنع الصورة إنها تخرج برا حدود الـ 20px بتوع الـ border-radius. */
+    
+    /* إطار برتقالي خفيف جداً (0.3 شفافية)؛ لو شلت السطر ده الإطار هيختفي تماماً. */
+    border: 2px solid rgba(255, 152, 0, 0.3); 
+    
+    /* ظل تحت البرواز بيدي إحساس بالعمق؛ لو زودت الـ 40px الظل هيبعد عن الصورة ويبان إنها طايرة أكتر. */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+    
+    /* سرعة الحركة لما الماوس يلمسها؛ بتجيب الوقت من الـ variable اللي اسمه --transition. */
+    transition: var(--transition); 
+}
+
+/* ============================================================
+   الجزء ده خاص بـ: الصورة نفسها جوه البرواز
+   المكان في HTML: <img class="hero-img">
+   ============================================================ */
+.hero-img {
+    width: 100%;       /* تخلي الصورة تاخد عرض البرواز كله. */
+    height: 100%;      /* تخلي الصورة تاخد طول البرواز كله. */
+    
+    /* السطر ده بيمنع تشوه الصورة؛ بيخليها تملا المكان مع الحفاظ على أبعادها الأصلية. */
+    /* لو خليتها contain، الصورة هتصغر ويسيب فراغات على الجناب. */
+    object-fit: cover; 
+    
+    filter: grayscale(20%); /* بيسحب شوية ألوان من الصورة (أبيض وإسود خفيف)؛ لو خليتها 100% هتبقى أبيض وإسود تماماً. */
+    transition: var(--transition);
+}
+
+/* ============================================================
+   الجزء ده خاص بـ: الأكشن لما تحط الماوس على البرواز (Hover)
+   ============================================================ */
+.photo-container:hover {
+    /* الحركة: بتترفع 10px لفوق وبتلف 2 درجة يمين؛ لو خليتها -2deg هتلف شمال. */
+    transform: translateY(-10px) rotate(2deg); 
+    
+    /* لون الإطار بيتحول لبرتقالي صريح لما تلمسه بالماوس. */
+    border-color: #ff9800; 
+}
+
+/* الأكشن اللي بيحصل للصورة نفسها "جوه" البرواز لما تلمسه */
+.photo-container:hover .hero-img {
+    filter: grayscale(0%); /* الألوان بترجع طبيعية وحيوية 100% لما تلمسها. */
+    scale: 1.05;           /* بتعمل زووم (Zoom in) بنسبة 5%؛ لو خليتها 1.2 الصورة هتكبر أوي. */
+}
+
+/* ============================================================
+   الجزء ده خاص بـ: طبقة الظل التدريجي (Gradient Overlay)
+   المكان في HTML: <div class="photo-overlay">
+   ============================================================ */
+.photo-overlay {
+    position: absolute; /* تثبيتها فوق الصورة داخل البرواز. */
+    bottom: 0;          /* لزقها في قاع البرواز. */
+    left: 0;
+    width: 100%;
+    height: 30%;        /* الطبقة بتغطي 30% من أسفل الصورة؛ لو خليتها 100% هتغطي الصورة كلها بضلمة. */
+    
+    /* تدريج لوني من كحلي غامق (تحت) لشفاف تماماً (فوق)؛ بيخلي شكل الصورة احترافي. */
+    background: linear-gradient(to top, rgba(15, 32, 39, 0.8), transparent);
+}
+
+
+
+
+/* ============================================================
+   الجزء ده خاص بـ: الإطار الخارجي للصورة (Personal Frame)
+   المكان في HTML: <div class="personal-frame">
+   ============================================================ */
+.personal-frame {
+    position: relative; /* بيخلي العناصر اللي جواه (زي الـ glow) تتحرك بالنسبة لمكانه هو. */
+    width: 100%;        /* بياخد عرض الحاوية اللي هو فيها بالكامل. */
+    height: 100%;       /* بياخد طول الحاوية بالكامل. */
+    display: flex;      /* تفعيل نظام المرونة عشان نوسط الصورة بالظبط. */
+    justify-content: center; /* توسيط الصورة بالعرض؛ لو شلتها الصورة هتروح أقصى الشمال. */
+    align-items: center;    /* توسيط الصورة بالطول؛ لو شلتها الصورة هتطلع لسقف السكشن. */
+    z-index: 5;         /* بيضمن إن الصورة تكون فوق الـ glow وتحت المنيو. */
+}
+
+/* ============================================================
+   الجزء ده خاص بـ: الصورة الشخصية (Floating Image)
+   المكان في HTML: <img class="floating-image">
+   ============================================================ */
+.floating-image {
+    width: 450px;       /* عرض صورتك؛ لو خليتها 300px الصورة هتصغر، ولو 600px هتبقى ضخمة جداً. */
+    height: auto;       /* بيخلي الطول يتظبط تلقائياً مع العرض عشان الصورة متتمطش. */
+    object-fit: contain; /* بيضمن إن الصورة تظهر كاملة جوه الـ 450px اللي حددناهم. */
+    
+    /* الأنميشن اللي بيخليك تتحرك فوق وتحت */
+    /* floating-man: اسم الحركة | 4s: الوقت (لو قللته الحركة هتبقى سريعة جداً) | infinite: تكرار للمالانهاية. */
+    animation: floating-man 4s infinite ease-in-out; 
+    
+    /* ظل واقعي وراك؛ بيدي عمق للصورة كأنها بارزة عن الشاشة. */
+    /* لو زودت الـ 20px الظل هيبعد أكتر، ولو غيرت اللون (0.5) الظل هيتقل أو يخف. */
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); 
+    
+    transition: 0.5s;   /* تنعيم الحركة لما الماوس يروح على الصورة. */
+}
+
+/* ============================================================
+   الأكشن لما تقف بالماوس على صورتك (Hover)
+   ============================================================ */
+.floating-image:hover {
+    /* الظل بيتحول لبرتقالي خفيف بيدي تأثير "توهج" كأن وراك نور. */
+    filter: drop-shadow(0 15px 30px rgba(255, 152, 0, 0.3));
+    
+    /* تكبير بسيط للصورة بنسبة 2% عشان يحسس الزائر بالتفاعل. */
+    transform: scale(1.02); 
+}
+
+/* ============================================================
+   الجزء ده خاص بـ: تأثير التوهج خلف الصورة (Image Glow)
+   المكان في HTML: <div class="image-glow">
+   ============================================================ */
+.image-glow {
+    position: absolute; /* يثبته في نص الحاوية بالظبط. */
+    width: 300px;       /* حجم دايرة النور؛ لو خليتها 500px النور هيفرش في السكشن كله. */
+    height: 300px;
+    
+    /* تدرج لوني دائري يبدأ ببرتقالي شفاف جداً (0.1) ويختفي تدريجياً. */
+    background: radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, transparent 70%);
+    
+    z-index: -1;        /* أهم سطر: بيخلي النور يظهر "ورا" صورتك مش فوقها. */
+    top: 50%;           /* تحديد مكانه في السنتر عمودياً. */
+    left: 50%;          /* تحديد مكانه في السنتر أفقياً. */
+    
+    /* السطر ده هو اللي بيخلي النور في النص بالظبط؛ لو شلته النور هيبدأ من نص الصورة لتحت ويمين. */
+    transform: translate(-50%, -50%); 
+}
+
+
+/* ============================================================
+   الجزء ده خاص بـ: تعريف حركة الطيران (Keyframes)
+   الوظيفة: هي اللي بتحدد مسار الصورة "العائمة"
+   ============================================================ */
+@keyframes floating-man {
+    0% {
+        transform: translateY(0px); /* نقطة البداية؛ الصورة في مكانها الطبيعي. */
+    }
+    50% {
+        transform: translateY(-20px); /* عند منتصف الوقت، الصورة تترفع لفوق 20px؛ لو زودتها لـ -50px الصورة هتطير لفوق أوي. */
+    }
+    100% {
+        transform: translateY(0px); /* نقطة النهاية؛ الرجوع للمكان الأصلي عشان الحركة تفضل مستمرة بنعومة. */
+    }
+}
+
+/* ============================================================
+   تأثير الجزيئات المتحركة (Particles)
+   ============================================================ */
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1; /* ورا المحتوى (اللي واخد 10) بس فوق الخلفية */
+    pointer-events: none; /* عشان متمنعش الضغط على الزراير */
+}
+
+.particle-wrapper {
+    position: absolute;
+    bottom: -10px;
+    animation: float-up linear infinite;
+}
+
+.particle {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5); /* لون أبيض شفاف */
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); /* توهج خفيف */
+    transition: transform 0.3s ease-out; /* حركة ناعمة عند الهروب من الماوس */
+    will-change: transform;
+}
+
+/* الجزيئات البرتقالية */
+.particle.orange {
+    background: rgba(255, 152, 0, 1); /* لون برتقالي صريح */
+    box-shadow: 0 0 15px rgba(255, 152, 0, 0.9), 0 0 30px rgba(255, 152, 0, 0.5); /* توهج قوي ولمعان */
+    animation: twinkle 2s infinite ease-in-out alternate; /* وميض كل 2 ثانية */
+}
+
+/* أنميشن الوميض للجزيئات */
+@keyframes twinkle {
+    0% { opacity: 0.4; box-shadow: 0 0 10px rgba(255, 152, 0, 0.5); }
+    100% { opacity: 1; box-shadow: 0 0 25px rgba(255, 152, 0, 1), 0 0 40px rgba(255, 152, 0, 0.8); }
+}
+
+@keyframes float-up {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    20% { opacity: 0.8; }
+    100% { transform: translateY(-120vh) translateX(20px); opacity: 0; } /* تطلع لفوق خالص وتختفي */
+}
+
+/* ============================================================
+   الجزء ده خاص بـ: أيقونة "النزول لأسفل" (Scroll Down)
+   المكان في HTML: <div class="scroll-down">
+   ============================================================ */
+.scroll-down {
+    position: absolute;   /* تثبيت مكانها في أسفل السكشن بغض النظر عن الكلام. */
+    bottom: 80px;         /* بتبعد 30px عن قاع الصفحة؛ لو زودتها الأيقونة هتطلع لفوق. */
+    left: 50%;            /* وضعها في منتصف العرض. */
+    transform: translateX(-50%); /* السطر ده ضروري جداً لتوسيطها بالملي؛ من غيره الأيقونة هتبدأ من النص وتروح يمين. */
+    display: flex;        /* رص النص والأيقونة عمودياً. */
+    flex-direction: column; /* جعل العناصر (الكلمة والسهم) تحت بعض. */
+    align-items: center;  /* توسيط السهم تحت الكلمة بالظبط. */
+    gap: 10px;            /* المسافة بين كلمة Scroll والسهم. */
+    color: rgba(255, 255, 255, 0.3); /* لون أبيض باهت جداً عشان ميزعجش العين؛ لو خليتها 1 هتبقى ناصعة. */
+    font-size: 12px;      /* حجم خط كلمة SCROLL DOWN. */
+    letter-spacing: 2px;  /* تباعد الحروف الإنجليزية بشكل جمالي. */
+    animation: bounce 2s infinite; /* استدعاء حركة النط (Bounce) وتكرارها كل ثانيتين. */
+    cursor: pointer;
+}
+
+/* حركة النط الخاصة بأيقونة السكرول */
+@keyframes bounce {
+    /* الـ translateX(-50%) لازم تتكرر هنا عشان الأيقونة متترحلش يمين وهي بتنط */
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); } /* في الأوقات دي تكون ثابتة. */
+    40% { transform: translateY(-10px) translateX(-50%); } /* بتنط لفوق 10px. */
+    60% { transform: translateY(-5px) translateX(-50%); }  /* نطة خفيفة تانية عشان تبان واقعية. */
+}
+
+/* ============================================================
+   الجزء ده خاص بـ: الحاوية الرئيسية للـ Hero (Container)
+   المكان في HTML: <div class="container-hero">
+   ============================================================ */
+.container-hero {
+    display: flex;        /* رص محتوى الكلام (شمال) والصورة (يمين) جمب بعض. */
+    width: 100%;          /* عرض الحاوية بياخد المساحة المتاحة. */
+    max-width: 1900px;    /* أقصى عرض للحاوية؛ لو الزائر شاشته عملاقة (4K)، المحتوى مش هيفرش بزيادة وهيفضل متجمع في الـ 1400px. */
+    margin: 0 auto;       /* توسيط الحاوية كلها في نص الشاشة أفقياً. */
+    align-items: center;  /* توسيط الكلام والصورة عمودياً مع بعض. */
+    justify-content: space-between; /* توزيع المساحة بحيث الكلام يروح أقصى الشمال والصورة أقصى اليمين. */
+    transform: none; /* إلغاء الرفع لإنزال كلمة Welcome لمكانها الصحيح */
+}
+
+/* الجزء النصي داخل الـ Hero */
+.hero-content { 
+    flex: 1.2;            /* بيدي مساحة أكبر شوية للكلام مقارنة بالصورة؛ لو خليتها 1 هياخدوا مساحة متساوية. */
+    z-index: 10;          /* يضمن إن الكلام يظهر فوق أي تأثيرات خلفية أو كمرات. */
+    /* زق المحتوى اللي جوه الهيرو لفوق شوية زيادة */
+    transform: none; /* إلغاء الإزاحة لضبط المكان */
+    display: flex;
+    flex-direction: column; /* رص العناصر تحت بعض */
+    justify-content: center;
+}
+
+
+
+/* ============================================================
+   الجزء ده خاص بـ: شارة الترحيب (Welcome Badge)
+   المكان في HTML: <span class="welcome-msg">
+   ============================================================ */
+.welcome-msg {
+    display: flex; /* بيخلي العنصر ياخد حجم الكلام بس مش عرض الشاشة كله؛ لو اتشال، الخلفية البرتقالية هتفرش بالعرض. */
+    padding: 6px 18px;     /* مساحة داخلية: 6px فوق وتحت و18px يمين وشمال؛ لو زودتها الشارة هتكبر وتبقى أضخم. */
+    background: linear-gradient(to right, #ff9800, #ffc107); /* التدرج اللوني للنص (برتقالي لذهبي) */
+    -webkit-background-clip: text; /* قص الخلفية لتظهر داخل النص فقط */
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* جعل لون النص شفاف ليظهر التدرج من خلفه */
+    border: none; /* إزالة الإطار بناءً على طلبك */
+    border-radius: 50px;   /* بيخلي حواف الشارة دائرية تماماً (شكل حبة الدواء)؛ لو خليتها 0 هتبقى مربعة. */
+    font-family: 'Dubai', 'Cairo', sans-serif; /* توحيد الخط */
+    font-size: 20px;       /* تكبير الخط ليكون واضحاً */
+    letter-spacing: 1px;   /* تقليل التباعد ليناسب خط اليد */
+    text-transform: none;  /* إلغاء الحروف الكبيرة لتبدو طبيعية */
+    margin-bottom: 0px;   /* بيبعد الاسم اللي تحته مسافة 20px عشان الكلام ميزحمش بعضه. */
+
+    width: fit-content;
+    margin-top: 80px; /* إنزال الترحيب لأسفل أكثر */
+cursor: pointer;
+transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); /* سرعة الحركة عند اللمس (Hover) المعتمدة في المتغيرات فوق. */
+
+    align-items: center;
+    gap: 15px;
+    color: transparent; /* لون احتياطي شفاف */
+    /* أنيميشن يظهر بعد الاسم بشوية (Delay) */
+    animation: reveal-text 1s ease-out 0.5s forwards, flash-badge 5s infinite 3s; /* وميض كل 5 ثواني يبدأ بعد 3 ثواني */
+    opacity: 0;
+}
+
+
+@keyframes reveal-text {
+    0% {
+        transform: translateY(30px); /* يبدأ من تحت */
+        opacity: 0;                  /* بكون شفاف */
+        filter: blur(10px);          /* تأثير تغبيش بسيط */
+    }
+    100% {
+        transform: translateY(0);    /* يوصل لمكانه الطبيعي */
+        opacity: 1;                  /* يظهر تماماً */
+        filter: blur(0);             /* يوضح */
+    }
+}
+
+/* أنميشن الوميض (Flash) لجذب الانتباه */
+@keyframes flash-badge {
+    0%, 90%, 100% {
+        filter: brightness(1); /* الوضع الطبيعي */
+    }
+    95% {
+        filter: brightness(1.5) drop-shadow(0 0 10px rgba(255, 152, 0, 0.6)); /* إضاءة قوية + ظل برتقالي */
+    }
+}
+
+
+.welcome-msg:hover {
+    background: rgba(255, 152, 0, 0.1); /* درجة اللون البرتقالي في الخلفية بتزيد لـ 20%؛ فالزرار "ينور" أكتر. */
+    -webkit-background-clip: border-box; /* استعادة الخلفية للصندوق عند اللمس */
+    -webkit-text-fill-color: #fff; /* استعادة لون النص للأبيض ليكون واضحاً */
+    
+    /* وهج (Glow) حوالين الزرار؛ بيدي إحساس إنه بينور بجد. */
+    /* لو زودت الـ 25px الوهج هيفرش بعيد عن الزرار. */
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.2), 
+                inset 0 0 10px rgba(255, 152, 0, 0.1);
+    
+    transform: translateY(-3px); /* الزرار بيترفع لفوق 3px؛ بيدي إحساس إنه تفاعلي (Clickable). */
+    color: #fff; /* لون الخط بيتحول لأبيض ناصع عشان يوضح مع الخلفية اللي تقلت. */
+
+}
+
+
+.welcome-msg::before {
+    content: '\1F44B'; /* أيقونة اليد (Waving Hand) */
+    font-size: 24px;   /* حجم مناسب للأيقونة */
+    background: none;  /* إزالة خلفية الخط القديم */
+    width: auto;       /* إزالة العرض الثابت */
+    height: auto;      /* إزالة الطول الثابت */
+    animation: wave-hand 2.5s infinite; /* تشغيل حركة التلويح */
+    transform-origin: 70% 70%; /* نقطة ارتكاز الحركة (كف اليد) لتبدو طبيعية */
+}
+
+/* أنميشن التلويح باليد */
+@keyframes wave-hand {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(14deg); }
+    20% { transform: rotate(-8deg); }
+    30% { transform: rotate(14deg); }
+    40% { transform: rotate(-4deg); }
+    50% { transform: rotate(10deg); }
+    60% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* ============================================================
+   الجزء ده خاص بـ: الاسم الرئيسي (Hero Name)
+   المكان في HTML: <h1 class="hero-name">
+   ============================================================ */
+.hero-name { 
+    /* clamp(أصغر حجم، الحجم المتغير، أكبر حجم) */
+    /* ميزة السطر ده إنه بيخلي اسمك يصغر على الموبايل (45px) ويكبر على الشاشات الكبيرة (85px) أوتوماتيك. */
+    font-size: clamp(28px, 5vw, 55px); /* تصغير حجم الاسم أكثر */
+    color: #fff; /* العودة للأبيض ليتناسب مع التدرج */
+    line-height: 1.2;      /* المسافة بين السطرين (ENG و MO.AYMAN)؛ لو زودتها الـ ENG هتبعد أوي عن اسمك. */
+    font-weight: 800;      /* أقصى سمك للخط عشان الاسم يكون تقيل وواضح. */
+
+margin: 0;
+cursor: pointer;
+    /* أنيميشن الظهور: بيتحرك من الشمال لليمين */
+    animation: slide-in-left 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    opacity: 0;
+}
+
+.hero-name:hover {
+    /* إزالة الخلفية والظل عند الوقوف بالماوس لإلغاء شكل الإطار */
+    transform: translateY(-3px);
+    filter: brightness(1.2); /* مجرد زيادة إضاءة بسيطة */
+}
+
+/* أنميشن الدخول من اليسار لليمين للاسم */
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-50px); /* يبدأ من الشمال */
+        opacity: 0;
+        filter: blur(10px);
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+
+
+/* تمييز كلمة MO.AYMAN بتدرج لوني فخم */
+.hero-name .highlight {
+    background: linear-gradient(135deg, #ff9800, #ffc107, #00d4ff); /* تدرج لوني عصري يجمع البرتقالي والأزرق */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(255, 152, 0, 0.3));
+}
+
+/* الجزء الملون داخل الاسم (الاسم الشخصي) */
+.highlight { 
+    color: var(--primary-color); /* تلوين اسمك بالبرتقالي. */
+    /* بيعمل "هالة" نور ورا اسمك باللون البرتقالي؛ بيدي تأثير النيون. */
+    /* لو زودت الـ 20px، النور هيفرش ورا الاسم أكتر. */
+    text-shadow: 0 0 20px rgba(255, 152, 0, 0.3); 
+}
+
+/* الوصف الوظيفي (Steel Structure Expert) */
+.hero-job { 
+    font-size: 24px;       /* حجم الخط المتوسط. */
+    font-family: 'Dubai', 'Cairo', sans-serif !important; /* توحيد الخط */
+    font-weight: 300;      /* جعل الخط أرفع وأرق ليكون أكثر انسيابية */
+    letter-spacing: 2px;   /* تباعد الحروف لإعطاء طابع عصري */
+    color: var(--cursor-color); /* النص يتغير لونه تلقائياً مع لون المؤشر */
+    margin: 5px 0 15px;   /* تقليل المسافات لتقريب العناصر ورفع الأزرار */
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    --cursor-color: #ff9800; /* متغير للون المؤشر عشان يتغير بالجافاسكريبت */
+    border-right: 3px solid var(--cursor-color); /* استخدام المتغير */
+    white-space: nowrap;
+    width: fit-content; /* إصلاح مشكلة بعد المؤشر عن الكلام في اللابتوب */
+    
+    /* === تعديلات البساطة (Minimal Style) === */
+    background: transparent; /* إزالة الخلفية تماماً */
+    padding: 0 10px 0 0; /* مسافة بسيطة بين الكلام والمؤشر */
+    border: none; /* إزالة الإطار الكامل */
+    border-right: 3px solid var(--cursor-color); /* استعادة المؤشر فقط */
+    
+    /* منع اهتزاز الموقع عند مسح الكلام */
+    min-height: 40px; /* ارتفاع مناسب للنص فقط */
+    line-height: 1.5; 
+    vertical-align: middle;
+    
+    /* إزالة الظلال الملونة القوية والاكتفاء بظل خفيف للقراءة */
+    box-shadow: none;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* ظل أسود خفيف لضمان وضوح النص */
+    
+    transition: all 0.3s ease; /* تنعيم تغيير الألوان */
+    
+    /* تشغيل أنميشن الكتابة (3.5 ثانية) والوميض (للمالانهاية) */
+    animation: blink 0.75s step-end infinite; /* الوميض فقط، والكتابة هتبقى JS */
+}
+
+
+
+/* أنميشن مسح المؤشر في النهاية */
+@keyframes hideCursor {
+    to { border-right-color: transparent; }
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; } /* هيقف عند نهاية الكلام بالظبط */
+}
+
+@keyframes blink {
+    from, to { border-color: transparent; }
+    50% { border-color: var(--cursor-color); } /* اللون بيجي من المتغير */
+}
+
+
+/* ============================================================
+   الجزء ده خاص بـ: نبذة عنك (Hero Description)
+   المكان في HTML: <p class="hero-description">
+   ============================================================ */
+.hero-description {
+    max-width: 550px;      /* بيمنع الكلام إنه يفرش بعرض الشاشة عشان القراءة تكون سهلة؛ لو شلته السطر هيبقى طويل جداً. */
+    line-height: 2;        /* زيادة ارتفاع السطر للقراءة المريحة (High Line-height) */
+    color: rgba(255,255,255,0.6); /* لون رمادي فاتح بيدي وقار للتصميم. */
+    font-size: 17px;       /* حجم خط مريح للعين. */
+    direction: rtl;        /* تحويل اتجاه النص من اليمين لليسار عشان اللغة العربية؛ لو شلته النقطة هتيجي في أول السطر. */
+    margin-bottom: 20px;   /* تقليل المسافة السفلية لرفع الأزرار */
+    opacity: 01;
+    transform: translateX(30px); /* يجي من اليمين بما إنه عربي */
+    animation: slideInRight 1.2s ease-out 0.5s forwards;
+    border-right: 2px solid rgba(255, 152, 0, 0.3);
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+@keyframes slideInRight {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+
+/* ===================================================
+   3. GLASS BUTTONS (تنسيق الأزرار الزجاجية المتطورة)
+   المكان في HTML: الحاوية <div class="hero-btns">
+   =================================================== */
+
+/* حاوية الأزرار */
+.hero-btns { 
+    display: flex;    /* وضع الأزرار جمب بعض؛ لو اتشالت الأزرار هتيجي تحت بعض. */
+    gap: 20px;        /* المسافة بين الزرار والتاني؛ لو خليتها 0 هيلزقوا في بعض تماماً. */
+/* الرفع للأعلى: استخدمنا مارجن سالب عشان نشيل الفراغ اللي فوقهم */
+    margin-top: -10px !important; 
+    
+    /* زقة إضافية بالـ transform عشان نضمن المحاذاة */
+    transform: translateY(-20px); 
+    
+    /* حركة ظهور متناغمة مع باقي العناصر */
+    animation: reveal-text 1s ease-out 1s forwards;
+    opacity: 0;
+}
+
+/* حركة خفيفة للأزرار (Bounce) */
+@keyframes btn-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* التنسيق المشترك لكل الأزرار الزجاجية */
+/* المكان في HTML: أي عنصر واخد كلاس <a class="btn-glass"> */
+.btn-glass {
+    position: relative; 
+    padding: 14px 35px;   /* مساحة داخلية (14 فوق وتحت، 35 يمين وشمال)؛ لو قللت الـ 35 الزرار هيبقى "كنزة" وقصير. */
+    border-radius: 12px;  /* دوران الحواف؛ لو خليتها 50px الزرار هيبقى بيضاوي تماماً. */
+    text-decoration: none; /* إزالة الخط اللي بيبقى تحت اللينكات. */
+    font-weight: 700;     /* سمك الخط (عريض)؛ لو خليته 400 هيبقى رفيع ومش باين. */
+    /* التأثير الزجاجي */
+    backdrop-filter: blur(15px); /* بيعمل "غبش" للمحتوى اللي ورا الزرار؛ لو شلته الزرار هيبقى شفاف سادة. */
+    
+    border: 1px solid rgba(255, 255, 255, 0.1); /* إطار أبيض خفيف جداً عشان يحدد شكل الزرار؛ لو شلته مش هتحس بحدود الزرار. */
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.05); /* إضاءة داخلية خفيفة */
+    background: rgba(255, 255, 255, 0.03); /* زجاج شفاف جداً */
+    /* تنعيم عام لكل حركات الزرار */
+transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); /* سرعة الحركة عند اللمس (Hover) المعتمدة في المتغيرات فوق. */
+    overflow: hidden;     /* لو عملت تأثير (Flash) أو لمعة جوه الزرار، السطر ده بيمنعها تخرج براه. */
+    display: flex;        /* عشان أيقونة الـ Download والنص يجوا جمب بعض بالظبط. */
+    align-items: center;  /* محاذاة النص والأيقونة في نص الزرار عمودياً. */
+    gap: 10px;            /* المسافة بين الكلمة والأيقونة جوه الزرار. */
+    /* تشغيل الحركة الخفيفة */
+    animation: btn-bounce 3s infinite ease-in-out;
+}
+
+
+/* الزرار البرتقالي (View Projects) */
+/* المكان في HTML: <a class="btn-glass btn-orange"> */
+.btn-orange { 
+    color: var(--primary-color); /* لون النص برتقالي. */
+   border-color: rgba(255, 152, 0, 0.2);
+    background: rgba(255, 152, 0, 0.05); /* خلفية برتقالية شفافة جداً (5%)؛ بيدي إيحاء باللون من غير ما يغطي اللي وراه. */
+}
+/* تأخير الحركة للزرار الأول */
+.btn-orange { animation-delay: 0s; }
+
+/* الأكشن لما تحط الماوس على الزرار البرتقالي (Hover) */
+.btn-orange:hover {
+    background: rgba(255, 152, 0, 0.1); /* درجة اللون البرتقالي في الخلفية بتزيد لـ 20%؛ فالزرار "ينور" أكتر. */
+    border-color: var(--primary-color);  /* الإطار بيتحول لبرتقالي صريح. */
+    
+    /* وهج (Glow) حوالين الزرار؛ بيدي إحساس إنه بينور بجد. */
+    /* لو زودت الـ 25px الوهج هيفرش بعيد عن الزرار. */
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.2), 
+                inset 0 0 10px rgba(255, 152, 0, 0.1);
+    
+    transform: translateY(-3px); 
+    animation-play-state: paused; /* وقف الحركة لما تقف عليه */
+    color: #fff; /* لون الخط بيتحول لأبيض ناصع عشان يوضح مع الخلفية اللي تقلت. */
+}
+
+/* تنسيق الأيقونة جوه الزرار */
+.btn-glass i {
+    font-size: 16px; /* حجم مناسب للأيقونة */
+    transition: transform 0.4s ease; /* تنعيم حركة الأيقونة */
+    color: inherit; /* تاخد نفس لون النص */
+}
+
+/* حركة ذكية للأيقونة عند الـ Hover */
+.btn-glass:hover i {
+    transform: scale(1.5) rotate(+10deg); /* تكبر سنة وتلف بزاوية خفيفة */
+}
+
+/* ===================================================
+   تنسيق الزرار الأبيض (غالباً بيكون لـ Download CV)
+   المكان في HTML: <a class="btn-glass btn-white">
+   =================================================== */
+.btn-white { 
+    color: #fff; /* لون النص أبيض ناصع. */
+    background: rgba(255, 255, 255, 0.1); /* خلفية بيضاء شفافة جداً (5%) عشان تحافظ على تأثير الزجاج. */
+    animation-delay: 0.2s; /* تأخير بسيط للحركة */
+}
+
+/* الأكشن لما تقف بالماوس على الزرار الأبيض */
+.btn-white:hover {
+    background: rgba(255, 255, 255, 0.1); /* الخلفية بتوضح أكتر شوية لما تلمسها (بتوصل لـ 15%). */
+    border-color: rgba(255,255,255,0.5);  /* الإطار بيبقى لونه أبيض صريح بس بنص شفافية. */
+    color: var(--primary-color);  /* لون الخط بيتحول برتقالي ناصع عشان يوضح مع الخلفية اللي تقلت. */
+    /* وهج أبيض هادي حوالين الزرار؛ لو غيرت الـ 25px الوهج هيفرش أكتر. */
+    box-shadow: 0 0 20px rgba(255,255,255,0.15); 
+    
+    /* الزرار بيترفع لفوق 3px؛ حركة تفاعلية عشان المستخدم يحس إنه ضغط عليه. */
+    transform: translateY(-3px);
+    animation-play-state: paused;
+}
+
+/* ===================================================
+   تنسيق زر الـ CV الجديد (Neon Cyan)
+   =================================================== */
+.btn-cyan {
+    color: var(--accent-color); /* لون النص أزرق سماوي */
+    border-color: var(--accent-color);
+    background: rgba(0, 212, 255, 0.05); /* خلفية زرقاء خفيفة جداً */
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+    animation: cyan-pulse 2s infinite; /* تشغيل أنميشن النبض */
+}
+
+.btn-cyan:hover {
+    background: rgba(0, 212, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4), inset 0 0 10px rgba(0, 212, 255, 0.1);
+    color: #fff;
+    transform: translateY(-3px);
+    animation-play-state: paused;
+}
+
+/* أنميشن النبض الخاص بالزر الأزرق */
+@keyframes cyan-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 212, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+}
+
+/* ===================================================
+   تنسيق زر الفيديو (Play Video)
+   =================================================== */
+.btn-play {
+    color: #fff;
+    background: rgba(255, 0, 0, 0.1); /* خلفية حمراء خفيفة */
+    border-color: rgba(255, 0, 0, 0.3);
+    animation-delay: 0.4s;
+}
+
+.btn-play:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    transform: translateY(-3px);
+    animation-play-state: paused;
+}
+
+/* ===================================================
+   تأثير "اللمعة السينمائية" (The Shine Effect)
+   المكان: عنصر وهمي بيترسم جوه أي زرار واخد كلاس .btn-glass
+   =================================================== */
+.btn-glass::before {
+    content: '';        /* ضروري عشان العنصر الوهمي يظهر. */
+    position: absolute; /* تثبيته جوه الزرار. */
+    top: 0; 
+    left: -150%;        /* البداية: بيكون مستخبي بره الزرار من ناحية الشمال تماماً. */
+    width: 100%;        /* عرضه نفس عرض الزرار. */
+    height: 100%;       /* طوله نفس طول الزرار. */
+    
+/* تدرج دائري يخلي المركز منور والأطراف متلاشية تماماً */
+    background: radial-gradient(
+        circle, 
+        rgba(255, 255, 255, 0.2) 0%, 
+        rgba(255, 255, 255, 0.05) 40%, 
+        transparent 50%
+    );
+    transition: .8s;   /* سرعة مرور اللمعة؛ لو خليتها 0.2s اللمعة هتعدي زي البرق. */
+
+transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
+      /* أنميشن اللمعة المستمرة */
+    /* الحركة المستمرة بنعومة */
+    animation: professionalShine 5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+
+/* --- أنميشن اللمعة المستمرة --- */
+@keyframes professionalShine {
+    0% { left: -150%; opacity: 0; }
+    10% { opacity: .5; } /* تظهر بالتدريج وهي داخلة */
+    40% { left: 150%; opacity: .5; } /* تمر بنعومة */
+    50%, 100% { left: 150%; opacity: 0; } /* تختفي وترجع تعيد من الأول */
+}
+
+
+/* الأكشن اللي بيحرك اللمعة */
+.btn-glass:hover::before { 
+    left: 100%;         /* لما تلمس الزرار، اللمعة بتتحرك من أقصى الشمال لأقصى اليمين في 0.6 ثانية. */
+}
+
+
+
+
+
+
+/* --- 2. خط النبض السفلي (Underline Pulse) --- */
+.btn-glass::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0; /*  نبدأ من النص عشان يفتح للجنبين الكلام دا لو كان الويدث 50 في الميه  */
+    width: 0;
+    height: 2px;
+    background: #ff9800; /* لونك البرتقالي المميز */
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.8);
+    transform: translateX(-50%);
+    /* أنميشن الـ 0 -> 100 -> 0 */
+    animation: linePulseContinuous 4s infinite ease-in-out;
+}
+
+/* ============================================================
+   تعريف الحركات الانسيابية (Animations)
+   ============================================================ */
+
+
+
+/* أنميشن خط النبض: يفتح من الشمال لليمين ويصغر تاني */
+@keyframes linePulseContinuous {
+    0%, 100% { 
+        width: 0; 
+        left: 0;
+        opacity: 0;
+    }
+    40%, 60% { 
+        width: 100%; 
+        left: 0;
+        opacity: 1;
+    }
+    80% {
+        width: 0;
+        left: 100%; /* يتلاشى لليمين ليعطي حركة انسيابية */
+        opacity: 0;
+    }
+}
+
+/* ============================================================
+   تنسيق نافذة الفيديو (Video Modal)
+   ============================================================ */
+.video-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 20000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+.video-modal.active { opacity: 1; visibility: visible; }
+
+.modal-content {
+    position: relative;
+    width: 90%; max-width: 800px;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.3);
+}
+.video-wrapper {
+    position: relative; padding-bottom: 56.25%; height: 0;
+}
+.video-wrapper iframe {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+}
+.close-modal {
+    position: absolute; top: -40px; right: 0; color: #fff; font-size: 30px; cursor: pointer;
+}
+
+.grid-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(255,152,0,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,152,0,0.05) 1px, transparent 1px);
+    background-size: 30px 30px; /* حجم المربعات */
+    z-index: -1;
+}
+
+/* ===================================================
+   4. SIDEBAR & SOCIAL (تنسيق السيدبار الجانبي)
+   المكان في HTML: <aside class="hero-sidebar">
+   =================================================== */
+
+.hero-sidebar {
+    position: absolute;  /* تثبيته داخل السكشن الأب (Hero)؛ لو خليته fixed هيفضل ثابت معاك في الموقع كله. */
+    left: 0;             /* لزقه في أقصى يسار السكشن. */
+    top: 0; 
+    width: 80px;         /* عرض الشريط الجانبي؛ المساحة دي محجوزة له عشان الكلام ميركبش عليه. */
+    height: 100%;        /* واخد طول سكشن الـ Hero بالكامل. */
+    display: flex;       /* تفعيل الـ Flexbox لرص الأيقونات والخط فوق بعض. */
+    flex-direction: column; /* ترتيب العناصر بشكل رأسي (عمودي). */
+    align-items: center; /* توسيط الأيقونات في نص الـ 80px بالظبط. */
+    justify-content: flex-end; /* زق كل المحتوى (الأيقونات والخط) لتحت خالص؛ لو خليتها center هيبقوا في نص الجنب. */
+    padding-bottom: 50px; /* مسافة أمان من القاع عشان ميبقاش لازق في الأرضية. */
+    
+    /* خط رأسي رفيع جداً بيفصل السيدبار عن الموقع؛ بيدي لمسة معمارية شيك. */
+    border-right: 1px solid rgba(255,255,255,0.05); 
+    z-index: 1000;       /* يضمن ظهوره فوق الخلفيات. */
+}
+
+/* حاوية الأيقونات نفسها */
+.social-icons { 
+    display: flex; 
+    flex-direction: column; /* الأيقونات تحت بعض. */
+    gap: 25px;              /* المسافة بين كل أيقونة والتانية. */
+    margin-bottom: 25px;    /* المسافة بين آخر أيقونة والخط اللي تحتها. */
+}
+
+.social-icons a { 
+    color: rgba(255,255,255,0.3); /* لون الأيقونات الطبيعي رمادي باهت؛ عشان ميزحمش العين. */
+    font-size: 22px;        /* حجم الأيقونة. */
+    transition: var(--transition); /* تنعيم الحركة وتغيير اللون. */
+    cursor: pointer !important; /* التأكد إن الماوس بيتحول لشكل اليد عند الوقوف عليها. */
+}
+
+/* ===================================================
+   ألوان البراند (تأثير الـ Hover)
+   =================================================== */
+
+/* فيسبوك - اللون الأزرق الرسمي */
+.social-icons a.fb-link:hover { 
+    color: #1877F2 !important; 
+    filter: drop-shadow(0 0 8px #1877F2); /* توهج أزرق حوالين الأيقونة. */
+    transform: scale(1.2); /* تكبير الأيقونة 20% عند الوقوف عليها. */
+}
+
+/* واتساب - اللون الأخضر الرسمي */
+.social-icons a.wa-link:hover { 
+    color: #25D366 !important; 
+    filter: drop-shadow(0 0 8px #25D366); 
+    transform: scale(1.2); 
+}
+
+/* لينكد إن - اللون الأزرق الغامق الرسمي */
+.social-icons a.li-link:hover { 
+    color: #0077B5 !important; 
+    filter: drop-shadow(0 0 8px #0077B5); 
+    transform: scale(1.2); 
+}
+
+/* لينكد إن - اللون الأزرق الغامق الرسمي */
+.social-icon.linkedin:hover { 
+    background: #0077B5 !important; 
+    box-shadow: 0 10px 25px rgba(0, 119, 181, 0.4);
+    transform: translateY(-10px) scale(1.1); 
+}
+
+/* ===================================================
+   العناصر الزخرفية (الخط والنص العمودي)
+   =================================================== */
+
+/* الخط الجمالي اللي تحت الأيقونات */
+.sidebar-line { 
+    width: 1px;          /* سمك الخط؛ لو خليته 2px هيبقى واضح جداً. */
+    height: 80px;        /* طول الخط. */
+    /* تدرج لوني يبدأ ببرتقالي وينتهي بشفاف؛ بيدي إيحاء بالاحترافية والنعومة. */
+    background: linear-gradient(to bottom, var(--primary-color), transparent); 
+    margin-bottom: 15px; 
+}
+
+/* النص المكتوب بالطول (FOLLOW ME) */
+.sidebar-text { 
+    writing-mode: vertical-rl; /* أهم سطر: بيخلي النص يتكتب بالطول من فوق لتحت. */
+    color: var(--primary-color); 
+    font-size: 11px;           /* خط صغير ورفيع. */
+    letter-spacing: 3px;       /* تباعد كبير بين الحروف؛ بيدي شكل جمالي. */
+    font-weight: 700; 
+}
+
+
+
+
+/* ===================================================
+   5. STATS & GRAPHIC (تنسيق العدادات والأرقام)
+   المكان في HTML: الحاوية <div class="hero-stats">
+   =================================================== */
+
+/* الحاوية الرئيسية للعدادات */
+.hero-stats { 
+    display: flex;         /* رص صناديق الأرقام جمب بعضها؛ لو اتشالت الأرقام هتيجي تحت بعضها. */
+    gap: 50px;             /* المسافة بين كل عداد والتاني (مثلاً بين سنين الخبرة والمشاريع). */
+    margin-bottom: 35px;   /* بيبعد العدادات عن العنصر اللي تحتها مسافة 35px. */
+    
+    /* حركة هندسية: خط رأسي برتقالي على الشمال بيميز السكشن */
+    border-left: 3px solid var(--primary-color); 
+    padding-left: 15px;    /* تقليل المسافة عشان الأرقام تقرب من الخط */
+    animation: reveal-text 1s ease-out 0.8s forwards;
+    opacity: 0;
+}
+
+/* تنسيق الرقم نفسه (مثلاً: +5 أو +50) */
+/* المكان في HTML: <span class="num"> */
+.stat-box .num {
+    display: inline-block;  /* بيتعامل مع الرقم ككتلة واحدة عشان ياخد المقاسات صح. */
+    font-size: 35px;        /* حجم الرقم كبير عشان يشد العين؛ لو خليتها 50px هيبقى ضخم جداً. */
+    font-weight: 800;       /* خط تقيل جداً (Extra Bold) عشان يظهر أهمية الرقم. */
+    color: #fff;            /* لون الرقم أبيض ناصع. */
+}
+
+/* ============================================================
+   الجزء ده خاص بـ: تنسيق الأرقام داخل العدادات (Numbers)
+   المكان في HTML: <span class="num">
+   ============================================================ */
+.num {
+    display: inline-block; /* بيسمح للرقم إنه يتحرك ويكبر (Transform)؛ من غيرها الأنميشن مش هيشتغل على الـ span. */
+    cursor: pointer;      /* بيحول الماوس لشكل اليد؛ بيدي إيحاء للزائر إن الرقم ده "تفاعلي". */
+    
+    /* تنعيم حركة التغيير اللي هتحصل في الـ transform (زي التكبير) */
+    transition: transform 0.3s ease; 
+    
+    position: relative;   /* عشان لو حبيت تضيف عناصر وهمية (::after) تكون مرتبطة بمكانه. */
+    z-index: 2;           /* بيضمن إن الرقم يكون فوق أي خلفية أو توهج وراه. */
+}
+
+/* ============================================================
+   الأكشن لما تقف بالماوس على الرقم (Hover)
+   ============================================================ */
+.num:hover {
+    color: #ff9800;       /* الرقم بيتحول للون البرتقالي المميز لبراندك. */
+    
+    /* استدعاء أنميشن النبض (text-pulse) وتكراره للمالانهاية (infinite) */
+    /* لو خليت الـ 1s دي 0.5s النبضة هتبقى سريعة جداً ومرتبكة. */
+    animation: text-pulse 1s infinite ease-in-out; 
+}
+
+/* ============================================================
+   أنميشن نبضة الرقم (Text Pulse Keyframes)
+   الوظيفة: خلق تأثير "القلب النابض" مع توهج نيون
+   ============================================================ */
+@keyframes text-pulse {
+    0% {
+        transform: scale(1);          /* الحجم الطبيعي للرقم. */
+        text-shadow: 0 0 0px rgba(255, 152, 0, 0); /* مفيش أي ظل أو توهج. */
+    }
+    50% {
+        transform: scale(1.1);        /* الرقم بيكبر بنسبة 10%؛ لو خليتها 1.5 الرقم هيضخم أوي ويغطي اللي جنبه. */
+        
+        /* تأثير النيون (Glow): بيعمل ظل برتقالي ناعم حوالين الرقم بتركيز 70% (0.7) */
+        /* الـ 15px هي مدى انتشار النور؛ لو زودتها النور هينتشر ورا الرقم أكتر. */
+        text-shadow: 0 0 15px rgba(255, 152, 0, 0.7); 
+    }
+    100% {
+        transform: scale(1);          /* الرجوع للحجم الطبيعي. */
+        text-shadow: 0 0 0px rgba(255, 152, 0, 0); /* اختفاء التوهج. */
+    }
+}
+
+
+/* ============================================================
+   1.Hover Effect Enhancement (تأثير النبضة المتقدم)
+   المكان في HTML: العنصر الوهمي قبل الـ <div class="stat-box">
+   ============================================================ */
+.stat-box:hover::before {
+    /* النبضة (الخلفية) بتسرع لما تقف عليها بالماوس؛ لو خليتها 2s الحركة هتبقى بطيئة جداً */
+    animation-duration: 0.8s; 
+    
+    /* اللون البرتقالي بيتقل (الشفافية بتوصل لـ 40%) عشان يحسس المستخدم إنه "ضغط" أو "أشر" على الصندوق */
+    background: rgba(255, 152, 0, 0.4); 
+}
+
+/
+
+/* ============================================================
+   1. علامة الزائد (The Plus Sign)
+   المكان في HTML: <span class="plus">+</span>
+   ============================================================ */
+.stat-box .plus {
+    font-size: 25px;       /* حجم علامة الزائد؛ أصغر شوية من الرقم نفسه عشان التوازن البصري. */
+    color: #ff9800;        /* لون برتقالي صريح عشان يميز إن الرقم ده "قابل للزيادة". */
+    font-weight: 800;      /* خط سميك جداً عشان ميتوهش جنب الرقم. */
+    margin-left: 5px;      /* مسافة بسيطة بين الرقم والزائد؛ لو خليتها 0 هيلزقوا في بعض. */
+}
+
+/* ============================================================
+   2. صندوق العداد (Stat Box Container)
+   المكان في HTML: <div class="stat-box">
+   ============================================================ */
+.stat-box {
+    position: relative;    /* ضروري جداً عشان النبضة (::before) تترسم بالنسبة لمكان الصندوق ده. */
+    padding: 10px 0;       /* إزالة البادينج الجانبي عشان الرقم يحاذي الخط الأصفر */
+    display: flex;         /* تفعيل نظام المرونة. */
+    flex-direction: column; /* ترتيب الرقم والوصف تحت بعض. */
+    align-items: flex-start; /* محاذاة لليسار عشان الرقم يجي فوق الكلام بالظبط وميبقاش مرحل. */
+}
+
+/* ============================================================
+   3. تأثير النبضة الدائرية (The Pulse Ring)
+   الوظيفة: عنصر وهمي بيترسم ورا الرقم وبيكبر ويختفي
+   ============================================================ */
+.stat-box .num::before {   /* نقلنا النبضة لتكون جوه الرقم نفسه عشان تتحرك معاه */
+    content: '';           /* ضروري عشان المتصفح يرسم العنصر الوهمي. */
+    position: absolute;    /* يخليه يطوف خلف الرقم. */
+    top: 50%;              /* توسيط رأسي بالنسبة للرقم */
+    left: 50%;             /* وضعه في منتصف العرض. */
+    background: rgba(255, 152, 0, 0.2); /* لون برتقالي شفاف جداً؛ لو زودت الـ 0.2 النبضة هتضلم الرقم. */
+    border-radius: 50%;    /* تحويل المربع لدائرة كاملة. */
+    z-index: -1;           /* أهم سطر: بيخلي الدائرة تظهر "ورا" الرقم مش فوقه. */
+    
+    /* البداية: الدائرة في السنتر وحجمها صفر (مختفية) */
+    transform: translate(-50%, -50%) scale(0);
+    
+    /* استدعاء أنميشن النبض: الوقت 2 ثانية، تكرار للمالانهاية، حركة ناعمة للخارج. */
+    animation: pulse-ring 2s infinite ease-out;
+}
+
+/* تخصيص أحجام النبض حسب الرقم */
+.lg-pulse .num::before {
+    width: 90px;           /* حجم كبير للأرقام الكبيرة (زي 50+)؛ لو صغرته النبضة مش هتبان من ورا الرقم. */
+    height: 90px;
+}
+
+.sm-pulse .num::before {
+    width: 50px;           /* حجم صغير للأرقام الصغيرة (زي 5+) عشان متبقاش أوسع من اللازم. */
+    height: 50px;
+}
+
+/* ============================================================
+   4. أنميشن النبض (Pulse Animation Keyframes)
+   ============================================================ */
+@keyframes pulse-ring {
+    0% {
+        /* الدائرة تبدأ من حجم صغير (0.4) وتكون واضحة (opacity: 0.8) */
+        transform: translate(-50%, -50%) scale(0.4);
+        opacity: 0.8;
+    }
+    100% {
+        /* الدائرة تكبر لمرة ونص حجمها (scale: 1.5) وتختفي تماماً (opacity: 0) */
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* ============================================================
+   1. تسمية العداد (Stat Label)
+   المكان في HTML: <span class="label">Years of Experience</span>
+   ============================================================ */
+.stat-box .label { 
+    font-size: 11px;             /* خط صغير عشان ميزاحمش الرقم. */
+    color: var(--primary-color);  /* اللون البرتقالي الأساسي. */
+    text-transform: uppercase;   /* تحويل الحروف لكبيرة؛ بيدي شكل رسمي واحترافي. */
+}
+
+/* ============================================================
+   2. منطقة العناصر البصرية (Hero Visual Container)
+   الوظيفة: دي "الورشة" اللي بتترسم فيها صورتك والكمرات.
+   ============================================================ */
+.hero-visual { 
+    flex: 0.8;         /* واخد مساحة أقل من الكلام شوية عشان التوازن. */
+    position: relative; /* ضروري عشان الكمرات (absolute) تتحرك جواها بس. */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px; /* ارتفاع مرن بدلاً من ثابت */
+}
+
+/* ============================================================
+   3. كمرات الحديد (Steel Elements)
+   الوظيفة: رسم أشكال هندسية تشبه قطاعات الحديد (Beams).
+   ============================================================ */
+.steel-element { 
+    position: absolute;           /* توزيع حر داخل منطقة الـ Hero. */
+    background: rgba(255, 152, 0, 0.03); /* لون خفيف جداً، مجرد "شبح" كمرة. */
+    border: 1px solid rgba(255, 152, 0, 0.15); /* إطار يحدد شكل القطاع الهندسي. */
+    
+    /* استدعاء أنميشن float لمدة 6 ثواني؛ حركة بطيئة وهادية. */
+    animation: float 6s infinite ease-in-out; 
+}
+
+/* الكمرة الأولى (العريضة) */
+.beam-1 { 
+    width: 280px; height: 45px; 
+    top: 10%; right: 0; 
+    transform: rotate(-20deg); /* ميلة هندسية ناحية اليمين. */
+}
+
+/* الكمرة الثانية (الأصغر) */
+.beam-2 { 
+    width: 180px; height: 35px; 
+    bottom: 15%; right: 15%; 
+    transform: rotate(15deg);  /* ميلة عكسية عشان تعمل توازن بصري. */
+    animation-delay: 2s;       /* تأخير البداية 2 ثانية عشان ميمشوش مع بعض (حركة عشوائية أجمل). */
+}
+
+/* ============================================================
+   4. أنميشن الطفو الدوراني (Float Animation)
+   الوظيفة: محاكاة حركة العناصر وهي بتسبح في الفضاء.
+   ============================================================ */
+@keyframes float {
+    0%, 100% { 
+        /* البداية والنهاية: في مكانها وبزاويتها الأصلية. */
+        transform: translateY(0) rotate(-20deg); 
+    }
+    50% { 
+        /* في المنتصف: تطلع لفوق 25px والزاوية تتغير شوية؛ بيدي إحساس بالليونة. */
+        transform: translateY(-25px) rotate(-15deg); 
+    }
+}
+
+
+
+
+
+
+
+
+
+ /* ===================================================
+   6. Modern Intelligent Footer (تنسيق التذييل الحديث)
+   المكان في HTML: <footer class="modern-footer">
+   =================================================== */
+ /* ===================================================
+    6. Modern Intelligent Footer (تنسيق التذييل الحديث)
+    المكان في HTML: <footer class="modern-footer">
+    =================================================== */
+ 
+ .modern-footer {
+     background: linear-gradient(to bottom, #0a192f, #020c1b); /* تدرج لوني عميق للأسفل */
+     padding: 0; /* إلغاء البادينج من هنا ونقله للحاوية الداخلية */
+     margin-top: 100px;  /* مساحة خارجية فوق الفوتر عشان ميبقاش "لزق" في السكشن اللي قبله. */
+     position: relative; /* عشان لو حبيت تضيف كمرات حديد تانية تطوف جواه. */
+     overflow: hidden; /* عشان التأثيرات الخلفية متخرجش بره */
+     border-top: none; /* هنستبدله بحد متحرك */
+ }
+ 
+ /* الحد العلوي المتحرك (Animated Top Border) */
+ .modern-footer::before {
+     content: '';
+     position: absolute;
+     top: 0; left: 0;
+     width: 100%; height: 4px;
+     background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--primary-color));
+     background-size: 200% 100%; /* تكبير الخلفية عشان الحركة تبان */
+     animation: borderFlow 3s linear infinite; /* حركة مستمرة */
+     z-index: 10;
+ }
+ 
+ /* خلفية منقطة خفيفة (Dot Pattern) */
+ .modern-footer::after {
+     content: '';
+     position: absolute;
+     top: 0; left: 0; width: 100%; height: 100%;
+     background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+     background-size: 30px 30px;
+     pointer-events: none;
+ }
+ 
+ /* ============================================================
+    MODERN CONTACT FORM STYLES
+    ============================================================ */
+ .footer-contact-wrapper {
+     background: rgba(255, 255, 255, 0.03);
+     border: 1px solid rgba(255, 255, 255, 0.08);
+     border-radius: 24px;
+     padding: 50px;
+     margin-bottom: 60px;
+     backdrop-filter: blur(20px);
+     box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+     text-align: center;
+     position: relative;
+     overflow: hidden;
+ }
+ 
+ /* تأثير إضاءة خفيفة في الخلفية */
+ .footer-contact-wrapper::before {
+     content: '';
+     position: absolute;
+     top: -50%; left: -50%;
+     width: 200%; height: 200%;
+     background: radial-gradient(circle, rgba(255,152,0,0.05) 0%, transparent 60%);
+     pointer-events: none;
+ }
+ 
+ /* شارة التوافر (Availability Badge) */
+ .availability-badge {
+     display: inline-flex;
+     align-items: center;
+     gap: 10px;
+     background: rgba(37, 211, 102, 0.1);
+     border: 1px solid rgba(37, 211, 102, 0.3);
+     padding: 8px 20px;
+     border-radius: 50px;
+     color: #25D366;
+     font-size: 13px;
+     font-weight: 700;
+     text-transform: uppercase;
+     letter-spacing: 1px;
+     margin-bottom: 25px;
+     box-shadow: 0 0 20px rgba(37, 211, 102, 0.1);
+ }
+ 
+ .pulse-dot {
+     width: 8px; height: 8px;
+     background: #25D366;
+     border-radius: 50%;
+     box-shadow: 0 0 0 rgba(37, 211, 102, 0.4);
+     animation: pulse-green 2s infinite;
+ }
+ 
+ @keyframes pulse-green {
+     0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+     70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+     100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+ }
+ 
+ .contact-header h2 {
+     font-size: 32px;
+     color: #fff;
+     margin-bottom: 10px;
+ }
+ 
+ .contact-header p {
+     color: #a8b2d1;
+     margin-bottom: 40px;
+ }
+ 
+ .modern-contact-form {
+     max-width: 700px;
+     margin: 0 auto;
+     position: relative;
+     z-index: 2;
+ }
+ 
+ .form-row {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 20px;
+     margin-bottom: 20px;
+ }
+ 
+ .input-wrapper {
+     position: relative;
+     width: 100%;
+ }
+ 
+ .input-wrapper input,
+ .input-wrapper textarea {
+     width: 100%;
+     padding: 15px 20px 15px 50px; /* زيادة المسافة اليسرى للأيقونة */
+     background: rgba(15, 23, 42, 0.6);
+     border: 1px solid rgba(255, 255, 255, 0.1);
+     border-radius: 12px;
+     color: #fff;
+     font-size: 16px;
+     font-family: 'Cairo', sans-serif;
+     outline: none;
+     transition: all 0.3s ease;
+ }
+ 
+ .input-wrapper textarea {
+     height: 150px;
+     resize: vertical;
+     margin-bottom: 20px;
+ }
+ 
+ .input-wrapper input:focus,
+ .input-wrapper textarea:focus {
+     border-color: var(--primary-color);
+     background: rgba(15, 23, 42, 0.9);
+     box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.1);
+ }
+ 
+ /* تنسيق أيقونات الحقول */
+ .input-icon {
+     position: absolute;
+     left: 20px;
+     top: 18px;
+     color: rgba(255, 255, 255, 0.3);
+     transition: all 0.3s ease;
+     font-size: 16px;
+     z-index: 2;
+ }
+ 
+ .input-wrapper input:focus ~ .input-icon,
+ .input-wrapper textarea:focus ~ .input-icon {
+     color: var(--primary-color);
+ }
+ 
+ /* Floating Label Effect */
+ .input-wrapper label {
+     position: absolute;
+     left: 50px; /* تعديل المكان عشان الأيقونة */
+     top: 15px;
+     color: #64748b;
+     pointer-events: none;
+     transition: all 0.3s ease;
+     font-size: 16px;
+ }
+ 
+ .input-wrapper input:focus ~ label,
+ .input-wrapper input:not(:placeholder-shown) ~ label,
+ .input-wrapper textarea:focus ~ label,
+ .input-wrapper textarea:not(:placeholder-shown) ~ label {
+     top: -10px;
+     left: 15px; /* يرجع للشمال لما يطلع فوق */
+     font-size: 12px;
+     color: var(--primary-color);
+     background: #0a192f;
+     padding: 0 5px;
+     border-radius: 4px;
+ }
+ 
+ .contact-submit-btn {
+     background: linear-gradient(135deg, var(--primary-color), #ffc107);
+     color: #000;
+     font-weight: 800;
+     padding: 15px 40px;
+     border: none;
+     border-radius: 50px;
+     cursor: pointer;
+     font-size: 16px;
+     transition: all 0.3s ease;
+     display: inline-flex;
+     align-items: center;
+     gap: 10px;
+     box-shadow: 0 10px 20px rgba(255, 152, 0, 0.2);
+ }
+ 
+ .contact-submit-btn:hover {
+     transform: translateY(-3px);
+     box-shadow: 0 15px 30px rgba(255, 152, 0, 0.4);
+ }
+ 
+ @media (max-width: 768px) {
+     .form-row {
+         grid-template-columns: 1fr;
+     }
+     .footer-contact-wrapper {
+         padding: 30px 20px;
+     }
+ }
+ 
+ /* أنميشن حركة الحد العلوي */
+ @keyframes borderFlow {
+     0% { background-position: 0% 0%; }
+     100% { background-position: 100% 0%; }
+ }
+ 
+ /* حاوية المحتوى لضبط المسافات */
+ .footer-container {
+     max-width: 1400px;
+     margin: 0 auto;
+     padding: 80px 5% 40px;
+     position: relative;
+     z-index: 2; /* عشان يظهر فوق الخلفية المنقطة */
+ }
+ 
+ /* تنسيق أعمدة الفوتر */
+ .footer-col h4 {
+     color: #fff;
+     font-size: 18px;
+     font-weight: 700;
+     margin-bottom: 25px;
+     position: relative;
+ }
+ 
+ /* أنميشن نبض اللوجو في الفوتر */
+ .footer-logo {
+     display: inline-block;
+     animation: footerPulse 2s infinite ease-in-out;
+ }
+ 
+ @keyframes footerPulse {
+     0%, 100% { transform: scale(1); }
+     50% { transform: scale(1.05); text-shadow: 0 0 10px rgba(255, 152, 0, 0.5); }
+ }
+ 
+ .footer-col ul {
+     list-style: none;
+ }
+ 
+ .footer-col ul li {
+     margin-bottom: 12px;
+ }
+ 
+ .footer-col ul li a {
+     color: #a8b2d1; /* رمادي فاتح */
+     text-decoration: none;
+     font-size: 15px;
+     transition: all 0.3s ease;
+     display: inline-block; /* ضروري عشان الحركة تشتغل */
+     position: relative;
+ }
+ 
+ .footer-col ul li a:hover {
+     color: var(--primary-color); /* يتلون بلون البراند */
+     transform: translateX(10px); /* يتحرك لليمين */
+ }
+ 
+ /* سهم صغير يظهر عند الهوفر */
+ .footer-col ul li a::before {
+     content: '→';
+     position: absolute;
+     left: -20px;
+     opacity: 0;
+     transition: all 0.3s ease;
+     color: var(--primary-color);
+ }
+ 
+ .footer-col ul li a:hover::before {
+     opacity: 1;
+     left: -15px; /* السهم يدخل مع الكلام */
+ }
+ 
+ /* تنسيق نموذج النشرة البريدية (Newsletter) */
+ .newsletter-form {
+     margin-bottom: 20px;
+ }
+ 
+ .input-group {
+     position: relative;
+     display: flex;
+     align-items: center;
+     background: rgba(255, 255, 255, 0.05);
+     border: 1px solid rgba(255, 255, 255, 0.1);
+     border-radius: 50px;
+     padding: 5px;
+     transition: all 0.3s ease;
+     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+ }
+ 
+ .input-group:focus-within {
+     border-color: var(--accent-color); /* يتلون بالأزرق السماوي عند الكتابة */
+     background: rgba(255, 255, 255, 0.08);
+     box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); /* توهج نيون */
+     transform: translateY(-2px); /* رفعة بسيطة */
+ }
+ 
+ .input-group input {
+     background: transparent;
+     border: none;
+     color: #fff;
+     padding: 10px 15px;
+     width: 100%;
+     outline: none;
+     font-family: 'Dubai', 'Cairo', sans-serif;
+ }
+ 
+ .input-group button {
+     background: var(--primary-color);
+     border: none;
+     color: #fff;
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     cursor: pointer;
+     transition: 0.3s;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+ 
+ .input-group button:hover {
+     transform: scale(1.1);
+     box-shadow: 0 0 10px var(--primary-color);
+ }
+ 
+ /* العنوان الرئيسي في الفوتر */
+ .footer-title {
+     font-size: 32px;
+     color: #ff9800;    /* اللون البرتقالي الأساسي لبراندك. */
+     margin-bottom: 10px;
+     font-weight: 800;  /* خط سميك جداً. */
+     letter-spacing: 1px; /* مسافة بسيطة بين الحروف بيدي شكل مودرن. */
+ }
+ 
+ /* العنوان الفرعي (زي: Let's Build Something Together) */
+ .footer-subtitle {
+     font-size: 16px;
+     color: rgba(255, 255, 255, 0.6); /* أبيض شفاف عشان العنوان اللي فوق هو اللي يبرز. */
+     margin-bottom: 50px; /* مسافة كبيرة قبل ما تظهر أيقونات السوشيال ميديا. */
+ }
+ 
+ /* حاوية روابط التواصل الاجتماعي */
+ .footer-social-links {
+     display: flex;
+     justify-content: flex-start; /* محاذاة لليسار (أو center لو في الموبايل) */
+     gap: 15px;               /* تقليل المسافة لتكون أكثر تماسكاً */
+     margin-top: 25px;        /* **تعديل:** إضافة مسافة بينها وبين النص اللي فوقها */
+     margin-bottom: 40px;     /* تقليل المسافة السفلية قليلاً */
+     
+     /* أهم سطر: "المنظور" - ده بيخلي أي حركة انيميشن 3D للأيقونات تبان واقعية وليها عمق. */
+     perspective: 1000px; 
+ }
+ 
+ /* ============================================================
+    1. الأيقونة الذكية (The Social Icon)
+    المكان في HTML: <a class="social-icon facebook">
+    ============================================================ */
+ .social-icon {
+     width: 50px;  /* تصغير الحجم ليكون أكثر احترافية */
+     height: 50px;
+     display: flex;
+     align-items: center;    /* توسيط الأيقونة عمودياً داخل المربع. */
+     justify-content: center; /* توسيط الأيقونة أفقياً. */
+     border-radius: 16px;    /* زوايا دائرية ناعمة؛ مش دائرية أوي ولا حادة أوي. */
+     background: rgba(255, 255, 255, 0.03); /* خلفية شبه شفافة تماماً للحفاظ على المظهر الزجاجي. */
+     color: #fff;            /* لون أيقونة البراند (Facebook, WhatsApp) أبيض في الحالة العادية. */
+     font-size: 26px;        /* حجم الأيقونة (FontAwesome). */
+     text-decoration: none;
+     
+     /* سحر الحركة هنا! cubic-bezier بتخلي الحركة تبدأ بسرعة وتنتهي بنطة خفيفة (Bounce) */
+     transition: all 0.3s ease; /* حركة ناعمة وسريعة */
+     
+     border: 1px solid rgba(255, 255, 255, 0.1); /* إطار رفيع جداً يحدد ملامح المربع. */
+     position: relative;
+ }
+ 
+ /* ============================================================
+    2. محتوى الـ CV (ترتيب النص والأيقونة)
+    ============================================================ */
+ .cv-content {
+     display: flex;
+     flex-direction: column; /* وضع أيقونة الملف فوق كلمة "Download CV". */
+     align-items: center;
+     gap: 5px;               /* مسافة صغيرة بين الأيقونة والنص. */
+ }
+ 
+ .cv-text {
+     font-size: 9px;         /* نص صغير جداً عشان ميزاحمش الأيقونة. */
+     font-weight: 700;       /* خط تقيل عشان يكون مقروء رغم صغره. */
+     text-transform: uppercase; /* حروف كبيرة تعطي مظهر رسمي للملف. */
+     opacity: 0.7;           /* خافت شوية عشان الأيقونة هي اللي تبرز. */
+ }
+ 
+ /* ============================================================
+    3. تأثيرات الـ Hover (ألوان البراند والحركة)
+    ============================================================ */
+ 
+ /* واتساب: لون أخضر + ميلان لليمين 5 درجات + رفعة لفوق */
+ .social-icon.whatsapp:hover {
+     background: #25D366; 
+     box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); /* ظل أخضر هادي */
+     transform: translateY(5px); /* حركة خفيفة للأسفل (ضغط) */
+ }
+ 
+ /* فيسبوك: لون أزرق + ميلان للشمال 5 درجات + رفعة لفوق */
+ .social-icon.facebook:hover {
+     background: #1877F2;
+     box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3); 
+     transform: translateY(5px); /* حركة خفيفة للأسفل */
+ }
+ 
+ /* الـ CV: لون أحمر ناري + تكبير (Scale) + رفعة لفوق */
+ .social-icon.cv:hover {
+     background: #ff4b2b;
+     box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+     transform: translateY(5px); 
+ }
+ 
+ /* GitHub: لون أبيض/رمادي + توهج */
+ .social-icon.github:hover {
+     background: #f0f0f0;
+     color: #333;
+     box-shadow: 0 5px 15px rgba(240, 240, 240, 0.4);
+     transform: translateY(5px);
+ }
+ 
+ /* Behance: لون أزرق + توهج */
+ .social-icon.behance:hover {
+     background: #053eff;
+     box-shadow: 0 5px 15px rgba(5, 62, 255, 0.4);
+     transform: translateY(5px);
+ }
+ /* ============================================================
+    1. الـ Tooltip الذكي (العنوان الطاير)
+    المكان في HTML: <span class="tooltip">WhatsApp</span> داخل الـ social-icon
+    ============================================================ */
+ .tooltip {
+     position: absolute;   /* يخليه يطوف فوق الأيقونة. */
+     bottom: auto;
+     top: 100%;            /* يظهر تحت الأيقونة مباشرة لحل مشكلة تغطية الكلام */
+     margin-top: 10px;
+     background: #ff9800;  /* اللون البرتقالي المميز عشان يشد العين. */
+     color: #0a2540;       /* لون نص غامق جداً عشان يتباين بوضوح مع الخلفية البرتقالية. */
+     padding: 6px 12px;    /* مساحة مريحة حول الكلمة. */
+     border-radius: 8px;   /* زوايا دائرية متناسقة مع روح الموقع. */
+     font-size: 12px;
+     font-weight: bold;
+     
+     /* مخفي في الحالة الطبيعية */
+     opacity: 0;
+     visibility: hidden;
+     
+     transition: all 0.3s ease; /* تنعيم حركة الظهور والنزول. */
+     white-space: nowrap;  /* يمنع الكلمة إنها تنقسم على سطرين لو كانت طويلة. */
+ }
+ 
+ /* سهم الـ Tooltip الصغير (المثلث) */
+ .tooltip::after {
+     content: '';          /* عنصر وهمي لرسم المثلث. */
+     position: absolute;
+     bottom: 100%;         /* السهم فوق التول تيب */
+     left: 50%;
+     transform: translateX(-50%); /* توسيط السهم في نص الـ tooltip. */
+     
+     /* رسم المثلث باستخدام الحدود (Borders) */
+     border-left: 5px solid transparent;
+     border-right: 5px solid transparent;
+     border-bottom: 5px solid #ff9800; /* سهم باصص لفوق */
+ }
+ 
+ /* ظهور الـ Tooltip عند لمس الأيقونة */
+ .social-icon:hover .tooltip {
+     opacity: 1;           /* يظهر بوضوح. */
+     visibility: visible;
+     transform: translateY(5px); /* حركة بسيطة للأسفل عند الظهور */
+ }
+ 
+ /* ============================================================
+    2. نهاية الصفحة (Footer Bottom)
+    المكان في HTML: <div class="footer-bottom">
+    ============================================================ */
+ .footer-bottom {
+     padding-top: 30px;    /* مسافة أمان قبل سطر الحقوق. */
+     border-top: 1px solid rgba(255, 255, 255, 0.05); /* خط فاصل خفيف جداً يكاد يُرى. */
+     font-size: 14px;
+     color: rgba(255, 255, 255, 0.4); /* لون رمادي خافت عشان ميسرقش العين من المحتوى الأساسي. */
+ }
+ 
+ /* إخفاء الفوتر القديم أو تعديله ليكون جزء من الشبكة الجديدة إذا لزم الأمر */
+ .footer-bottom {
+     grid-column: 1 / -1; /* يأخذ عرض الشبكة بالكامل */
+     text-align: center;
+     margin-top: 40px;
+ }
+ 
+ /* تمييز الاسم في الحقوق */
+ .highlight {
+     color: #ff9800;       /* تلوين اسمك "Eng. Mohamed Ayman" بالبرتقالي في القاع. */
+ }
+
+.modern-footer {
+    background: linear-gradient(to bottom, #0a192f, #020c1b); /* تدرج لوني عميق للأسفل */
+    padding: 0; /* إلغاء البادينج من هنا ونقله للحاوية الداخلية */
+    margin-top: 100px;  /* مساحة خارجية فوق الفوتر عشان ميبقاش "لزق" في السكشن اللي قبله. */
+    position: relative; /* عشان لو حبيت تضيف كمرات حديد تانية تطوف جواه. */
+    overflow: hidden; /* عشان التأثيرات الخلفية متخرجش بره */
+    border-top: none; /* هنستبدله بحد متحرك */
+}
+
+/* الحد العلوي المتحرك (Animated Top Border) */
+.modern-footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--primary-color));
+    background-size: 200% 100%; /* تكبير الخلفية عشان الحركة تبان */
+    animation: borderFlow 3s linear infinite; /* حركة مستمرة */
+    z-index: 10;
+}
+
+/* خلفية منقطة خفيفة (Dot Pattern) */
+.modern-footer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+}
+
+/* ============================================================
+   MODERN CONTACT FORM STYLES
+   ============================================================ */
+.footer-contact-wrapper {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 50px;
+    margin-bottom: 60px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* تأثير إضاءة خفيفة في الخلفية */
+.footer-contact-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,152,0,0.05) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+/* شارة التوافر (Availability Badge) */
+.availability-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(37, 211, 102, 0.1);
+    border: 1px solid rgba(37, 211, 102, 0.3);
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: #25D366;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 20px rgba(37, 211, 102, 0.1);
+}
+
+.pulse-dot {
+    width: 8px; height: 8px;
+    background: #25D366;
+    border-radius: 50%;
+    box-shadow: 0 0 0 rgba(37, 211, 102, 0.4);
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+.contact-header h2 {
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.contact-header p {
+    color: #a8b2d1;
+    margin-bottom: 40px;
+}
+
+.modern-contact-form {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-wrapper input,
+.input-wrapper textarea {
+    width: 100%;
+    padding: 15px 20px 15px 50px; /* زيادة المسافة اليسرى للأيقونة */
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 16px;
+    font-family: 'Cairo', sans-serif;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-wrapper textarea {
+    height: 150px;
+    resize: vertical;
+    margin-bottom: 20px;
+}
+
+.input-wrapper input:focus,
+.input-wrapper textarea:focus {
+    border-color: var(--primary-color);
+    background: rgba(15, 23, 42, 0.9);
+    box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.1);
+}
+
+/* تنسيق أيقونات الحقول */
+.input-icon {
+    position: absolute;
+    left: 20px;
+    top: 18px;
+    color: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    font-size: 16px;
+    z-index: 2;
+}
+
+.input-wrapper input:focus ~ .input-icon,
+.input-wrapper textarea:focus ~ .input-icon {
+    color: var(--primary-color);
+}
+
+/* Floating Label Effect */
+.input-wrapper label {
+    position: absolute;
+    left: 50px; /* تعديل المكان عشان الأيقونة */
+    top: 15px;
+    color: #64748b;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.input-wrapper input:focus ~ label,
+.input-wrapper input:not(:placeholder-shown) ~ label,
+.input-wrapper textarea:focus ~ label,
+.input-wrapper textarea:not(:placeholder-shown) ~ label {
+    top: -10px;
+    left: 15px; /* يرجع للشمال لما يطلع فوق */
+    font-size: 12px;
+    color: var(--primary-color);
+    background: #0a192f;
+    padding: 0 5px;
+    border-radius: 4px;
+}
+
+.contact-submit-btn {
+    background: linear-gradient(135deg, var(--primary-color), #ffc107);
+    color: #000;
+    font-weight: 800;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 20px rgba(255, 152, 0, 0.2);
+}
+
+.contact-submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(255, 152, 0, 0.4);
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    .footer-contact-wrapper {
+        padding: 30px 20px;
+    }
+}
+
+/* أنميشن حركة الحد العلوي */
+@keyframes borderFlow {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 0%; }
+}
+
+/* حاوية المحتوى لضبط المسافات */
+.footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 80px 5% 40px;
+    position: relative;
+    z-index: 2; /* عشان يظهر فوق الخلفية المنقطة */
+}
+
+/* تنسيق أعمدة الفوتر */
+.footer-col h4 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* أنميشن نبض اللوجو في الفوتر */
+.footer-logo {
+    display: inline-block;
+    animation: footerPulse 2s infinite ease-in-out;
+}
+
+@keyframes footerPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); text-shadow: 0 0 10px rgba(255, 152, 0, 0.5); }
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col ul li {
+    margin-bottom: 12px;
+}
+
+.footer-col ul li a {
+    color: #a8b2d1; /* رمادي فاتح */
+    text-decoration: none;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    display: inline-block; /* ضروري عشان الحركة تشتغل */
+    position: relative;
+}
+
+.footer-col ul li a:hover {
+    color: var(--primary-color); /* يتلون بلون البراند */
+    transform: translateX(10px); /* يتحرك لليمين */
+}
+
+/* سهم صغير يظهر عند الهوفر */
+.footer-col ul li a::before {
+    content: '→';
+    position: absolute;
+    left: -20px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    color: var(--primary-color);
+}
+
+.footer-col ul li a:hover::before {
+    opacity: 1;
+    left: -15px; /* السهم يدخل مع الكلام */
+}
+
+/* تنسيق نموذج النشرة البريدية (Newsletter) */
+.newsletter-form {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.input-group:focus-within {
+    border-color: var(--accent-color); /* يتلون بالأزرق السماوي عند الكتابة */
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); /* توهج نيون */
+    transform: translateY(-2px); /* رفعة بسيطة */
+}
+
+.input-group input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 10px 15px;
+    width: 100%;
+    outline: none;
+    font-family: 'Dubai', 'Cairo', sans-serif;
+}
+
+.input-group button {
+    background: var(--primary-color);
+    border: none;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-group button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+/* العنوان الرئيسي في الفوتر */
+.footer-title {
+    font-size: 32px;
+    color: #ff9800;    /* اللون البرتقالي الأساسي لبراندك. */
+    margin-bottom: 10px;
+    font-weight: 800;  /* خط سميك جداً. */
+    letter-spacing: 1px; /* مسافة بسيطة بين الحروف بيدي شكل مودرن. */
+}
+
+/* العنوان الفرعي (زي: Let's Build Something Together) */
+.footer-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6); /* أبيض شفاف عشان العنوان اللي فوق هو اللي يبرز. */
+    margin-bottom: 50px; /* مسافة كبيرة قبل ما تظهر أيقونات السوشيال ميديا. */
+}
+
+/* حاوية روابط التواصل الاجتماعي */
+.footer-social-links {
+    display: flex;
+    justify-content: flex-start; /* محاذاة لليسار لتناسب العمود */
+    gap: 15px;               /* تقليل المسافة لتكون أكثر تماسكاً */
+    margin-bottom: 60px;     /* مسافة قبل حقوق الملكية (Copyright). */
+    
+    /* أهم سطر: "المنظور" - ده بيخلي أي حركة انيميشن 3D للأيقونات تبان واقعية وليها عمق. */
+    perspective: 1000px; 
+}
+
+/* ============================================================
+   1. الأيقونة الذكية (The Social Icon)
+   المكان في HTML: <a class="social-icon facebook">
+   ============================================================ */
+.social-icon {
+    width: 50px;  /* تصغير الحجم ليكون أكثر احترافية */
+    height: 50px;
+    display: flex;
+    align-items: center;    /* توسيط الأيقونة عمودياً داخل المربع. */
+    justify-content: center; /* توسيط الأيقونة أفقياً. */
+    border-radius: 16px;    /* زوايا دائرية ناعمة؛ مش دائرية أوي ولا حادة أوي. */
+    background: rgba(255, 255, 255, 0.03); /* خلفية شبه شفافة تماماً للحفاظ على المظهر الزجاجي. */
+    color: #fff;            /* لون أيقونة البراند (Facebook, WhatsApp) أبيض في الحالة العادية. */
+    font-size: 26px;        /* حجم الأيقونة (FontAwesome). */
+    text-decoration: none;
+    
+    /* سحر الحركة هنا! cubic-bezier بتخلي الحركة تبدأ بسرعة وتنتهي بنطة خفيفة (Bounce) */
+    transition: all 0.3s ease; /* حركة ناعمة وسريعة */
+    
+    border: 1px solid rgba(255, 255, 255, 0.1); /* إطار رفيع جداً يحدد ملامح المربع. */
+    position: relative;
+}
+
+/* ============================================================
+   2. محتوى الـ CV (ترتيب النص والأيقونة)
+   ============================================================ */
+.cv-content {
+    display: flex;
+    flex-direction: column; /* وضع أيقونة الملف فوق كلمة "Download CV". */
+    align-items: center;
+    gap: 5px;               /* مسافة صغيرة بين الأيقونة والنص. */
+}
+
+.cv-text {
+    font-size: 9px;         /* نص صغير جداً عشان ميزاحمش الأيقونة. */
+    font-weight: 700;       /* خط تقيل عشان يكون مقروء رغم صغره. */
+    text-transform: uppercase; /* حروف كبيرة تعطي مظهر رسمي للملف. */
+    opacity: 0.7;           /* خافت شوية عشان الأيقونة هي اللي تبرز. */
+}
+
+/* ============================================================
+   3. تأثيرات الـ Hover (ألوان البراند والحركة)
+   ============================================================ */
+
+/* واتساب: لون أخضر + ميلان لليمين 5 درجات + رفعة لفوق */
+.social-icon.whatsapp:hover {
+    background: #25D366; 
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); /* ظل أخضر هادي */
+    transform: translateY(5px); /* حركة خفيفة للأسفل (ضغط) */
+}
+
+/* فيسبوك: لون أزرق + ميلان للشمال 5 درجات + رفعة لفوق */
+.social-icon.facebook:hover {
+    background: #1877F2;
+    box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3); 
+    transform: translateY(5px); /* حركة خفيفة للأسفل */
+}
+
+/* الـ CV: لون أحمر ناري + تكبير (Scale) + رفعة لفوق */
+.social-icon.cv:hover {
+    background: #ff4b2b;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+    transform: translateY(5px); 
+}
+
+/* ============================================================
+   1. الـ Tooltip الذكي (العنوان الطاير)
+   المكان في HTML: <span class="tooltip">WhatsApp</span> داخل الـ social-icon
+   ============================================================ */
+.tooltip {
+    position: absolute;   /* يخليه يطوف فوق الأيقونة. */
+    bottom: auto;
+    top: 100%;            /* يظهر تحت الأيقونة مباشرة لحل مشكلة تغطية الكلام */
+    margin-top: 10px;
+    background: #ff9800;  /* اللون البرتقالي المميز عشان يشد العين. */
+    color: #0a2540;       /* لون نص غامق جداً عشان يتباين بوضوح مع الخلفية البرتقالية. */
+    padding: 6px 12px;    /* مساحة مريحة حول الكلمة. */
+    border-radius: 8px;   /* زوايا دائرية متناسقة مع روح الموقع. */
+    font-size: 12px;
+    font-weight: bold;
+    
+    /* مخفي في الحالة الطبيعية */
+    opacity: 0;
+    visibility: hidden;
+    
+    transition: all 0.3s ease; /* تنعيم حركة الظهور والنزول. */
+    white-space: nowrap;  /* يمنع الكلمة إنها تنقسم على سطرين لو كانت طويلة. */
+}
+
+/* سهم الـ Tooltip الصغير (المثلث) */
+.tooltip::after {
+    content: '';          /* عنصر وهمي لرسم المثلث. */
+    position: absolute;
+    bottom: 100%;         /* السهم فوق التول تيب */
+    left: 50%;
+    transform: translateX(-50%); /* توسيط السهم في نص الـ tooltip. */
+    
+    /* رسم المثلث باستخدام الحدود (Borders) */
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #ff9800; /* سهم باصص لفوق */
+}
+
+/* ظهور الـ Tooltip عند لمس الأيقونة */
+.social-icon:hover .tooltip {
+    opacity: 1;           /* يظهر بوضوح. */
+    visibility: visible;
+    transform: translateY(5px); /* حركة بسيطة للأسفل عند الظهور */
+}
+
+/* ============================================================
+   2. نهاية الصفحة (Footer Bottom)
+   المكان في HTML: <div class="footer-bottom">
+   ============================================================ */
+.footer-bottom {
+    padding-top: 30px;    /* مسافة أمان قبل سطر الحقوق. */
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* خط فاصل خفيف جداً يكاد يُرى. */
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4); /* لون رمادي خافت عشان ميسرقش العين من المحتوى الأساسي. */
+}
+
+/* إخفاء الفوتر القديم أو تعديله ليكون جزء من الشبكة الجديدة إذا لزم الأمر */
+.footer-bottom {
+    grid-column: 1 / -1; /* يأخذ عرض الشبكة بالكامل */
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* تمييز الاسم في الحقوق */
+.highlight {
+    color: #ff9800;       /* تلوين اسمك "Eng. Mohamed Ayman" بالبرتقالي في القاع. */
+}
+
+
+/* ============================================================
+   3. عنوان السكشن التفاعلي (Reveal Title)
+   ============================================================ */
+.section-title.reveal {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    position: relative;
+    display: block; /* لضمان أخد السطر بالكامل وتوسيط النص */
+}
+
+/* ============================================================
+   4. Mobile Responsive (التجاوب مع الشاشات الصغيرة)
+   الهدف: تحويل التصميم من عرضي (Row) إلى طولي (Column)
+   ============================================================ */
+
+
+
+.glass {
+  background: rgba(255, 255, 255, 0.12); /* خلفية بيضاء شفافة جداً */
+  backdrop-filter: blur(14px);           /* سحر الزجاج: بيغبش اللي وراه */
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* إطار رفيع جداً كأنه حافة زجاج حقيقية */
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);    /* ظل يعطي إيحاء بأن الكارت طائر */
+  transition: all 0.3s ease;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px); /* تقليل المسافة لحركة أخف وأرقى */
+  transition: all 1s cubic-bezier(0.5, 0, 0, 1); /* توقيت انسيابي جداً */
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);    /* العنصر بيطلع لمكانه الطبيعي لما يظهر في الشاشة */
+}
+
+.timeline::before {
+  /* الخط الرأسي اللي بيربط الأحداث ببعضها */
+  background: linear-gradient(#ff9800, transparent); /* الخط بيبدأ برتقالي قوي ويختفي تدريجياً */
+}
+
+.timeline-item .dot {
+  /* النقطة البرتقالية المنورة اللي بتمثل "لحظة" في تاريخك */
+  box-shadow: 0 0 15px #ff9800; /* توهج (Glow) حول النقطة */
+}
+
+#scrollProgress {
+  position: fixed; /* ثابت في ركن الشاشة */
+  background: conic-gradient(#ff9800 0%, rgba(255,255,255,0.1) 0%); /* الدائرة بتكتمل برتقالي حسب السكرول */
+  z-index: 999; /* عشان يفضل فوق كل العناصر */
+}
+
+#progress-circle {
+  /* التحكم في طول الخط المحيط بالدائرة باستخدام JavaScript */
+  stroke-dasharray: 188;
+  stroke-dashoffset: 188;
+}
+
+.hero {
+    min-height: 100vh; /* بياخد طول الشاشة بالكامل مهما كان حجم الجهاز */
+    display: flex;
+    flex-direction: column; /* العناصر (الاسم، الوصف، الأزرار) تحت بعضها */
+    justify-content: center; /* التوسيط الرأسي */
+    align-items: center;    /* التوسيط الأفقي */
+    text-align: center;
+    gap: 12px;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); } /* طلوع خفيف جداً ونزول */
+    100% { transform: translateY(0); }
+}
+
+
+
+/* ====== 1. المسار الزمني (Timeline) ====== */
+
+.timeline {
+  max-width: 700px;        /* أقصى عرض للجدول الزمني عشان ميفردش بزيادة */
+  margin: 50px auto;       /* سنترة الجدول في نص الصفحة ومسافة 50px فوق وتحت */
+  position: relative;      /* ضروري عشان العناصر اللي جواه تترتب بالنسبة له */
+  padding-left: 30px;      /* مسافة من الشمال عشان الخط البرتقالي يظهر */
+}
+
+.timeline::before {
+  content: "";             /* عنصر وهمي لرسم الخط الرأسي */
+  position: absolute;      /* تثبيت الخط في مكان محدد */
+  left: 10px;              /* إزاحة الخط 10px من يسار الحاوية */
+  top: 0;
+  width: 3px;              /* سمك الخط الرأسي */
+  height: 100%;            /* الخط بياخد طول السكشن بالكامل */
+  /* الخط بيبدأ برتقالي قوي وبيختفي (شفاف) في الآخر لشكل جمالي */
+  background: linear-gradient(#ff9800, transparent); 
+}
+
+.timeline-item {
+  margin-bottom: 40px;     /* مسافة بين كل حدث (وظيفة) واللي بعدها */
+  position: relative;      /* عشان النقطة (dot) تترتب جوه كل آيتم */
+}
+
+.timeline-item .dot {
+  position: absolute;      /* تثبيت النقطة على الخط الرأسي */
+  left: -2px;              /* سنترة النقطة فوق الخط بالظبط */
+  top: 10px;               /* محاذاة النقطة مع أول سطر في الكلام */
+  width: 16px;             /* حجم النقطة */
+  height: 16px;
+  background: #ff9800;     /* لون النقطة البرتقالي */
+  border-radius: 50%;      /* جعل النقطة دائرية تماماً */
+  box-shadow: 0 0 15px #ff9800; /* توهج (Glow) حول النقطة عشان تبان منورة */
+}
+
+/* ====== 2. دائرة التقدم (Scroll to Top Progress) ====== */
+
+#progress {
+  stroke: #ff9800;         /* لون الخط اللي بيترسم في الدائرة */
+  stroke-dasharray: 283;   /* طول محيط الدائرة بالكامل */
+  stroke-dashoffset: 283;  /* بيبدأ بـ 283 يعني الدائرة فاضية في البداية */
+}
+
+.arrow {
+  width: 26px;             /* حجم السهم اللي جوه الدائرة */
+  height: 26px;
+  fill: white;             /* لون السهم أبيض */
+}
+
+.progress-wrap {
+  position: fixed !important; /* تثبيت الدائرة في ركن الشاشة حتى مع السكرول */
+  right: 30px;                /* مسافة 30px من اليمين */
+  bottom: 30px;               /* مسافة 30px من تحت */
+  width: 46px;                /* عرض الدائرة الكلي */
+  height: 46px;
+  z-index: 100000 !important; /* رقم خيالي عشان الزرار يظهر فوق أي عنصر تاني في الموقع */
+  background: #0a192f !important; /* خلفية كحلي غامقة جداً للزرار */
+  border: 1px solid rgba(255, 152, 0, 0.3); /* إطار برتقالي خفيف جداً */
+  
+  /* التعديل: إخفاء الزرار افتراضياً */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px); /* ينزل لتحت شوية وهو مخفي */
+  
+  border-radius: 50px;        /* حواف دائرية للزرار */
+  cursor: pointer;            /* تحويل الماوس لشكل "إيد" عند الوقوف عليه */
+  /* ظل داخلي خفيف بيدي عمق للزرار */
+  box-shadow: inset 0 0 0 2px rgba(255,152,0,0.2); 
+  transition: all 0.3s ease-in-out; /* تنعيم حركة الظهور والاختفاء */
+}
+
+.progress-wrap .scroll-arrow {
+  position: absolute;         /* تثبيت السهم في نص الدائرة */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* سنترة السهم أفقياً ورأسياً بالظبط */
+  color: #ff9800;             /* لون سهم الصعود */
+  transition: transform 0.3s ease, color 0.3s ease; /* تنعيم حركة الدوران واللون */
+}
+
+.progress-wrap svg path { 
+  fill: none;                 /* الدائرة من جوه فاضية */
+  stroke: #ff9800;            /* لون خط الرسم */
+  stroke-width: 4;            /* سمك خط الرسم */
+  box-sizing: border-box; 
+  /* سرعة استجابة الرسم مع حركة السكرول (10 ملي ثانية) */
+  transition: stroke-dashoffset 10ms linear; 
+}
+
+.progress-wrap:hover {
+  transform: translateY(0) scale(1.1); /* تكبير الزرار مع الحفاظ على مكانه */
+  /* توهج برتقالي خارجي عند الهوفر */
+  box-shadow: 0 0 20px rgba(255, 152, 0, 0.4); 
+}
+
+/* كلاس الظهور عند السكرول */
+.progress-wrap.active-progress {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr; /* تعديل النسب لتوازن أفضل */
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: left;
+}
+
+.footer-brand-col h3 { font-size: 1.8rem; margin-bottom: 15px; }
+.footer-bio { color: #ccc; font-size: 0.9rem; line-height: 1.6; max-width: 300px; }
+
+.footer-subtitle {
+    color: #ff9800; /* لون التمييز بتاعك */
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.footer-links-col ul { list-style: none; padding: 0; }
+.footer-links-col ul li { margin-bottom: 12px; }
+.footer-links-col ul li a {
+    color: #aaa;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+.footer-links-col ul li a:hover { color: #ff9800; padding-left: 5px; }
+
+.contact-info { color: #aaa; font-size: 0.85rem; margin-bottom: 10px; }
+.contact-info i { color: #ff9800; margin-right: 8px; width: 20px; }
+
+.cv-download-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: rgba(255, 152, 0, 0.1);
+    border: 1px solid #ff9800;
+    color: #ff9800;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+.cv-download-btn:hover { background: #ff9800; color: #fff; }
+
+/* Responsive للموبايل */
+@media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .footer-bio { max-width: 100%; }
+}
+
+
+
+/* ============================================================
+   1. الشاشات الكبيرة (لاب توب) - من 1024px وأنت طالع
+   ============================================================ */
+@media (min-width: 1024px) {
+  .main-header {
+    height: 80px;
+    padding: 0 30px; /* تعديل للشاشات الكبيرة أيضاً */
+  }
+}
+
+/* ============================================================
+   إصلاح التابلت برو (iPad Pro & Small Laptops) - 992px to 1200px
+   ============================================================ */
+@media (min-width: 992px) and (max-width: 1200px) {
+    .main-header {
+        padding: 0 20px; /* تثبيت المسافة */
+        justify-content: space-between; /* ضمان التوزيع */
+    }
+    .nav-links {
+        gap: 15px; /* تقليل المسافات بين الروابط */
+    }
+    .main-logo {
+        font-size: 24px; /* تصغير اللوجو قليلاً */
+        margin-right: 30px; /* إجبار مسافة بين اللوجو وأول زرار (Home) */
+    }
+    .nav-links a {
+        font-size: 14px;
+        padding: 0 8px !important;
+    }
+    /* ضمان ظهور زر البحث */
+    .search-trigger-btn {
+        display: block !important;
+    }
+}
+
+/* ============================================================
+   2. التابلت والشاشات المتوسطة - أقل من 992px
+   ============================================================ */
+@media (max-width: 992px) {
+    .main-header {
+        padding: 10px 20px !important; 
+    }
+    .main-logo {
+        font-size: 22px; /* تصغير اللوجو لمنع التداخل */
+    }
+    /* تعديل الفوتر في التابلت ليكون عمودين */
+    .modern-footer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .nav-links {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(15, 32, 39, 0.6); /* خلفية شفافة لبيان الموقع */
+        backdrop-filter: blur(20px); /* زيادة التغبيش */
+        flex-direction: column;
+        justify-content: flex-start; /* البداية من الأعلى لرص اللوجو ثم الروابط */
+        padding-top: 120px; /* مسافة عشان اللوجو والروابط ميبقوش لازقين فوق */
+        align-items: stretch; /* عشان العناصر تاخد العرض بالكامل */
+        gap: 0; /* إلغاء المسافات الكبيرة بين العناصر */
+        overflow-y: auto; /* السماح بالسكرول لو القائمة طويلة */
+        overscroll-behavior: contain; /* يمنع السكرول من التأثير على الصفحة اللي تحت */
+        padding-bottom: 50px; /* مسافة أمان تحت عشان آخر عنصر يبان */
+        transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1); /* حركة انسيابية من فوق لتحت */
+        transform: translateY(-100%); /* مخفية فوق الشاشة */
+        z-index: 10000;
+    }
+    .nav-links.active {
+        transform: translateY(0); /* تنزل وتغطي الشاشة */
+    }
+    .nav-links li {
+        width: 100%; /* العنصر ياخد العرض كامل */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* خط فاصل خفيف */
+    }
+    .nav-links a {
+        font-size: 18px !important; /* حجم خط مناسب */
+        width: 100%;
+        justify-content: space-between; /* النص يمين والسهم شمال */
+        padding: 20px 30px !important; /* مساحات مريحة للضغط */
+        display: flex;
+    }
+    /* إظهار زر الهامبرغر */
+    .hamburger {
+        display: flex;
+    }
+    /* أنميشن تحويل الثلاث شرط لعلامة X */
+    .hamburger.toggle .bar {
+        align-self: center;
+    }
+    .hamburger.toggle .bar:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+        width: 24px;
+        background-color: var(--primary-color);
+    }
+    .hamburger.toggle .bar:nth-child(2) {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    .hamburger.toggle .bar:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+        width: 24px;
+        background-color: var(--primary-color);
+    }
+
+    /* إخفاء زر الاتصال في الموبايل نهائياً */
+    .call-btn-header {
+        display: none !important;
+    }
+
+    .hero-section {
+        flex-direction: column !important;
+        text-align: center;
+        padding: 85px 20px 60px 20px !important; /* تقليل المسافة العلوية لرفع المحتوى في الموبايل */
+        height: auto !important;
+        min-height: 100vh;
+    }
+    .container-hero {
+        flex-direction: column !important;
+        gap: 40px;
+    }
+    .hero-content {
+        order: 2; /* الكلام تحت */
+        align-items: center;
+    }
+    .hero-visual { /* تصحيح الاسم من personal-frame لـ hero-visual */
+        order: 1; /* الصورة فوق */
+        width: 100% !important;
+        margin-bottom: 15px; /* مسافة بسيطة عشان السهم ياخد راحته وميلزقش في الكلام */
+    }
+
+    /* سهم صغير نازل من الصورة يشاور على الاسم */
+    .hero-visual::after {
+        content: '';
+        position: absolute;
+        bottom: -20px; /* مكان السهم تحت الصورة بالظبط */
+        left: 50%;
+        transform: translateX(-50%); /* توسيط السهم */
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid var(--primary-color); /* لون السهم برتقالي */
+        animation: arrow-bounce 1.5s infinite ease-in-out; /* حركة فوق وتحت */
+        z-index: 20;
+    }
+    .my-photo {
+        width: 80% !important;
+        max-width: 300px;
+    }
+    /* رفع رسالة الترحيب في الموبايل والتابلت فقط لتكون قريبة من الصورة */
+    .welcome-msg {
+        margin-top: -35px;
+        color: #ffffff !important; /* لون أبيض ناصع لزيادة الوضوح في الموبايل */
+        backdrop-filter: blur(10px) !important; /* تفعيل التغبيش الزجاجي عشان الكلام يوضح فوق الصورة */
+        background: rgba(255, 152, 0, 0.2) !important; /* زيادة كثافة اللون البرتقالي الشفاف قليلاً */
+        border: 1px solid rgba(255, 255, 255, 0.2) !important; /* إطار أبيض خفيف يبرز حواف الزجاج */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* ظل خفيف للعمق */
+        -webkit-background-clip: border-box !important; /* إلغاء قص النص في الموبايل للحفاظ على شكل الصندوق */
+        -webkit-text-fill-color: #ffffff !important; /* النص يرجع أبيض في الموبايل */
+    }
+}
+
+/* أنميشن حركة السهم */
+@keyframes arrow-bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); } /* ينزل لتحت 8px ويرجع */
+}
+
+/* ============================================================
+   3. الموبايل العادي - أقل من 768px
+   ============================================================ */
+@media (max-width: 768px) {
+    .hero-sidebar {
+        display: none !important; /* إخفاء الشريط الجانبي في الموبايل لتقليل الزحمة */
+    }
+    /* تعديل الفوتر في الموبايل ليكون عمود واحد */
+    .modern-footer {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    /* أيقونات السوشيال: خليهم جنب بعض */
+    .social-icons {
+        display: flex;
+        flex-direction: row !important; /* تحويل الأيقونات لصف أفقي بدلاً من عمود */
+        gap: 15px;
+        margin-bottom: 0;
+    }
+    
+    /* إخفاء سهم القائمة المنسدلة في الموبايل لأنها أصبحت روابط مباشرة */
+    .dropdown .drop-trigger i.fa-chevron-down {
+        display: none;
+    }
+
+    /* تنسيق القوائم المنسدلة داخل الموبايل (Accordion Style) */
+    .mega-menu {
+        position: relative !important; /* تغيير لـ relative عشان زرار الإغلاق يظهر جواه */
+        width: 100% !important;
+        transform: none !important;
+        box-shadow: none !important;
+        background: rgba(0, 0, 0, 0.2) !important; /* خلفية أغمق شوية للتمييز */
+        padding: 0 !important;
+        display: none;
+        opacity: 1 !important;
+        visibility: visible !important;
+        grid-template-columns: 1fr !important;
+        border: none !important;
+        max-height: none !important; /* السماح للقائمة بالتمدد بالكامل لعرض المحتوى */
+        overflow: visible !important; /* إلغاء السكرول الداخلي */
+    }
+
+    .dropdown.active .mega-menu {
+        display: grid !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        height: auto !important;
+        margin-top: 10px;
+    }
+
+    /* إخفاء الخط الطويل والنص الجانبي عشان الزحمة في الموبايل */
+    .sidebar-line, .sidebar-text {
+        display: none !important;
+    }
+
+/* ============================================================
+   ENGINEERING TOOLS STYLING (تنسيق الأدوات الهندسية الجديد)
+   ============================================================ */
+.calculator-container {
+    background: rgba(15, 32, 39, 0.8) !important; /* خلفية داكنة لزيادة التباين */
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 152, 0, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 152, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.calculator-container:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 15px rgba(255, 152, 0, 0.1);
+}
+
+/* تنسيق حقول الإدخال والقوائم */
+.input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px !important;
+    display: block;
+    color: #94a3b8; /* لون رمادي فاتح (Slate 400) */
+}
+
+.input-group select, 
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 12px 16px !important;
+    background-color: #1e293b !important; /* خلفية داكنة احترافية (Slate 800) */
+    border: 1px solid #334155 !important; /* حدود ناعمة (Slate 700) */
+    border-radius: 8px !important; /* حواف دائرية متوسطة */
+    color: #f8fafc !important; /* نص فاتح (Slate 50) */
+    font-size: 15px;
+    font-family: 'Cairo', sans-serif;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    appearance: none; /* إزالة التصميم الافتراضي للمتصفح */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* تحسين شكل القوائم المنسدلة (Select) لتكون احترافية */
+.input-group select {
+    /* سهم SVG رمادي أنيق على اليمين */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3e%3c/path%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
+}
+
+/* حل مشكلة اختفاء الكلام داخل القائمة المنسدلة */
+.input-group select option {
+    background-color: #1e293b; /* نفس لون الخلفية */
+    color: #f8fafc;
+    padding: 10px;
+}
+
+/* تأثير التركيز (Focus) */
+.input-group select:focus, 
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: #06b6d4 !important; /* لون سماوي (Cyan) عند الضغط */
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2) !important; /* توهج خفيف */
+    background-color: #0f172a !important; /* تغميق الخلفية قليلاً (Slate 900) */
+}
+
+/* تنسيق النص التوضيحي (Placeholder) */
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+    color: #64748b; /* لون رمادي متوسط */
+    opacity: 1;
+}
+
+/* تنسيق النتيجة */
+.calculator-result {
+    background: rgba(255, 152, 0, 0.1);
+    border: 1px dashed var(--primary-color);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.calculator-result:hover {
+    background: rgba(255, 152, 0, 0.2);
+    transform: scale(1.02);
+}
+
+    /* 2. علامة السكرول: الأفضل نخفيها في الموبايل لأنها بتغطي على الأزرار */
+    .scroll-down {
+        display: none !important;
+    }
+
+    /* تنسيق العناصر داخل القائمة المنسدلة */
+    .menu-column {
+        padding: 10px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* 3. تأمين الأزرار (View Projects & Download CV) */
+    .hero-btns {
+        display: flex;
+        flex-direction: row !important; /* الأزرار جنب بعض في الموبايل */
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+    }
+
+    /* تحسين النصوص الطويلة (الوصف) لتناسب شاشة الموبايل */
+    .hero-description {
+        font-size: 15px !important; /* تصغير الخط قليلاً للقراءة المريحة */
+        line-height: 1.6 !important; /* ضبط تباعد الأسطر */
+        max-width: 100% !important; /* السماح للنص بأخذ عرض الشاشة */
+        padding: 0 20px !important; /* إضافة هوامش جانبية لمنع التصاق النص بالحواف */
+        border-right: none !important; /* إزالة الخط الجانبي في الموبايل */
+        text-align: center !important; /* توسيط النص */
+    }
+
+    .hero-stats {
+        flex-direction: row;
+        justify-content: center;
+        gap: 40px;
+        width: 100%;
+    }
+
+    /* تحسين شبكة المشاريع للموبايل */
+    .projects-grid {
+        grid-template-columns: 1fr !important; /* عمود واحد */
+    }
+}
+
+/* ============================================================
+   4. الموبايلات الصغيرة - أقل من 480px (زي أغلب الاندرويد وآيفون)
+   ============================================================ */
+@media (max-width: 480px) {
+    .hero-name, .hero-content h1 {
+        font-size: 32px !important;
+    }
+    .hero-job {
+        font-size: 18px;
+    }
+    .btn-glass, .btn-container {
+        width: auto !important; /* السماح للأزرار بأخذ حجمها الطبيعي لتناسب العرض */
+        padding: 10px 20px !important;
+    }
+}
+
+/* ============================================================
+   5. الموبايلات الصغيرة جداً - أقل من 375px (iPhone X/12 Mini)
+   ============================================================ */
+@media (max-width: 375px) {
+    .main-header {
+        height: 55px;
+        padding: 10px 5px !important;
+    }
+    .main-logo {
+        font-size: 14px;
+    }
+
+    /* إخفاء زر الدارك مود في الشاشات الصغيرة جداً */
+    #themeToggle, .nav-links li:last-child {
+        display: none !important;
+    }
+}
+
+
+/* iPhone X, XS, 11 Pro, 12 Mini */
+@media only screen and (device-width: 375px) and (device-height: 812px) {
+    .main-header {
+        background-color: #0b111a; /* تأكيد اللون */
+        height: 60px;
+    }
+    
+    .hero-name {
+        font-size: 28px !important; /* تصغير الاسم عشان مياخدش سطرين */
+    }
+}
+
+/* ============================================================
+   SEARCH OVERLAY STYLES (نافذة البحث الشامل)
+   ============================================================ */
+.search-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(10, 25, 47, 0.98); /* خلفية كحلية غامقة جداً */
+    backdrop-filter: blur(10px);
+    z-index: 20000; /* فوق كل حاجة */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.search-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.search-box {
+    position: relative;
+    width: 90%;
+    max-width: 700px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.search-box input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 30px;
+    padding: 15px 120px 15px 10px; /* زيادة المسافة اليمين عشان الزراير */
+    font-family: 'Dubai', 'Cairo', sans-serif;
+    outline: none;
+}
+
+/* حاوية أزرار البحث */
+.search-actions {
+    position: absolute;
+    right: 60px; /* على يسار زر الإغلاق الكبير */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.action-btn:hover { color: var(--primary-color); transform: scale(1.1); }
+#clearSearch { display: none; font-size: 18px; } /* مخفي افتراضياً */
+
+/* أنميشن نبض الميكروفون */
+@keyframes pulse-red {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 75, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 75, 75, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 75, 0); }
+}
+
+.action-btn.listening {
+    color: #ff4b4b !important;
+    animation: pulse-red 1.5s infinite;
+}
+
+/* تنسيق عداد نتائج البحث */
+#searchCount {
+    position: absolute;
+    right: 0; 
+    top: 100%; /* ينزل تحت الخط */
+    margin-top: 8px;
+    transform: none;
+    color: var(--primary-color);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* تنسيق فلاتر البحث */
+.search-filters {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+    padding-bottom: 10px; /* مسافة قبل الخط السفلي */
+}
+
+.filter-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #0a192f;
+    font-weight: bold;
+}
+
+.close-search {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-search:hover { color: var(--primary-color); }
+
+.search-results {
+    margin-top: 40px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-left: 3px solid transparent;
+}
+
+.search-result-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-left-color: var(--primary-color);
+}
+
+.search-result-item h4 { color: #fff; margin-bottom: 5px; font-size: 18px; }
+.search-result-item p { color: #aaa; font-size: 14px; margin: 0; }
+
+/* ============================================================
+   SEARCH HIGHLIGHT ANIMATION (وميض التمييز)
+   ============================================================ */
+@keyframes highlight-flash {
+    0% { background-color: rgba(255, 152, 0, 0); transform: scale(1); }
+    15% { background-color: rgba(255, 152, 0, 0.3); transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 152, 0, 0.5); }
+    100% { background-color: rgba(255, 152, 0, 0); transform: scale(1); }
+}
+
+.highlight-target {
+    animation: highlight-flash 2s ease-out;
+    border-radius: 8px;
+    position: relative;
+    z-index: 10; /* يظهر فوق العناصر المجاورة */
+}
+
+/* ============================================================
+   FOOTER RIPPLE EFFECT (تأثير التموج في الفوتر)
+   ============================================================ */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    background-color: rgba(255, 152, 0, 0.4); /* لون برتقالي شفاف */
+    pointer-events: none; /* عشان ميتفاعلش مع الماوس */
+}
+
+@keyframes ripple {
+    to { transform: scale(4); opacity: 0; }
+}
+
+/* ============================================================
+   CAIRO DIGITAL CLOCK (ساعة القاهرة الرقمية)
+   ============================================================ */
+.digital-clock-container {
+    margin-top: 20px;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    display: inline-block;
+    text-align: center;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.digital-clock-container:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(255, 152, 0, 0.15), inset 0 0 10px rgba(255, 152, 0, 0.05);
+    transform: translateY(-3px);
+}
+
+.clock-display {
+    font-family: 'Dubai', 'Cairo', monospace; /* خط رقمي */
+    font-variant-numeric: tabular-nums; /* يمنع اهتزاز الأرقام */
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+#cairoAmpm {
+    font-size: 14px;
+    color: var(--primary-color);
+    margin-left: 5px;
+}
+
+.clock-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.clock-label i {
+    color: var(--accent-color);
+    margin-right: 5px;
+}
+
+/* تعديلات الوضع النهاري للساعة */
+body.light-mode .digital-clock-container {
+    background: rgba(13, 43, 69, 0.05);
+    border-color: rgba(13, 43, 69, 0.1);
+    box-shadow: none;
+}
+
+body.light-mode .clock-display {
+    color: #0d2b45;
+    text-shadow: none;
+}
+
+body.light-mode .clock-label {
+    color: rgba(13, 43, 69, 0.6);
+}
+
+/* ============================================================
+   SUCCESS OVERLAY STYLES (شاشة التهنئة)
+   ============================================================ */
+.success-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(10, 25, 47, 0.95); /* خلفية داكنة جداً */
+    backdrop-filter: blur(15px);
+    z-index: 30000; /* فوق كل شيء */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.success-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.success-content {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 50px 40px;
+    border-radius: 24px;
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.success-overlay.active .success-content {
+    transform: scale(1);
+}
+
+.success-icon {
+    font-size: 70px;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+    display: inline-block;
+}
+
+.success-content h3 {
+    color: #fff;
+    font-size: 26px;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.success-content p {
+    color: #a8b2d1;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.close-success-btn {
+    background: linear-gradient(135deg, var(--primary-color), #ffc107);
+    color: #0a192f;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 50px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    box-shadow: 0 10px 20px rgba(255, 152, 0, 0.3);
+}
+
+.close-success-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(255, 152, 0, 0.5);
+}
+
+/* ============================================================
+   DIAGRAM STYLES (تنسيق الرسم التوضيحي)
+   ============================================================ */
+.diagram-container {
+    width: 100%;
+    height: 220px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px dashed rgba(255, 152, 0, 0.3);
+    border-radius: 10px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.diagram-shape {
+    fill: rgba(255, 152, 0, 0.15); /* لون جسم القطاع */
+    stroke: #ff9800;               /* لون الحدود */
+    stroke-width: 2;
+    transition: all 0.3s ease;     /* نعومة في تغيير الأبعاد */
+}
+
+.diagram-text {
+    fill: #fff;
+    font-size: 12px;
+    font-family: 'Dubai', sans-serif;
+    text-anchor: middle;
+    opacity: 0.8;
+}
+
+/* ============================================================
+   ENGINEERING SUITE SIDEBAR (New Layout)
+   ============================================================ */
+.suite-wrapper {
+    display: flex;
+    min-height: 700px; /* زيادة الطول لتبدو كشاشة كاملة */
+    background: rgba(15, 23, 42, 0.85); /* خلفية أغمق وأكثر كثافة */
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 100px rgba(0,0,0,0.5); /* ظل داخلي وخارجي قوي */
+}
+
+/* Sidebar Styles */
+.suite-sidebar {
+    width: 280px;
+    background: rgba(15, 23, 42, 0.95); /* شبه معتم */
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: linear-gradient(90deg, rgba(15, 23, 42, 1) 0%, rgba(30, 41, 59, 1) 100%); /* تدرج لوني للهيدر */
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 152, 0, 0.1); /* خط برتقالي خفيف جداً */
+}
+
+.sidebar-header i { color: var(--primary-color); }
+
+.sidebar-nav {
+    list-style: none;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.nav-item {
+    margin-bottom: 5px;
+}
+
+.nav-header {
+    padding: 12px 15px;
+    color: #94a3b8; /* Slate 400 */
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nav-header:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.nav-header.active {
+    color: #fff;
+}
+
+.nav-header .arrow {
+    font-size: 10px;
+    transition: transform 0.3s ease;
+}
+
+.nav-header.active .arrow {
+    transform: rotate(180deg);
+}
+
+.nav-sub {
+    list-style: none;
+    padding-left: 15px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.nav-item.open .nav-sub {
+    max-height: 500px; /* Arbitrary large height for transition */
+}
+
+.nav-sub-item {
+    padding: 10px 15px;
+    color: #64748b; /* Slate 500 */
+    font-size: 13px;
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-sub-item small {
+    font-size: 10px;
+    opacity: 0.6;
+}
+
+.nav-sub-item:hover, .nav-sub-item.active {
+    color: #ff9800; /* تغيير للأزرق البرتقالي ليتماشى مع الهوية */
+    border-left-color: #ff9800;
+    background: linear-gradient(90deg, rgba(255, 152, 0, 0.1), transparent); /* خلفية متدرجة عند التفعيل */
+}
+
+/* Content Area Styles */
+.suite-content {
+    flex-grow: 1;
+    padding: 30px;
+    background: rgba(15, 23, 42, 0.4);
+    position: relative;
+}
+
+.tool-view {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tool-view.active {
+    display: block;
+}
+
+.tool-title {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.empty-state {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    text-align: center;
+    min-height: 400px;
+}
+
+.empty-state i {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #334155;
+}
+
+@media (max-width: 992px) {
+    .suite-wrapper {
+        flex-direction: column;
+    }
+    .suite-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .nav-sub {
+        background: rgba(0,0,0,0.2);
+    }
+}
+
+/* ============================================================
+   NEW SUITE HEADER STYLES
+   ============================================================ */
+.suite-header-container {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.suite-badge {
+    display: inline-block;
+    background: rgba(255, 152, 0, 0.1);
+    color: var(--primary-color);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 152, 0, 0.2);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.code-tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================================
+   PRICE DASHBOARD & COST MODULE
+   ============================================================ */
+.price-dashboard {
+    margin: 0 15px 15px;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(15, 32, 39, 0.8));
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.price-label {
+    font-size: 12px;
+    color: #a8b2d1;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.price-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: #10b981; /* Emerald Green */
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.price-value small { font-size: 12px; color: #fff; font-weight: normal; }
+
+.price-update { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 5px; }
+
+/* Cost Result Styling */
+.cost-summary-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.cost-item { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; }
+.cost-item label { display: block; font-size: 11px; color: #aaa; margin-bottom: 3px; }
+.cost-item span { font-size: 16px; font-weight: bold; color: #fff; }
+.cost-item.total span { color: #ffd700; font-size: 20px; } /* Gold for Total */
+
+/* ============================================================
+   PRICING SECTION STYLES
+   ============================================================ */
+.pricing-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.pricing-card {
+    flex: 1;
+    min-width: 300px;
+    max-width: 350px;
+    padding: 40px 30px;
+    border-radius: 20px;
+    position: relative;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary-color);
+}
+
+.pricing-card.popular {
+    border: 2px solid var(--primary-color);
+    background: rgba(255, 152, 0, 0.05);
+}
+
+.badge-local, .badge-popular {
+    position: absolute;
+    top: -15px;
+    background: var(--primary-color);
+    color: #0a192f;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.badge-local { background: #00d4ff; }
+
+.pricing-card h3 { font-size: 24px; color: #fff; margin-bottom: 10px; }
+.pricing-card .price { font-size: 36px; font-weight: 800; color: var(--primary-color); margin-bottom: 20px; }
+.pricing-card .price span { font-size: 14px; color: #aaa; font-weight: normal; }
+
+.features-list { list-style: none; text-align: left; width: 100%; margin-bottom: 30px; }
+.features-list li { margin-bottom: 15px; color: #ccc; display: flex; align-items: center; gap: 10px; }
+.features-list li i { color: var(--primary-color); }
+
+.humanitarian-note {
+    margin-top: 40px;
+    background: rgba(255, 152, 0, 0.08); /* خلفية برتقالي هادية جداً */
+    border: 1px solid rgba(255, 152, 0, 0.2); /* إطار خفيف */
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 850px;
+    margin: 50px auto 0;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* ظل ناعم للبروز */
+    backdrop-filter: blur(5px);
+}
+
+/* ============================================================
+   LOCKED OVERLAY (للمستخدمين الذين نفذ رصيدهم)
+   ============================================================ */
+.locked-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10, 25, 47, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    text-align: center;
+    padding: 20px;
+}
+
+.locked-icon {
+    font-size: 50px;
+    color: #ff4b4b;
+    margin-bottom: 20px;
+    animation: pulse-red 2s infinite;
+}
+
+.locked-msg { color: #fff; font-size: 18px; margin-bottom: 20px; }
+
+/* ============================================================
+   PAYMENT MODAL STYLES
+   ============================================================ */
+.payment-details { text-align: left; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; }
+.payment-details h4 { color: var(--primary-color); margin-bottom: 10px; }
+.payment-details p { color: #ccc; font-size: 14px; margin-bottom: 5px; }
+.upload-area {
+    border: 2px dashed rgba(255,255,255,0.2);
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.upload-area:hover { border-color: var(--primary-color); background: rgba(255,152,0,0.05); }
+
+/* ============================================================
+   ADMIN DASHBOARD STYLES
+   ============================================================ */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-table th, .admin-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ccc;
+}
+
+.admin-table th {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--primary-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.receipt-thumb {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.receipt-thumb:hover { transform: scale(2.5); z-index: 10; position: relative; border-color: #fff; }
+
+.badge-count {
+    background: #ff4b4b;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.admin-tab-content { display: none; }
+.admin-tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+
+/* ============================================================
+   COMPARISON & DETAILS STYLES
+   ============================================================ */
+.comparison-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comp-box {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.comp-box:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+.comp-box.asd { border-top: 3px solid #ff9800; }
+.comp-box.lrfd { border-top: 3px solid #00d4ff; }
+
+.comp-title { font-size: 12px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+.comp-value { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+.comp-status { font-size: 11px; padding: 3px 10px; border-radius: 20px; display: inline-block; font-weight: bold; }
+
+.comp-safe { color: #25D366; background: rgba(37, 211, 102, 0.15); border: 1px solid rgba(37, 211, 102, 0.2); }
+.comp-unsafe { color: #ff4b4b; background: rgba(255, 75, 75, 0.15); border: 1px solid rgba(255, 75, 75, 0.2); }
+
+.comp-note { font-size: 11px; color: #777; margin-top: 15px; text-align: center; font-style: italic; }
+
+/* صندوق تفاصيل الحسابات */
+.calc-details-box {
+    display: none; /* مخفي افتراضياً */
+    margin-top: 15px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+    font-family: monospace; /* خط الآلة الكاتبة للأرقام */
+    animation: fadeIn 0.3s ease;
+}
+
+.calc-details-box.active { display: block; }
+.calc-details-box p { margin-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 5px; }
+.calc-details-box p:last-child { border-bottom: none; margin-bottom: 0; }
+
+/* ============================================================
+   FACTORY CONTROL MODULE STYLES
+   ============================================================ */
+.factory-tab-content { display: none; animation: fadeIn 0.4s ease; }
+.factory-tab-content.active { display: block; }
+
+/* Nesting Visuals */
+.nesting-bar-container {
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.nesting-bar-label {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nesting-bar-track {
+    height: 20px;
+    background: #334155;
+    border-radius: 4px;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+.nesting-segment {
+    height: 100%;
+    background: var(--primary-color);
+    border-right: 1px solid rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #000;
+    font-weight: bold;
+}
+
+.nesting-segment.scrap {
+    background: #ff4b4b; /* Red for scrap */
+    color: #fff;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.status-good { background: rgba(37, 211, 102, 0.2); color: #25D366; }
+.status-warn { background: rgba(255, 152, 0, 0.2); color: #ff9800; }
+.status-bad { background: rgba(255, 75, 75, 0.2); color: #ff4b4b; }
+
+   
+    transform: translateY(-5px);
+}
+
+/* ============================================================
+   CUSTOM SELECT DROPDOWN (for Engineering Tools)
+   ============================================================ */
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select-trigger {
+    width: 100%;
+    padding: 12px 16px !important;
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    color: #f8fafc !important;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-select-wrapper.open .custom-select-trigger {
+    border-color: #06b6d4 !important;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2) !important;
+}
+
+.custom-select-trigger .fas {
+    transition: transform 0.3s ease;
+}
+
+.custom-select-wrapper.open .custom-select-trigger .fas {
+    transform: rotate(180deg);
+}
+
+.custom-options {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    width: 100%;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    padding: 10px;
+}
+
+.custom-select-wrapper.open .custom-options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.custom-options #sectionSearch { /* Re-styling the search input */
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: #fff;
+    outline: none;
+}
+
+.options-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar for the options list */
+.options-list::-webkit-scrollbar {
+    width: 8px;
+}
+.options-list::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+.options-list::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+}
+.options-list::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+.custom-option {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+    color: #cbd5e1;
+}
+
+.custom-option:hover, .custom-option.selected {
+    background: rgba(255, 152, 0, 0.15);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* تنسيق حقول الإدخال والقوائم */
+.input-group label {
+    font-size: 14px;
+}
+
+
+
+
+
+/* ============================================================
+   COMPARISON RESULT STYLES (ASD vs LRFD)
+   ============================================================ */
+.comparison-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comp-box {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.comp-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.comp-box.asd { border-top: 3px solid #ff9800; }
+.comp-box.lrfd { border-top: 3px solid #00d4ff; }
+
+.comp-title { font-size: 13px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+.comp-value { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+.comp-status { font-size: 12px; padding: 3px 10px; border-radius: 20px; display: inline-block; font-weight: bold; }
+
+.comp-safe { color: #25D366; background: rgba(37, 211, 102, 0.15); border: 1px solid rgba(37, 211, 102, 0.2); }
+.comp-unsafe { color: #ff4b4b; background: rgba(255, 75, 75, 0.15); border: 1px solid rgba(255, 75, 75, 0.2); }
+
+.comp-note { font-size: 11px; color: #777; margin-top: 15px; text-align: center; font-style: italic; }
+
+
+
+.glass-select {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    padding: 12px;
+    border-radius: 10px;
+    width: 100%;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+}
+
+.glass-select option {
+    background: #1a2a33; /* لون غامق عشان الكلام يظهر */
+    color: white;
+}
+
+.report-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 152, 0, 0.3);
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 15px 0;
+}
+
+.comparison-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+.comp-box {
+    flex: 1;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.comp-status.safe { color: #2ecc71; font-weight: bold; }
+.comp-status.unsafe { color: #e74c3c; font-weight: bold; }
+.recommendation-note {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(255, 152, 0, 0.1);
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+
+#report-area {
+    width: 100%;
+    clear: both;
+}
+.report-box {
+    animation: fadeInUp 0.5s ease;
+}
+
+
+/* حاوية الكروت */
+.steel-cards-container {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.steel-card {
+    flex: 1;
+    cursor: pointer;
+}
+
+/* إخفاء زرار الاختيار الدائري الأصلي */
+.steel-card input {
+    display: none;
+}
+
+/* شكل الكارت */
+.card-content {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 10px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تأثير عند تمرير الماوس */
+.card-content:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 152, 0, 0.3);
+}
+
+/* شكل الكارت عند الاختيار */
+.steel-card input:checked + .card-content {
+    background: rgba(255, 152, 0, 0.15);
+    border-color: #ff9800;
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.2);
+    transform: translateY(-4px);
+}
+
+.grade-name {
+    display: block;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #ff9800;
+    margin-bottom: 4px;
+}
+
+.grade-desc {
+    display: block;
+    font-size: 0.75rem;
+    color: #aaa;
+}
+
+/* ============================================================
+   PAGE TRANSITION ANIMATION (حركة الانتقال بين الصفحات)
+   ============================================================ */
+@keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   TOP LOADING BAR (شريط التحميل العلوي)
+   ============================================================ */
+#top-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 0;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    z-index: 99999;
+    transition: width 0.5s ease-in-out, opacity 0.3s ease;
+    box-shadow: 0 0 15px var(--primary-color);
+}
+
+/* ============================================================
+   FLOATING HOME BUTTON (زر العودة للرئيسية)
+   ============================================================ */
+.floating-home-btn {
+    position: fixed !important; /* تثبيت إجباري */
+    bottom: 30px;
+    left: 30px; /* في اليسار لتجنب التداخل مع زر الصعود */
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: #0a192f;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 20000; /* طبقة عالية جداً لضمان الظهور فوق كل العناصر */
+    transition: all 0.3s ease;
+    font-size: 20px;
+}
+
+.floating-home-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(255, 152, 0, 0.5);
+    background: #fff;
+}
+
+/* تغيير لون السهم لما يبص لتحت (لتمييز الاتجاه) */
+.scroll-arrow.pointing-down {
+    color: var(--accent-color) !important; /* لون سماوي مميز */
+}
+
+/* تحسينات الموبايل للأزرار العائمة */
+@media (max-width: 768px) {
+    .progress-wrap {
+        right: 20px !important;
+        bottom: 20px !important;
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    .progress-wrap .scroll-arrow {
+        font-size: 14px; /* تصغير السهم قليلاً */
+    }
+}
+
+.floating-home-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(255, 152, 0, 0.5);
+    background: #fff;
+}
+
+/* ============================================================
+   CERTIFICATE MODAL (LIGHTBOX) - تنسيق نافذة الشهادات
+   ============================================================ */
+.cert-modal {
+    position: fixed;
+    z-index: 99999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(10, 25, 47, 0.95); /* خلفية داكنة جداً */
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cert-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cert-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    transform: scale(0.8);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 152, 0, 0.2);
+}
+
+.cert-modal.active .cert-modal-content {
+    transform: scale(1);
+}
+
+.cert-modal-img {
+    width: 100%; height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    display: block;
+}
+
+.cert-caption {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close-cert {
+    position: absolute; top: 15px; right: 25px;
+    color: #fff; font-size: 40px; font-weight: bold;
+    cursor: pointer; transition: 0.3s; z-index: 10;
+    line-height: 1; text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.close-cert:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* ============================================================
+   LUXURY BUTTON STYLE (زر المنصة الفخم)
+   ============================================================ */
+.btn-luxury {
+    position: relative;
+    padding: 20px 50px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    color: #ff9800;
+    font-size: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid rgba(255, 152, 0, 0.5);
+    border-radius: 50px;
+    overflow: visible; /* السماح بظهور التاج خارج حدود الزر */
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 152, 0, 0.05);
+    z-index: 100; /* رفع الطبقة لضمان استجابة الزر للضغط */
+    animation: luxury-pulse 2s infinite; /* تشغيل تأثير النبض */
+}
+
+.btn-luxury::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ff9800, #ffc107, #ff5722);
+    z-index: -1;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: scaleX(0);
+    transform-origin: left;
+    border-radius: 50px; /* الحفاظ على الحواف الدائرية للخلفية */
+}
+
+.btn-luxury:hover {
+    color: #000;
+    border-color: transparent;
+    box-shadow: 0 20px 50px rgba(255, 152, 0, 0.5);
+    transform: translateY(-5px) scale(1.02);
+}
+
+.btn-luxury:hover::before {
+    transform: scaleX(1);
+}
+
+.btn-luxury i {
+    font-size: 24px;
+    transition: transform 0.5s ease;
+}
+
+.btn-luxury:hover i {
+    transform: rotate(360deg) scale(1.2);
+}
+
+/* تأثير النبض الفخم */
+@keyframes luxury-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(255, 152, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+}
+
+/* تنسيق أيقونة التاج (Premium Crown) */
+.premium-crown {
+    position: absolute;
+    top: -28px; /* رفع التاج فوق الزر */
+    right: -15px; /* إزاحة لليمين */
+    font-size: 32px !important;
+    color: #ffd700; /* لون ذهبي */
+    transform: rotate(25deg);
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+    animation: float-crown 3s ease-in-out infinite;
+    z-index: 101;
+}
+
+@keyframes float-crown {
+    0%, 100% { transform: rotate(25deg) translateY(0); }
+    50% { transform: rotate(25deg) translateY(-8px); }
+}
+
+/* عداد المستخدمين أونلاين */
+.online-counter {
+    margin-top: 20px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.online-counter span#onlineCount {
+    color: #25D366;
+    font-weight: bold;
+}

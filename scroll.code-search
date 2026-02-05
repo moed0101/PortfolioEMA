@@ -1,0 +1,79 @@
+# Query: scroll
+# ContextLines: 1
+
+29 results - 3 files
+
+index.html:
+    9        html {
+   10:         scroll-behavior: smooth;
+   11        }
+
+  462  
+  463: <!-- Scroll Progress Indicator -->
+  464: <div id="scroll-indicator">
+  465    <svg width="80" height="80" viewBox="0 0 100 100">
+
+script.js:
+   1  
+   2: window.addEventListener("scroll", () => {
+   3    document.querySelectorAll(".reveal").forEach(el => {
+
+  10  
+  11: // ===== Scroll Progress Circle =====
+  12  const progressCircle = document.getElementById("progress-circle");
+  13: const scrollIndicator = document.getElementById("scroll-indicator");
+  14  
+
+  19  
+  20: window.addEventListener("scroll", () => {
+  21:   const scrollTop = window.scrollY;
+  22    const docHeight =
+  23:     document.documentElement.scrollHeight - window.innerHeight;
+  24  
+  25:   const progress = scrollTop / docHeight;
+  26  
+
+  30  
+  31: // Scroll to top on click
+  32: scrollIndicator.addEventListener("click", () => {
+  33:   window.scrollTo({
+  34      top: 0,
+
+style.css:
+     9  html {
+    10:     scroll-behavior: smooth;
+    11  }
+
+   809  
+   810: #scrollProgress {
+   811    position: fixed;
+
+   824  
+   825: #scrollProgress span {
+   826    font-size: 26px;
+
+   829    
+   840: #scroll-indicator svg {
+   841    transform: rotate(-90deg);
+
+
+
+   848  
+   849: #scroll-indicator circle:first-child {
+   850    stroke: rgba(255,255,255,0.15);
+  1015  
+  1016: /* ===== Scroll Indicator ===== */
+  1017: #scroll-indicator {
+  1018    position: fixed;
+
+  1026  
+  1027: #scroll-indicator svg {
+  1028    position: absolute;
+
+  1031  
+  1032: #scroll-indicator circle {
+  1033    fill: none;
+
+  1036  
+  1037: #scroll-indicator circle:first-child {
+  1038    stroke: rgba(255, 255, 255, 0.2);

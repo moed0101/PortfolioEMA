@@ -1,0 +1,684 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eng. Mohamed Ayman Saleh | BIM & Steel Structure Specialist</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Eng. Mohamed Ayman Saleh | BIM & Steel Structure Specialist">
+  <meta name="description" content="مهندس مدني ومطور برمجيات متخصص في تصميم المنشآت المعدنية (Steel Structures) وتقنيات BIM. أقدم حلولاً هندسية مبتكرة تجمع بين الدقة الإنشائية وكفاءة البرمجة.">
+  <meta name="keywords" content="محمد أيمن صالح, Mohamed Ayman Saleh, مهندس مدني, تصميم منشآت معدنية, Steel Structures, BIM, Tekla Structures, Revit, Structural Analysis, Civil Engineer, برمجة هندسية">
+  <meta name="author" content="Mohamed Ayman Saleh">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://eng-mo-ayman.vercel.app/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://eng-mo-ayman.vercel.app/">
+  <meta property="og:title" content="Eng. Mohamed Ayman Saleh | BIM & Steel Structure Specialist">
+  <meta property="og:description" content="مهندس مدني ومطور برمجيات متخصص في تصميم المنشآت المعدنية (Steel Structures) وتقنيات BIM. تصفح معرض أعمالي وخبراتي.">
+  <meta property="og:image" content="https://eng-mo-ayman.vercel.app/og-image.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://eng-mo-ayman.vercel.app/">
+  <meta property="twitter:title" content="Eng. Mohamed Ayman Saleh | BIM & Steel Structure Specialist">
+  <meta property="twitter:description" content="مهندس مدني ومطور برمجيات متخصص في تصميم المنشآت المعدنية (Steel Structures) وتقنيات BIM.">
+  <meta property="twitter:image" content="https://eng-mo-ayman.vercel.app/og-image.jpg">
+
+  <meta name="google-site-verification" content="NbljsiCHwM-chm0z0MBXmesB5Qkrd9HNGyy-gRJiqIE" />
+  
+  <link rel="stylesheet" href="style.css?v=1.2"> 
+  <link rel="stylesheet" href="components/skills.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    /* تأثير الوميض للخلفية (Pulse Animation) */
+    @keyframes bg-pulse-animation {
+        0% { background-color: rgba(255, 152, 0, 0.05); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.1); }
+        50% { background-color: rgba(255, 152, 0, 0.15); box-shadow: 0 0 20px 0 rgba(255, 152, 0, 0.2); }
+        100% { background-color: rgba(255, 152, 0, 0.05); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.1); }
+    }
+    .bio-pulse {
+        animation: bg-pulse-animation 2s infinite ease-in-out;
+    }
+    /* تأثير ظهور النص (Fade In Up) */
+    @keyframes fadeInUpText {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /> 
+  <!-- استدعاء خط Cairo (بديل Dubai Medium) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDKs (إعادة إضافة مكتبات فايربيز) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Mohamed Ayman Saleh",
+  "jobTitle": "BIM & Steel Structure Specialist",
+  "url": "https://eng-mo-ayman.vercel.app/",
+  "sameAs": [
+    "https://www.facebook.com/your-profile", 
+    "https://www.linkedin.com/in/your-profile"
+  ],
+  "description": "مهندس مدني ومطور برمجيات متخصص في تصميم المنشآت المعدنية وتقنيات BIM."
+}
+</script>
+</head>
+
+
+  <body>
+
+    
+<header class="main-header">
+  <div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+  </div>
+  <a href="#home" class="main-logo">
+    <div class="logo-wrapper">
+        <img src="logo.svg" alt="MAS Design Engineer" class="header-logo-img">
+        <span class="logo-text">Eng. Mo_AYMAN</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+
+    <li class="dropdown">
+      <a href="#skills" class="drop-trigger"><i class="fas fa-tools"></i> Skills <i class="fas fa-chevron-down"></i></a>
+      <div class="mega-menu glass">
+          <div class="menu-column">
+            <h3><i class="fas fa-cube"></i> Steel Design</h3>
+            <a href="#skills" class="mega-item"><i class="fas fa-layer-group"></i> Tekla Structures</a>
+            <a href="#skills" class="mega-item"><i class="fas fa-project-diagram"></i> IDEA StatiCa</a>
+            <a href="#skills" class="mega-item"><i class="fas fa-link"></i> RAM Connection</a>
+          </div>
+          <div class="menu-column">
+            <h3><i class="fas fa-building"></i> BIM & Concrete</h3>
+            <a href="#skills" class="mega-item"><i class="fas fa-cube"></i> Autodesk Revit</a>
+            <a href="#skills" class="mega-item"><i class="fas fa-calculator"></i> SAP2000 / ETABS</a>
+            <a href="#skills" class="mega-item"><i class="fas fa-drafting-compass"></i> AutoCAD</a>
+          </div>
+          <div class="menu-column">
+            <h3><i class="fas fa-briefcase"></i> Field Exp.</h3>
+            <a href="#about" class="mega-item"><i class="fas fa-hard-hat"></i> Petrojet Training</a>
+            <a href="#about" class="mega-item"><i class="fas fa-clipboard-check"></i> Al-Azhar Consultants</a>
+            <a href="#about" class="mega-item"><i class="fas fa-map-marked-alt"></i> Site Execution</a>
+          </div>
+      </div>
+    </li>
+
+    <li class="dropdown">
+      <a href="projects.html" class="drop-trigger"><i class="fas fa-project-diagram"></i> Projects & Certificates <i class="fas fa-chevron-down"></i></a>
+      <div class="mega-menu glass" style="grid-template-columns: 1fr 1fr 1fr; width: 700px;"> <!-- توسيع القائمة لـ 3 أعمدة -->
+          <div class="menu-column">
+            <h3><i class="fas fa-cube"></i> Steel</h3>
+            <a href="#steel-skills" class="mega-item"><i class="fas fa-layer-group"></i> Steel Skills</a>
+            <a href="projects.html" class="mega-item"><i class="fas fa-industry"></i> Steel Projects</a>
+          </div>
+          <div class="menu-column">
+            <h3><i class="fas fa-building"></i> Concrete</h3>
+            <a href="#concrete-skills" class="mega-item"><i class="fas fa-cubes"></i> Concrete Skills</a>
+            <a href="projects.html" class="mega-item"><i class="fas fa-city"></i> Concrete Projects</a>
+          </div>
+          <div class="menu-column">
+            <h3><i class="fas fa-certificate"></i> Certificates</h3>
+            <a href="projects.html#certificates" class="mega-item"><i class="fas fa-graduation-cap"></i> Diplomas</a>
+            <a href="projects.html#certificates" class="mega-item"><i class="fas fa-award"></i> Courses</a>
+          </div>
+      </div>
+    </li>
+
+    <li><a href="#contact" class="btn-main"><i class="fas fa-paper-plane"></i> Contact Me</a></li>
+    
+    <!-- زر البحث الجديد -->
+    <li><a href="#" class="search-trigger-btn"><i class="fas fa-search"></i></a></li>
+
+    <!-- زر تسجيل الدخول (Login Button) - تمت إعادته -->
+    <li id="authItem"><a href="#" id="loginBtn" class="btn-glass btn-orange" style="padding: 8px 20px; font-size: 14px;"><i class="fab fa-google"></i> Login</a></li>
+    <li id="userProfileItem" style="display: none; color: #fff; font-size: 14px; align-items: center; gap: 10px;"><span id="userCredits" style="color: #ff9800; font-weight: bold;">0 Credits</span> <img id="userAvatar" src="" style="width: 30px; height: 30px; border-radius: 50%;"></li>
+    
+    <!-- زر لوحة التحكم (يظهر للمدير فقط) -->
+    <li id="adminNavItem" style="display: none;"><a href="#" id="adminBtn" style="color: #ff4b4b; font-weight: bold;"><i class="fas fa-user-shield"></i> Admin</a></li>
+
+    <!-- زر تغيير الثيم (أبيض وأسود) -->
+    <li><a href="#" id="themeToggle" class="theme-btn"><i class="fas fa-moon"></i></a></li>
+  </ul>
+      <!-- زر تغيير الثيم (أبيض وأسود) -->
+    <li><a href="#" id="themeToggle" class="theme-btn"><i class="fas fa-moon"></i></a></li>
+  </ul>
+
+  <!-- زر القائمة للموبايل (الثلاث شرط) -->
+  <div class="hamburger">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+  </div>
+</header>
+
+
+<div class="page-content-wrapper">
+
+
+<section id="home" class="hero-section">
+
+  <div class="scroll-down">
+    <span>SCROLL DOWN</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+
+    <div class="hero-sidebar">
+        <div class="social-icons">
+            <a href="#" class="fb-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            
+            <a href="#" class="wa-link" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            
+            <a href="#" class="li-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <div class="sidebar-line"></div>
+        <span class="sidebar-text">FOLLOW ME</span>
+    </div>
+
+    <div class="container-hero">
+<div class="hero-content">
+    <span class="welcome-msg">Welcome to my Professional Space</span>
+    <h1 class="hero-name">ENG.<br><span class="highlight">MO.AYMAN</span></h1>
+    <h3 class="hero-job">BIM & Steel Structure Specialist</h3>
+    
+    <p class="hero-description">
+        مهندس مدني متخصص في تصميم وتطوير المنشآت المعدنية والخرسانية. 
+        أجمع بين دقة المكاتب الاستشارية (مركز الأزهر) وخبرة المواقع الكبرى (بتروجيت). 
+        خبير في تكنولوجيا الـ BIM لتحويل التصميمات المعقدة إلى واقع دقيق.
+    </p>
+
+    <div class="hero-stats">
+        <div class="stat-box lg-pulse">
+            <span class="num" data-target="10">0</span><span class="plus">+</span>
+            <span class="label">Major Projects</span>
+        </div>
+        <div class="stat-box sm-pulse">
+            <span class="num" data-target="2026">0</span>
+            <span class="label">Graduation Year</span>
+        </div>
+    </div>
+
+    <div class="hero-btns">
+        <a href="projects.html" class="btn-glass btn-orange">
+            <i class="fas fa-th-large"></i> View Portfolio
+        </a>
+        <a href="Mohamed_Ayman_CV.pdf" class="btn-glass btn-cyan" download>Download CV <i class="fa-solid fa-download"></i></a>
+    </div>
+</div>
+
+        <div class="hero-visual">
+            <div class="photo-wrapper">
+                <img src="images/ayman-hero.png" alt="Eng.Mo_Ayman" class="my-photo">
+            </div>
+            
+            <div class="steel-element beam-1"></div>
+            <div class="steel-element beam-2"></div>
+        </div>
+        
+        <div class="grid-overlay"></div>
+    </div>
+</section>
+
+
+
+<!-- إزالة الخلفية الغامقة (background: #0a192f) ليتناسب مع الهوية البصرية -->
+<section id="skills" class="reveal" style="position: relative; overflow: hidden; padding: 100px 0;">
+    
+    <!-- تم إزالة كرات النيون من هنا أيضاً -->
+    <h2 class="section-title reveal about-title">Skills & Tools</h2>
+    
+    <div class="skills-wrapper">
+        
+        <div class="skill-section" id="steel-skills">
+            <h3>Steel Structure</h3>
+            <div class="skills-container">
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-arrows-to-circle"></i><span>Tekla Structures</span></div>
+                        <!-- (1) غير رقم النسبة المئوية للكتابة من هنا (data-target) -->
+                        <span class="percentage-text" data-target="95">0%</span>
+                    </div>
+                    <!-- (2) غير طول الشريط الملون من هنا (--w) -->
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 95%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-arrows-to-circle"></i><span>IDEA StatiCa</span></div>
+                        <!-- تم تعديل النسبة لتكون عشوائية ومتناسقة -->
+                        <span class="percentage-text" data-target="85">0%</span>
+                    </div>
+                    <!-- تأكد أن النسبة هنا تطابق الرقم اللي فوق -->
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 85%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-arrows-to-circle"></i><span>RAM Connection</span></div>
+                        <span class="percentage-text" data-target="80">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 80%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-arrows-to-circle"></i><span>ROBOT</span></div>
+                        <span class="percentage-text" data-target="75">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 75%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-arrows-to-circle"></i><span>TSD</span></div>
+                        <span class="percentage-text" data-target="70">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 70%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-arrows-to-circle"></i><span>Limcon</span></div>
+                        <span class="percentage-text" data-target="65">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 65%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-arrows-to-circle"></i><span>Mango</span></div>
+                        <span class="percentage-text" data-target="60">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 60%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="skill-section">
+            <h3>BIM</h3>
+            <div class="skills-container">
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-building"></i><span>Revit</span></div>
+                        <span class="percentage-text" data-target="88">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 88%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-chart-line"></i><span>ETABS</span></div>
+                        <span class="percentage-text" data-target="85">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 85%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-shield"></i><span>SAFE</span></div>
+                        <span class="percentage-text" data-target="82">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 82%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-toolbox"></i><span>Tekla Designer</span></div>
+                        <span class="percentage-text" data-target="75">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 75%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-square-rss"></i><span>ROBOT</span></div>
+                        <span class="percentage-text" data-target="70">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 70%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="skill-section" id="concrete-skills">
+            <h3>Concrete Design</h3>
+            <div class="skills-container">
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-ruler"></i><span>AutoCAD</span></div>
+                        <span class="percentage-text" data-target="95">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 95%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-chart-line"></i><span>SAP2000</span></div>
+                        <span class="percentage-text" data-target="85">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 85%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-chart-line"></i><span>ETABS</span></div>
+                        <span class="percentage-text" data-target="92">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 92%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-shield"></i><span>SAFE</span></div>
+                        <span class="percentage-text" data-target="88">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 88%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-columns"></i><span>CSI Column</span></div>
+                        <span class="percentage-text" data-target="80">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 80%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="skill-section">
+            <h3>Management</h3>
+            <div class="skills-container">
+                <div class="skill-item-group">
+                    <div class="skill-header">
+                        <div class="skill-card"><i class="fa-solid fa-briefcase"></i><span>Technical Office</span></div>
+                        <span class="percentage-text" data-target="85">0%</span>
+                    </div>
+                    <div class="progress-wrapper"><div class="progress-bar" style="--w: 85%;"></div></div>
+                    <div class="skill-links">
+                        <a href="#" class="file-link"><i class="fa-solid fa-file-pdf"></i> File</a>
+                        <a href="#" class="web-link"><i class="fa-brands fa-google-drive"></i> Drive</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="engineering-tools" class="reveal" style="padding: 60px 0; text-align: center;">
+    <div class="container">
+        <h2 class="section-title">Engineering Tools & Calculations</h2>
+        <p>مجموعة من الأدوات الهندسية المتقدمة لحسابات القواعد والمنشآت المعدنية.</p>
+        <br>
+        <a href="engineering-tools-details.html" class="btn-luxury">
+             <i class="fas fa-crown premium-crown"></i> <!-- أيقونة التاج -->
+             فتح منصة الحسابات الهندسية <i class="fas fa-calculator"></i>
+        </a>
+        <div class="online-counter">
+            <span class="pulse-dot"></span>
+            <span id="onlineCount">18</span> Users Online Now
+        </div>
+    </div>
+</section>
+
+<footer id="contact" class="modern-footer reveal">
+    <div class="footer-container">
+        <!-- New Modern Contact Section -->
+        <div class="footer-contact-wrapper">
+            <div class="contact-header">
+                <div class="availability-badge">
+                    <span class="pulse-dot"></span>
+                    <span>Available for New Projects</span>
+                </div>
+                <h2>Let's Work Together</h2>
+                <p>Have a project in mind? Send me a message.</p>
+            </div>
+            <form id="contactForm" class="modern-contact-form">
+                <!-- Honeypot Field -->
+                <input type="text" name="_honey" style="display:none !important" tabindex="-1" autocomplete="off">
+                
+                <div class="form-row">
+                    <div class="input-wrapper">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="name" name="name" required placeholder=" ">
+                        <label for="name">Your Name</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="email" name="email" required placeholder=" ">
+                        <label for="email">Your Email</label>
+                    </div>
+                </div>
+                
+                <div class="input-wrapper">
+                    <i class="fas fa-pen input-icon"></i>
+                    <textarea id="message" name="message" required placeholder=" "></textarea>
+                    <label for="message">Your Message</label>
+                </div>
+                
+                <button type="submit" class="contact-submit-btn">
+                    <span>Send Message</span> <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="footer-grid">
+            
+            <div class="footer-brand-col">
+                <h3 class="footer-logo">Eng.<span class="highlight">Mo_AYMAN</span></h3>
+                <p class="footer-bio">
+                    متخصص في هندسة المنشآت المعدنية والـ BIM. أقدم حلولاً هندسية مبتكرة تجمع بين التصميم الإنشائي الدقيق والتنفيذ الاحترافي.
+                </p>
+                <div class="footer-social-links">
+                    <a href="https://wa.me/201012025103" target="_blank" class="social-icon whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <span class="tooltip">WhatsApp</span>
+                    </a>
+                    <a href="https://www.facebook.com/en.mohamed.ayman" target="_blank" class="social-icon facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                        <span class="tooltip">Facebook</span>
+                    </a>
+                    <a href="https://github.com/your-username" target="_blank" class="social-icon github">
+                        <i class="fa-brands fa-github"></i>
+                        <span class="tooltip">GitHub</span>
+                    </a>
+                    <a href="https://www.behance.net/your-profile" target="_blank" class="social-icon behance">
+                        <i class="fa-brands fa-behance"></i>
+                        <span class="tooltip">Behance</span>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="social-icon linkedin">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                        <span class="tooltip">LinkedIn</span>
+                    </a>
+                </div>
+
+                <!-- ساعة رقمية بتوقيت القاهرة -->
+                <div class="digital-clock-container">
+                    <div class="clock-display">
+                        <span id="cairoTime">00:00:00</span>
+                        <span id="cairoAmpm">AM</span>
+                    </div>
+                    <span class="clock-label"><i class="fas fa-globe-africa"></i> Cairo Time</span>
+                </div>
+            </div>
+
+            <div class="footer-links-col">
+                <h4 class="footer-subtitle">Expertise</h4>
+                <ul>
+                    <li><a href="#skills">Steel Structures</a></li>
+                    <li><a href="#skills">BIM Coordination</a></li>
+                    <li><a href="#skills">Connection Design</a></li>
+                    <li><a href="#skills">Technical Office</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links-col">
+                <h4 class="footer-subtitle">Software</h4>
+                <ul>
+                    <li><a href="#skills">Tekla Structures</a></li>
+                    <li><a href="#skills">IDEA StatiCa</a></li>
+                    <li><a href="#skills">Autodesk Revit</a></li>
+                    <li><a href="#skills">SAP2000 & ETABS</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links-col">
+                <h4 class="footer-subtitle">Newsletter</h4>
+                <p class="footer-bio" style="margin-bottom: 15px; font-size: 0.85rem;">Subscribe to get the latest engineering insights.</p>
+                
+                <form class="newsletter-form" id="newsletterForm">
+                    <div class="input-group">
+                        <input type="email" placeholder="Your Email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </form>
+
+                <a href="Mohamed_Ayman_Saleh_CV.pdf" download class="cv-download-btn" style="width: 100%; text-align: center; margin-top: 0;">
+                    <i class="fa-solid fa-file-pdf"></i> Download Resume
+                </a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 <span class="highlight">Mohamed Ayman</span>. Built with Precision & Engineering Excellence.</p>
+        </div>
+    </div>
+</footer>
+</div>
+
+<!-- نافذة البحث المخفية -->
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Type to search projects, skills, or info...">
+        
+        <!-- أزرار التحكم في البحث -->
+        <div class="search-actions">
+            <button id="clearSearch" class="action-btn" title="Clear Text"><i class="fas fa-times"></i></button>
+            <button id="voiceSearch" class="action-btn" title="Voice Search"><i class="fas fa-microphone"></i></button>
+        </div>
+
+        <span id="searchCount"></span> <!-- عداد النتائج -->
+        <button class="close-search" id="closeSearch">&times;</button>
+        
+        <!-- فلاتر البحث -->
+        <div class="search-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="projects">Projects</button>
+            <button class="filter-btn" data-filter="skills">Skills</button>
+        </div>
+    </div>
+    <div class="search-results" id="searchResults">
+        <!-- النتائج هتظهر هنا -->
+    </div>
+</div>
+
+
+<div class="progress-wrap">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+    </svg>
+    <i class="fa-solid fa-chevron-up scroll-arrow"></i>
+</div>
+
+<!-- Success Message Overlay (شاشة التهنئة) -->
+<div class="success-overlay" id="successOverlay">
+    <div class="success-content">
+        <div class="success-icon">🎉</div>
+        <h3>Message Sent Successfully!</h3>
+        <p>شكراً لتواصلك معي! تم استلام رسالتك بنجاح وسأقوم بالرد عليك في أقرب وقت.</p>
+        <button class="close-success-btn" id="closeSuccessBtn">Awesome! 🚀</button>
+    </div>
+</div>
+
+
+<script src="script.js"></script>
+<script src="skill.js"></script>
+
+</body>
+
+
+
+</html>

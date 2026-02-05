@@ -1,0 +1,12 @@
+<svg width="250" height="80" viewBox="0 0 500 160" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="10" width="140" height="140" fill="#1B2B3A" rx="10"/>
+    
+    <path d="M35 120V45L65 80L95 45V120M105 80H135L105 110H135" stroke="white" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="65" cy="105" r="5" fill="white"/>
+
+    <text x="170" y="85" font-family="Arial, sans-serif" font-weight="900" font-size="80" fill="#FFFFFF">MAS</text>
+    
+    <line x1="170" y1="110" x2="480" y2="110" stroke="#F37021" stroke-width="8"/>
+    
+    <text x="170" y="145" font-family="Arial, sans-serif" font-weight="600" font-size="32" fill="#FFFFFF" letter-spacing="2">DESIGN ENGINEER</text>
+</svg>
