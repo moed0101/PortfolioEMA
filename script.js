@@ -1143,19 +1143,17 @@ window.checkAndDeductCredit = async function() {
         }
     }
 
-    // --- م) إضافة رأي العميل (Testimonial Submission) ---
-    // دالة يمكن استدعاؤها من زر "Add Your Review"
+// --- م) إضافة رأي العميل (Testimonial Submission) ---
     window.openTestimonialForm = function() {
         const review = prompt("Please enter your review:");
         if (review) {
             const name = prompt("Your Name:");
             if (name && db) {
-                // حفظ في Firebase
                 db.collection('testimonials').add({
                     name: name,
                     review: review,
                     date: firebase.firestore.FieldValue.serverTimestamp(),
-                    approved: false // يحتاج موافقة الأدمن
+                    approved: false 
                 }).then(() => {
                     alert("Thank you! Your review has been submitted for approval.");
                 }).catch((error) => {
@@ -1165,5 +1163,5 @@ window.checkAndDeductCredit = async function() {
             }
         }
     };
-});
+}); // <--- تأكد إن ده هو آخر سطر في الملف ومفيش بعده أي حاجة
 
