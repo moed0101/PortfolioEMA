@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // دالة للتحقق من دور المستخدم في قاعدة البيانات
+    function isAdmin() {
+      return request.auth != null && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // قواعد مجموعة المستخدمين
+    match /users/{userId} {
+      // المستخدم يقرأ بياناته، لكن الأدمن فقط من يغير الأدوار
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if isAdmin(); 
+    }
+
+    // قواعد المشاريع والشهادات
+    match /{collectionName}/{docId} {
+      // نفحص إذا كانت المجموعة هي مشاريع أو شهادات
+      allow read: if collectionName in ['projects', 'certificates', 'skills'];
+      allow write: if isAdmin();
+    }
+  }
+}

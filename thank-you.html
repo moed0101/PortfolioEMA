@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You | Eng. Mohamed Ayman</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            flex-direction: column;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        }
+        .thank-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+        }
+        .check-icon {
+            font-size: 80px;
+            color: #25D366;
+            margin-bottom: 20px;
+            animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        h1 { color: #fff; margin-bottom: 10px; }
+        p { color: #aaa; margin-bottom: 30px; line-height: 1.6; }
+        @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <div class="thank-card">
+        <div class="check-icon"><i class="fas fa-check-circle"></i></div>
+        <h1>Message Sent!</h1>
+        <p>Thank you for reaching out. I will get back to you as soon as possible.</p>
+        <a href="index.html" class="btn-glass btn-orange" style="display: inline-flex; justify-content: center;">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+
+    <!-- استدعاء مكتبة الكونفيتي (الألعاب النارية) من CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        // تشغيل الكود بمجرد تحميل الصفحة
+        window.onload = function() {
+            var duration = 3 * 1000; // مدة الاحتفال (3 ثواني)
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0, colors: ['#ff9800', '#00d4ff'] }; // تحديد ألوان الهوية (برتقالي وأزرق)
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                // إطلاق الألعاب النارية من الجانبين بشكل عشوائي
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        };
+    </script>
+</body>
+</html>

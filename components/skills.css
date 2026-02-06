@@ -1,0 +1,672 @@
+/* components/skills.css */
+
+/* ============================================================
+   الجزء ده خاص بـ: كود تنظيف وإظهار النصوص في كروت المهارات
+   ============================================================ */
+.skill-card *, .skill-card span, .skill-card i {
+    color: inherit; 
+    opacity: 1 !important;      
+    visibility: visible !important; 
+}
+
+/* ============================================================
+   1. الحاوية الذكية (Skills Wrapper)
+   ============================================================ */
+.skills-wrapper {
+    display: flex !important; 
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 40px auto; /* استعادة المارجن للفصل بين العنوان والقائمة */
+    min-height: 200px;
+    /* تحسين الانتقال ليكون أكثر نعومة (Swoosh Effect) */
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    padding: 20px !important;
+    
+    /* إعدادات الحركة والبلور */
+    position: relative; /* العودة للوضع النسبي لدفع المحتوى لأسفل */
+    transform-origin: top center; /* نقطة الانطلاق من الأعلى (ناحية العنوان) */
+    background: rgba(15, 32, 39, 0.6); /* خلفية داكنة شفافة */
+    backdrop-filter: blur(20px); /* تأثير البلور للي وراها */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden; /* عشان زر الإغلاق ميبقاش بره */
+    max-height: 5000px; /* قيمة كبيرة تسمح بالتمدد عند فتح الأقسام */
+    width: 95%; /* عرض مناسب للشاشات */
+    z-index: 10;
+}
+
+/* حالة الإخفاء الأولية (Collapsed State) */
+.skills-wrapper.collapsed {
+    max-height: 0;
+    min-height: 0;
+    opacity: 0;
+    /* الحركة: انكماش رأسي + رفع للأعلى (كأنها بتدخل في العنوان) */
+    transform: scaleY(0); 
+    pointer-events: none;
+    padding: 0 !important;
+    margin-top: 0 !important;
+    border: none;
+}
+
+/* زر الإغلاق الرئيسي للقائمة (X) */
+.close-wrapper-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.close-wrapper-btn:hover {
+    background: #ff4b4b;
+    transform: rotate(90deg);
+}
+
+/* زر طي الكل (Collapse All) */
+.collapse-all-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px; /* في اليسار */
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.collapse-all-btn:hover {
+    background: var(--primary-color);
+    color: #000;
+    border-color: var(--primary-color);
+}
+
+/* ============================================================
+   2. تصميم كارت المهارة (Skill Section)
+   ============================================================ */
+.skill-section {
+    flex: 0 0 240px;
+    min-height: 10px;
+    border-radius: 120px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(30px) saturate(180%) !important;
+    border: 3px solid rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.4s ease-in-out;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 15px 20px !important;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* إضافة اللمعة المستمرة بزاوية 45 درجة */
+.skill-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -150%;
+    width: 100%; height: 100%;
+    background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
+    transform: skewX(-20deg);
+    animation: sectionShine 3s infinite linear;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.skill-section.is-open::before,
+.skill-section.active-card::before {
+    display: none !important;
+    animation: none !important;
+}
+
+@keyframes sectionShine {
+    0% { left: -150%; }
+    100% { left: 150%; }
+}
+
+/* حركة الأيقونات جوه الكارت */
+.skill-card img, .skill-card i {
+    filter: drop-shadow(0 0 5px rgba(255, 152, 0, 0.5));
+    transition: 0.3s;
+}
+
+.skill-item-group:hover .skill-card img {
+    transform: scale(1.1) rotate(5deg);
+    filter: drop-shadow(0 0 15px #ff9800);
+}
+
+/* ============================================================
+   3. حالات التفاعل (The Logic Classes)
+   ============================================================ */
+.skill-section.hidden-card {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+.skill-section.blurred-card {
+    filter: blur(5px) grayscale(0.8);
+    opacity: 0.4;
+    pointer-events: none;
+    transform: scale(0.95);
+}
+
+.skill-section.active-card {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    min-height: 400px;
+    z-index: 100;
+    cursor: default;
+    border-radius: 30px !important;
+}
+
+.skill-section:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: #ff9800;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                0 0 20px rgba(255, 152, 0, 0.2);
+}
+
+/* ============================================================
+   1. العنوان (العقل المدبر للكارت)
+   ============================================================ */
+.skill-section h3 {
+    transition: all 0.3s ease;
+    color: #fff;
+    text-align: center;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+    line-height: 1.7;
+    margin: 0 auto 10px auto !important;
+    font-size: 1.3rem;
+    font-family: 'Dubai', 'Cairo', sans-serif;
+    font-weight: 500;
+    min-height: 20px;
+    display: flex;
+}
+
+.skill-section:hover h3 {
+    color: #ff9800;
+    text-shadow: 0 0 10px rgba(255, 152, 0, 0.8), 
+                 0 0 20px rgba(255, 152, 0, 0.4); 
+}
+
+.skill-section.is-open h3 {
+    margin-bottom: 30px !important;
+}
+
+.skill-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ff9800, transparent);
+    transition: all 0.4s ease;
+    transform: translateX(-50%);
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.5);
+}
+
+.skill-section:hover::after {
+    width: 80%;
+}
+
+/* ============================================================
+   3. حاوية المهارات التفصيلية
+   ============================================================ */
+.skills-container {
+    display: grid !important; 
+    grid-template-columns: repeat(3, 1fr) !important; 
+    gap: 40px !important; 
+    padding: 0 20px;
+    box-sizing: border-box;
+    max-height: 0; 
+    opacity: 0;
+    transform: translateY(10px);
+    overflow: hidden;
+    transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease, padding 0.6s ease, transform 0.6s ease;
+}
+
+.skill-section.active-card .skills-container {
+    max-height: 1500px;
+    opacity: 1;
+    padding: 40px 20px;
+    transform: translateY(0);
+}
+
+.skill-section.is-open .skills-container {
+    display: grid !important; 
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 1500px !important;
+    padding: 40px 20px !important;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* ============================================================
+   1. كارت المهارة (The Pill-Shaped Skill Card)
+   ============================================================ */
+.skill-card {
+    background: rgba(15, 32, 39, 0.6) !important; 
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 152, 0, 0.3) !important;
+    padding: 10px 35px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-width: 160px;
+    color: #fff !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important; 
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.skill-card span {
+    color: #fff !important; 
+    font-size: 16px !important;
+    font-weight: 600 !important; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.skill-card i {
+    color: #ff9800 !important;
+    font-size: 1.4rem !important;
+    margin-bottom: 0;
+    filter: drop-shadow(0 0 8px rgba(255, 152, 0, 0.4));
+}
+
+/* ============================================================
+   2. أزرار الروابط (Skill Action Links)
+   ============================================================ */
+.skill-links {
+    display: flex;
+    justify-content: center;
+    width: 100%; 
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.skill-links a {
+    text-decoration: none;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff !important;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden; /* عشان اللمعة */
+}
+
+/* تأثير اللمعة (Shine Effect) */
+.skill-links a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: 0.5s;
+}
+
+.skill-links a:hover::before {
+    left: 100%;
+}
+
+.skill-links a.file-link:hover {
+    background: var(--primary-color) !important; 
+    border-color: var(--primary-color);
+    color: #000 !important;
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.skill-links a.web-link:hover {
+    background: var(--accent-color) !important; 
+    color: #000 !important;
+    border-color: var(--accent-color);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ============================================================
+   1. حاوية المهارة الكاملة (Skill Item Group)
+   ============================================================ */
+.skill-item-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; 
+    gap: 10px;
+    width: 100%;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(5px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.skill-item-group:hover {
+    background: rgba(255, 255, 255, 0.04); 
+    border-color: rgba(255, 152, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4), inset 0 0 20px rgba(255, 152, 0, 0.05);
+}
+
+/* ============================================================
+   2. هيدر المهارة (Skill Header)
+   ============================================================ */
+.skill-header {
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 8px 15px;
+    border-radius: 50px;
+    background: transparent;
+    border: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.skill-header:hover {
+    transform: translateY(-2px); 
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* ============================================================
+   3. تفاعل العناصر الداخلية "بشكل فردي"
+   ============================================================ */
+.skill-item-group i, 
+.skill-item-group img,
+.skill-item-group svg {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.skill-item-group i:hover, 
+.skill-item-group img:hover,
+.skill-item-group svg:hover {
+    transform: scale(1.25) rotate(5deg);
+    filter: drop-shadow(0 0 8px #ff9800);
+}
+
+.skill-name {
+    display: inline-block;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.skill-name:hover {
+    transform: scale(1.1);
+    color: #ff9800;
+}
+
+.percentage-text {
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.percentage-text:hover {
+    color: #ffc107;
+    transform: scale(1.1);
+    letter-spacing: 1px;
+}
+
+.progress-wrapper {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.progress-wrapper:hover {
+    transform: scaleY(1.5);
+    filter: brightness(1.2);
+}
+
+/* ============================================================
+   3. سحر الظهور المتتالي
+   ============================================================ */
+.skill-section.is-open .skill-item-group:nth-child(1) { transition-delay: 0.2s; }
+.skill-section.is-open .skill-item-group:nth-child(2) { transition-delay: 0.3s; }
+.skill-section.is-open .skill-item-group:nth-child(3) { transition-delay: 0.4s; }
+.skill-section.is-open .skill-item-group:nth-child(4) { transition-delay: 0.5s; }
+
+/* ====== 1. حاوية الإحصائيات (الشريط + الرقم) ====== */
+.skill-stats {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+/* ====== 2. خلفية شريط التقدم (الوعاء) ====== */
+.progress-wrapper {
+    flex-grow: 1;
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 15px 0;
+    overflow: hidden;
+    direction: ltr;
+}
+
+/* ====== 3. نص النسبة المئوية (الرقم) ====== */
+.percentage-text {
+    color: var(--bar-color, #ff9800);
+    font-variant-numeric: tabular-nums; 
+    font-size: 2.2rem;
+    font-weight: 800;
+    font-family: 'Dubai', 'Cairo', sans-serif;
+    text-shadow: 0 0 10px rgba(255, 152, 0, 0.3); 
+    display: inline-block;
+    min-width: 60px;
+    text-align: right;
+    margin: 10px 0;
+    display: block;   
+    letter-spacing: -1px;
+}
+
+/* تنسيق أيقونة المستوى */
+.skill-level-icon {
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    cursor: help;
+}
+
+/* تنسيق التلميح (Tooltip) */
+.skill-level-icon.has-tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-color);
+    color: #000;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+/* ====== 4. علامة النسبة المئوية (%) ====== */
+.percentage-text::after {
+    content: '%';
+    font-size: 1rem;
+    font-weight: 400;
+    margin-left: 2px;
+    opacity: 0.8;
+}
+
+/* ====== 1. شريط التحميل (الجزء المتحرك) ====== */
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #0d2b45, var(--bar-color, #ff9800));
+    border-radius: 10px;
+    display: block;
+    transform-origin: left;
+    transition: width 4s cubic-bezier(0.1, 0.5, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-section.is-open .progress-bar {
+    width: var(--w) !important;
+}
+
+.progress-bar::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shine-progress 2s infinite;
+}
+
+@keyframes shine-progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.is-open .progress-bar {
+    width: var(--w);
+}
+
+/* ============================================================
+   5. زر الإغلاق (Close Button)
+   ============================================================ */
+.close-skill-btn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 75, 75, 0.2);
+    color: #ff4b4b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 200;
+}
+
+.skill-section.is-open .close-skill-btn {
+    opacity: 1;
+    visibility: visible;
+}
+
+.close-skill-btn:hover {
+    background: #ff4b4b;
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+
+/* ============================================================
+   6. أسهم التوجيه (Click Hint Arrows)
+   ============================================================ */
+.click-hint-arrow {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--primary-color);
+    font-size: 24px;
+    animation: bounceArrow 1s infinite;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 20;
+}
+
+@keyframes bounceArrow {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* Responsive للموبايل */
+@media (max-width: 768px) {
+    .skills-wrapper {
+        flex-direction: column !important;
+        align-items: center;
+    }
+    .skill-section {
+        width: 100% !important;
+        max-width: 350px;
+    }
+    .skill-section.is-open .skills-container {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .skill-section.is-open .skills-container {
+        grid-template-columns: 1fr !important;
+    }
+}

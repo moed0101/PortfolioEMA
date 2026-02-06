@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>الأدوات والحسابات الهندسية | Eng. Mo_AYMAN</title>
+    <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="tools-page" style="padding-top: 80px;">
+    
+    <div class="container">
+        <h1 class="section-title">الأدوات والحسابات الهندسية</h1>
+        
+        <div class="calculator-container">
+            </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="btn-glass btn-orange">العودة للرئيسية</a>
+        </div>
+    </div>
+
+
+<section id="engineering-tools" class="projects-section glass">
+    <h2 class="section-title about-title">Engineering Tools</h2>
+    <div class="calculator-container">
+        <h3 class="calc-title"><i class="fas fa-calculator"></i> Structural Design Suite</h3>
+        <p class="calc-subtitle">
+            Comprehensive analysis and design tools supporting <strong>ASD & LRFD</strong> methodologies 
+            according to <strong>Egyptian (ECP)</strong> and <strong>American (AISC)</strong> codes.
+        </p>
+        
+        <!-- New Sidebar Layout Starts Here -->
+        <div class="suite-wrapper">
+            <!-- Sidebar -->
+            <aside class="suite-sidebar">
+                <div class="sidebar-header">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Design Modules</span>
+                </div>
+
+                <!-- Price Dashboard -->
+                <div class="price-dashboard glass">
+                    <div class="price-label"><i class="fas fa-chart-line"></i> Steel Market Price</div>
+                    <div class="price-value">
+                        <span id="dailySteelPrice">Loading...</span> <small>EGP/Ton</small>
+                    </div>
+                    <div class="price-update">Updated: <span id="priceLastUpdate">Just now</span></div>
+                </div>
+                
+                <ul class="sidebar-nav">
+                    <!-- Recent Files Section -->
+                    <li class="nav-item" id="recent-files-container" style="display: none; margin-bottom: 10px;">
+                        <div class="nav-header" style="color: var(--primary-color);">
+                            <span class="nav-label"><i class="fas fa-history"></i> Recent Files</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="nav-sub" id="recent-files-list"></ul>
+                    </li>
+
+                    <!-- Category: Cost & Estimation -->
+                    <li class="nav-item">
+                        <div class="nav-header">
+                            <span class="nav-label"><i class="fas fa-coins"></i> Cost Estimation</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="nav-sub">
+                            <li class="nav-sub-item" data-tool="cost-estimation">
+                                <span>Steel Cost Calculator</span>
+                                <small>Weight, Paint & Fabrication</small>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Category: Factory Control (New) -->
+                    <li class="nav-item">
+                        <div class="nav-header">
+                            <span class="nav-label"><i class="fas fa-industry"></i> Factory Control</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="nav-sub">
+                            <li class="nav-sub-item" data-tool="factory-dashboard">
+                                <span>Factory Dashboard</span>
+                                <small>Nesting, Paint & Labor</small>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Category: Foundations -->
+                    <li class="nav-item">
+                        <div class="nav-header">
+                            <span class="nav-label"><i class="fas fa-hard-hat"></i> Foundations</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="nav-sub">
+                            <li class="nav-sub-item" data-tool="hinged-base"><span>Hinged Base Plate</span><small>HINGED BASE(1).csv</small></li>
+                            <li class="nav-sub-item" data-tool="fixed-base"><span>Fixed Base Plate</span><small>FIXED BASE (rev.2.10).csv</small></li>
+                        </ul>
+                    </li>
+
+                    <!-- Category: Beams & Rafters -->
+                    <li class="nav-item">
+                        <div class="nav-header">
+                            <span class="nav-label"><i class="fas fa-bars"></i> Beams & Rafters</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="nav-sub">
+                            <li class="nav-sub-item" data-tool="rolled-beam"><span>Rolled Beam</span><small>BEAM ROLLED SECTION.xls</small></li>
+                            <li class="nav-sub-item" data-tool="built-up-beam"><span>Built-up Beam</span><small>BEAM BUILT UP.xls</small></li>
+                            <li class="nav-sub-item" data-tool="rolled-rafter"><span>Rolled Rafter</span><small>RAFTER ROLLED SECTION.xls</small></li>
+                            <li class="nav-sub-item" data-tool="built-up-rafter"><span>Built-up Rafter</span><small>RAFTER BUILT UP.xls</small></li>
+                        </ul>
+                    </li>
+
+                    <!-- Category: Columns -->
+                    <li class="nav-item">
+                        <div class="nav-header">
+                            <span class="nav-label"><i class="fas fa-columns"></i> Columns</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="nav-sub">
+                            <li class="nav-sub-item" data-tool="built-up-column"><span>Built-up Column</span><small>COLUMN BUILT UP.xls</small></li>
+                            <li class="nav-sub-item" data-tool="rolled-column"><span>Rolled Column</span><small>COLUMN ROLLED SECTION.xls</small></li>
+                            <li class="nav-sub-item" data-tool="simple-column"><span>Simple Rolled Column</span><small>SIMPLE COLUMN.xls</small></li>
+                        </ul>
+                    </li>
+
+                    <!-- Category: Connections -->
+                    <li class="nav-item">
+                        <div class="nav-header">
+                            <span class="nav-label"><i class="fas fa-link"></i> Connections</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="nav-sub">
+                            <li class="nav-sub-item" data-tool="moment-conn"><span>Moment Connections</span><small>moment connections.xls</small></li>
+                            <li class="nav-sub-item" data-tool="shear-conn"><span>Shear Connection</span><small>SHEAR CONNECTION.xls</small></li>
+                            <li class="nav-sub-item" data-tool="hsb-conn"><span>High Strength Bolts</span><small>HSB CONNECTION.xls</small></li>
+                            <li class="nav-sub-item" data-tool="non-pretensioned-conn"><span>Non-Pretensioned Bolts</span><small>NON PRETENSIOND BOLTS.xls</small></li>
+                        </ul>
+                    </li>
+
+                    <!-- Category: Bracing & Sections -->
+                    <li class="nav-item">
+                        <div class="nav-header">
+                            <span class="nav-label"><i class="fas fa-xmark"></i> Bracing & Sections</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="nav-sub">
+                            <li class="nav-sub-item" data-tool="single-angle"><span>Single Angle Bracing</span><small>SINGLE ANGLE.xls</small></li>
+                            <li class="nav-sub-item" data-tool="double-angle"><span>Double Angle Bracing</span><small>DOUBLE ANGLE.xls</small></li>
+                            <li class="nav-sub-item" data-tool="pipe-section"><span>Pipe Section</span><small>PIPE SECTION.xls</small></li>
+                            <li class="nav-sub-item" data-tool="box-section"><span>Box Section</span><small>BOX SECTION.xls</small></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="suite-content">
+                <div id="suite-welcome" class="tool-view active">
+                    <div class="empty-state">
+                        <i class="fas fa-drafting-compass"></i>
+                        <h3>Select a module from the sidebar</h3>
+                        <p>Access professional design sheets for Steel & Concrete structures.</p>
+                    </div>
+                </div>
+
+                <!-- Dynamic Tool Container -->
+                <div id="active-tool-container" class="tool-view">
+                    <h3 id="tool-title" class="tool-title">Tool Name</h3>
+                    
+                    <!-- General Calculator Grid (Shared by most tools) -->
+                    <div class="calculator-grid">
+                        <!-- Design Parameters -->
+                        <div class="calc-row">
+                           <div class="input-group">
+    <label>Section Type</label>
+<select id="sectionType" class="glass-select">
+    <option value="">-- اختر النوع --</option>
+    <option value="IPE (European I-Beams)">IPE</option>
+    <option value="HEA (Wide Flange Light)">HEA</option>
+    <option value="HEB (Wide Flange Normal)">HEB</option>
+    <option value="UPN (European Channels)">UPN</option>
+    <option value="W-Shapes (American Wide Flange)">W-Shapes (American)</option>
+    <option value="C-Channels (American)">C-Channels (American)</option>
+    <option value="SHS (Square Hollow Section)">SHS (Square Pipe)</option>
+    <option value="L-Angles (Equal)">L-Angles (Equal)</option>
+</select>
+
+<select id="sectionSize" class="glass-select">
+    <option value="">-- اختر المقاس --</option>
+</select>
+</div>
+
+<div id="report-area" style="margin-top: 20px;"></div>
+                            <div class="input-group">
+<div class="steel-grade-section">
+    <label class="main-label"><i class="fas fa-layer-group"></i> Steel Grade (Material)</label>
+    <div class="steel-cards-container">
+        <label class="steel-card">
+            <input type="radio" name="materialGrade" value="37" checked>
+            <div class="card-content">
+                <span class="grade-name">St 37</span>
+                <span class="grade-desc">Fy = 2.4 t/cm²</span>
+            </div>
+        </label>
+        
+        <label class="steel-card">
+            <input type="radio" name="materialGrade" value="44">
+            <div class="card-content">
+                <span class="grade-name">St 44</span>
+                <span class="grade-desc">Fy = 2.8 t/cm²</span>
+            </div>
+        </label>
+        
+        <label class="steel-card">
+            <input type="radio" name="materialGrade" value="52">
+            <div class="card-content">
+                <span class="grade-name">St 52</span>
+                <span class="grade-desc">Fy = 3.6 t/cm²</span>
+            </div>
+        </label>
+    </div>
+</div>
+
+<div id="report-area"></div>
+
+
+                        <!-- Custom inputs for Box section -->
+                        <div id="customDimensions" class="calc-row" style="display: none;">
+                            <input type="number" id="customW" placeholder="Width B (mm)">
+                            <input type="number" id="customH" placeholder="Height H (mm)">
+                            <input type="number" id="customT" placeholder="Thk t (mm)">
+                        </div>
+
+                        <!-- Custom inputs for Built-up I-Section -->
+                        <div id="builtUpDimensions" class="calc-row" style="display: none;">
+                            <input type="number" id="buHw" placeholder="Web Height (mm)">
+                            <input type="number" id="buTw" placeholder="Web Thk (mm)">
+                            <input type="number" id="buBf" placeholder="Flange Width (mm)">
+                            <input type="number" id="buTf" placeholder="Flange Thk (mm)">
+                        </div>
+                        
+                        <!-- Diagram -->
+                        <div id="builtUpDiagram" class="diagram-container" style="display: none;"></div>
+
+                        <div class="calc-divider"><span>Straining Actions</span></div>
+
+                        <div class="calc-row three-cols">
+                            <div class="input-group">
+                                <label>Axial Force P (ton)</label>
+                                <input type="number" id="forceP" placeholder="Comp. (-ve) / Tens. (+ve)">
+                            </div>
+                            <div class="input-group">
+                                <label>Moment Mx (m.ton)</label>
+                                <input type="number" id="momentMx" placeholder="Major Axis">
+                            </div>
+                            <div class="input-group">
+                                <label>Moment My (m.ton)</label>
+                                <input type="number" id="momentMy" placeholder="Minor Axis">
+                            </div>
+                        </div>
+
+                        <div class="calc-row three-cols">
+                            <div class="input-group">
+                                <label>Length L (m)</label>
+                                <input type="number" id="calcLength" placeholder="Member Length">
+                            </div>
+                            <div class="input-group">
+                                <label>Ly / L_out (m)</label>
+                                <input type="number" id="bucklingLy" placeholder="Unbraced Length Y">
+                            </div>
+                            <div class="input-group">
+                                <label>Lx / L_in (m)</label>
+                                <input type="number" id="bucklingLx" placeholder="Unbraced Length X">
+                            </div>
+                        </div>
+
+                        <button id="calculate-btn" class="btn-glass btn-orange full-width-btn">
+                            <i class="fas fa-microchip"></i> Run Analysis
+                        </button>
+                    </div>
+                    
+                    <div id="calcResult" class="calculator-result hidden-result"></div>
+                    
+                    <!-- Result Actions -->
+                    <div id="result-actions" style="display:none; gap: 10px; justify-content: center; margin-top: 15px;">
+                        <button id="copy-result-btn" class="btn-glass" style="font-size: 14px; padding: 8px 20px; border-radius: 20px;"><i class="fas fa-copy"></i> Copy Summary</button>
+                        <button id="print-report-btn" class="btn-glass btn-white" style="font-size: 14px; padding: 8px 20px; border-radius: 20px;"><i class="fas fa-file-pdf"></i> Generate Full Report</button>
+                    </div>
+                </div>
+
+                <!-- Cost Estimation Tool View -->
+                <div id="tool-cost-estimation" class="tool-view">
+                    <h3 class="tool-title"><i class="fas fa-coins"></i> Steel Cost Estimation</h3>
+                    <div class="calculator-grid">
+                        <div class="calc-row">
+                            <div class="input-group">
+                                <label>Section Type</label>
+<select id="sectionType" class="glass-select">
+    <option value="">-- اختر النوع --</option>
+    <option value="IPE (European I-Beams)">IPE</option>
+    <option value="HEA (Wide Flange Light)">HEA</option>
+    <option value="HEB (Wide Flange Normal)">HEB</option>
+    <option value="UPN (European Channels)">UPN</option>
+    <option value="W-Shapes (American Wide Flange)">W-Shapes (American)</option>
+    <option value="C-Channels (American)">C-Channels (American)</option>
+    <option value="SHS (Square Hollow Section)">SHS (Square Pipe)</option>
+    <option value="L-Angles (Equal)">L-Angles (Equal)</option>
+</select>
+
+<select id="sectionSize" class="glass-select">
+    <option value="">-- اختر المقاس --</option>
+</select>
+                            </div>
+                            <div class="input-group">
+                                <label>Size</label>
+                                <select id="costSectionSize"></select>
+                            </div>
+                        </div>
+                        <div class="calc-row">
+                            <div class="input-group"><label>Total Length (m)</label><input type="number" id="costLength" placeholder="e.g. 120"></div>
+                            <div class="input-group"><label>Quantity (Pcs)</label><input type="number" id="costQty" value="1"></div>
+                        </div>
+                        <div class="calc-divider"><span>Unit Prices</span></div>
+                        <div class="calc-row">
+                            <div class="input-group"><label>Steel Price (EGP/Ton)</label><input type="number" id="priceSteelInput" placeholder="Auto-filled"></div>
+                            <div class="input-group"><label>Fabrication (EGP/Ton)</label><input type="number" id="priceFabInput" placeholder="e.g. 5000"></div>
+                            <div class="input-group"><label>Painting (EGP/m²)</label><input type="number" id="pricePaintInput" placeholder="e.g. 150"></div>
+                        </div>
+                        <button id="btn-calc-cost" class="btn-glass btn-orange full-width-btn">
+                            <i class="fas fa-calculator"></i> Calculate Total Cost
+                        </button>
+                    </div>
+                    <div id="costResult" class="calculator-result hidden-result"></div>
+                </div>
+
+                <!-- Fixed Base Tool View -->
+                <div id="tool-fixed-base" class="tool-view">
+                    <h3 class="tool-title"><i class="fas fa-anchor"></i> Fixed Base Plate Design</h3>
+                    <!-- Diagram Container -->
+                    <div id="fixedBaseDiagram" class="diagram-container" style="height: 220px; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto;">
+                        <!-- SVG will be injected here by JS -->
+                    </div>
+                    <div class="calculator-grid">
+                        <div class="calc-row">
+                            <div class="input-group"><label>Moment M (m.t)</label><input type="number" id="fb_M" placeholder="e.g. 64"></div>
+                            <div class="input-group"><label>Axial N (ton)</label><input type="number" id="fb_N" placeholder="e.g. 30"></div>
+                            <div class="input-group"><label>Shear Q (ton)</label><input type="number" id="fb_Q" placeholder="e.g. 6"></div>
+                        </div>
+                        <div class="calc-divider"><span>Base Plate & Concrete</span></div>
+                        <div class="calc-row">
+                            <div class="input-group"><label>Length L (cm)</label><input type="number" id="fb_L" placeholder="e.g. 125"></div>
+                            <div class="input-group"><label>Width B (cm)</label><input type="number" id="fb_B" placeholder="e.g. 65"></div>
+                            <div class="input-group"><label>Concrete Fcu (kg/cm²)</label><input type="number" id="fb_Fcu" value="300"></div>
+                        </div>
+                        <div class="calc-divider"><span>Anchor Bolts</span></div>
+                        <div class="calc-row">
+                            <div class="input-group"><label>Count (n) - One Side</label><input type="number" id="fb_n" value="6"></div>
+                            <div class="input-group"><label>Diameter (mm)</label><input type="number" id="fb_phi" value="25"></div>
+                            <div class="input-group"><label>Steel Grade</label>
+                                <select id="fb_grade">
+                                    <option value="37">St. 37</option>
+                                    <option value="44">St. 44</option>
+                                    <option value="52" selected>St. 52</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn-glass btn-orange full-width-btn" onclick="calculateFixedBase()">
+                            <i class="fas fa-calculator"></i> Calculate Fixed Base
+                        </button>
+                    </div>
+                    <div id="fb_Result" class="calculator-result hidden-result"></div>
+                </div>
+
+                <!-- Hinged Base Tool View -->
+                <div id="tool-hinged-base" class="tool-view">
+                    <h3 class="tool-title"><i class="fas fa-compress-arrows-alt"></i> Hinged Base Plate Design</h3>
+                    <!-- Diagram Container -->
+                    <div id="hingedBaseDiagram" class="diagram-container" style="height: 220px; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto;">
+                        <!-- SVG will be injected here by JS -->
+                    </div>
+
+                    <div class="calculator-grid">
+                        <div class="calc-row">
+                            <div class="input-group"><label>Axial N (ton)</label><input type="number" id="hb_N" placeholder="e.g. 27.1"></div>
+                            <div class="input-group"><label>Shear Q (ton)</label><input type="number" id="hb_Q" placeholder="e.g. 4.1"></div>
+                        </div>
+                        <div class="calc-divider"><span>Base Plate & Concrete</span></div>
+                        <div class="calc-row">
+                            <div class="input-group"><label>Length L (cm)</label><input type="number" id="hb_L" placeholder="e.g. 32"></div>
+                            <div class="input-group"><label>Width B (cm)</label><input type="number" id="hb_B" placeholder="e.g. 34"></div>
+                            <div class="input-group"><label>Concrete Fcu (kg/cm²)</label><input type="number" id="hb_Fcu" value="250"></div>
+                        </div>
+                        <div class="calc-divider"><span>Anchor Bolts</span></div>
+                        <div class="calc-row">
+                            <div class="input-group"><label>Total Bolts</label><input type="number" id="hb_n" value="2"></div>
+                            <div class="input-group"><label>Diameter (mm)</label><input type="number" id="hb_phi" value="16"></div>
+                            <div class="input-group"><label>Steel Grade</label>
+                                <select id="hb_grade">
+                                    <option value="37">St. 37</option>
+                                    <option value="44">St. 44</option>
+                                    <option value="52" selected>St. 52</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn-glass btn-orange full-width-btn" onclick="calculateHingedBase()">
+                            <i class="fas fa-calculator"></i> Calculate Hinged Base
+                        </button>
+                    </div>
+                    <div id="hb_Result" class="calculator-result hidden-result"></div>
+                </div>
+
+                <!-- Factory Control Dashboard (New) -->
+                <div id="tool-factory-dashboard" class="tool-view">
+                    <h3 class="tool-title"><i class="fas fa-industry"></i> Factory Cost Control</h3>
+                    
+                    <!-- Internal Tabs -->
+                    <div class="tool-tabs">
+                        <button class="tab-btn active" onclick="switchFactoryTab('dashboard')">Dashboard</button>
+                        <button class="tab-btn" onclick="switchFactoryTab('nesting')">Nesting</button>
+                        <button class="tab-btn" onclick="switchFactoryTab('coating')">Coating</button>
+                        <button class="tab-btn" onclick="switchFactoryTab('production')">Production</button>
+                    </div>
+
+                    <!-- 1. Executive Dashboard Tab -->
+                    <div id="factory-dashboard" class="factory-tab-content active">
+                        <div class="projects-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <!-- Material Efficiency Card -->
+                            <div class="project-card" style="padding: 20px; text-align: center;">
+                                <h4 style="color: #a8b2d1; font-size: 14px; text-transform: uppercase;">Material Utilization</h4>
+                                <div class="chart-circle" id="matUtilChart" style="margin: 20px auto; width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--primary-color) 0%, rgba(255,255,255,0.1) 0%); display: flex; align-items: center; justify-content: center; position: relative;">
+                                    <div style="background: #0f172a; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #fff;">0%</div>
+                                </div>
+                                <p style="font-size: 12px; color: #aaa;">Target: > 95%</p>
+                            </div>
+
+                            <!-- Paint Consumption Card -->
+                            <div class="project-card" style="padding: 20px; text-align: center;">
+                                <h4 style="color: #a8b2d1; font-size: 14px; text-transform: uppercase;">Paint Consumption</h4>
+                                <div style="margin: 30px 0;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px; color: #fff;">
+                                        <span>Used</span>
+                                        <span id="paintUsedVal">0 L</span>
+                                    </div>
+                                    <div class="progress-wrapper" style="height: 10px; margin: 0;"><div id="paintBar" class="progress-bar" style="width: 0%; background: #00d4ff;"></div></div>
+                                </div>
+                                <p style="font-size: 12px; color: #aaa;">Budget Status: <span id="paintStatus">On Track</span></p>
+                            </div>
+
+                            <!-- Labor Efficiency Card -->
+                            <div class="project-card" style="padding: 20px; text-align: center;">
+                                <h4 style="color: #a8b2d1; font-size: 14px; text-transform: uppercase;">Labor Efficiency</h4>
+                                <h2 id="laborEffVal" style="font-size: 36px; color: #25D366; margin: 20px 0;">0%</h2>
+                                <p style="font-size: 12px; color: #aaa;">Man-Hours / Ton: <span id="mhPerTon">0</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Material Nesting Tab -->
+                    <div id="factory-nesting" class="factory-tab-content">
+                        <div class="calculator-grid">
+                            <div class="calc-row">
+                                <div class="input-group">
+                                    <label>Stock Length (mm)</label>
+                                    <select id="nestStockLen">
+                                        <option value="12000">12,000 mm (Standard)</option>
+                                        <option value="6000">6,000 mm</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Blade Thickness (mm)</label>
+                                    <input type="number" id="nestBlade" value="5">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Required Lengths (mm) - Comma Separated</label>
+                                <textarea id="nestReqLengths" placeholder="e.g. 4500, 3200, 2100, 5000, 1500" style="height: 80px;"></textarea>
+                            </div>
+                            <button class="btn-glass btn-orange full-width-btn" onclick="calculateNesting()">Optimize Cutting Plan</button>
+                        </div>
+                        <div id="nestingResult" class="calculator-result hidden-result" style="text-align: left;"></div>
+                    </div>
+
+                    <!-- 3. Coating Estimation Tab -->
+                    <div id="factory-coating" class="factory-tab-content">
+                        <div class="calculator-grid">
+                            <div class="calc-row">
+                                <div class="input-group"><label>Total Surface Area (m²)</label><input type="number" id="paintArea" placeholder="Total Area"></div>
+                                <div class="input-group"><label>Bucket Size (Liters)</label><input type="number" id="paintBucketSize" value="20"></div>
+                            </div>
+                            <div class="calc-row">
+                                <div class="input-group"><label>TSR (m²/L)</label><input type="number" id="paintTSR" placeholder="Theo. Spreading Rate"></div>
+                                <div class="input-group"><label>Loss Factor (%)</label><input type="number" id="paintLoss" value="20" placeholder="e.g. 20%"></div>
+                            </div>
+                            <div class="input-group"><label>Target DFT (microns)</label><input type="number" id="paintDFT" placeholder="Dry Film Thickness (Optional check)"></div>
+                            <button class="btn-glass btn-orange full-width-btn" onclick="calculateCoating()">Estimate Paint</button>
+                        </div>
+                        <div id="coatingResult" class="calculator-result hidden-result"></div>
+                    </div>
+
+                    <!-- 4. Production Tracking Tab -->
+                    <div id="factory-production" class="factory-tab-content">
+                        <div class="calculator-grid">
+                            <div class="calc-row">
+                                <div class="input-group"><label>Total Weight (Tons)</label><input type="number" id="prodWeight" placeholder="Project Weight"></div>
+                                <div class="input-group"><label>Target Rate (MH/Ton)</label><input type="number" id="prodTargetRate" placeholder="e.g. 15"></div>
+                            </div>
+                            <div class="calc-row">
+                                <div class="input-group"><label>Estimated Man-Hours</label><input type="number" id="prodEstHours" placeholder="Budgeted Hours"></div>
+                                <div class="input-group"><label>Actual Man-Hours</label><input type="number" id="prodActHours" placeholder="Spent Hours"></div>
+                            </div>
+                            <button class="btn-glass btn-orange full-width-btn" onclick="calculateProduction()">Analyze Performance</button>
+                        </div>
+                        <div id="productionResult" class="calculator-result hidden-result"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- حاسبة تحويل الوحدات الجديدة -->
+    <div class="calculator-container" style="max-width: 600px; margin: 40px auto 0; text-align: left; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px;">
+        <h3 style="color: #fff; margin-bottom: 15px; text-align: center;">Unit Converter</h3>
+        <div class="calculator-form" style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="display: flex; gap: 10px;">
+                <input type="number" id="convertValue" placeholder="Value">
+                <select id="convertType">
+                    <option value="m_to_ft" style="color: #000;">Meters to Feet</option>
+                    <option value="ft_to_m" style="color: #000;">Feet to Meters</option>
+                    <option value="in_to_mm" style="color: #000;">Inches to mm</option>
+                    <option value="mm_to_in" style="color: #000;">mm to Inches</option>
+                    <option value="kg_to_lb" style="color: #000;">kg to lb</option>
+                    <option value="lb_to_kg" style="color: #000;">lb to kg</option>
+                </select>
+            </div>
+            <div id="convertResult" style="font-size: 20px; font-weight: bold; color: #00d4ff; text-align: center; min-height: 30px;"></div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Pricing Section (قسم الأسعار والعضوية) -->
+<section id="pricing" class="projects-section glass">
+    <h2 class="section-title about-title">Membership Plans</h2>
+    <div class="pricing-container">
+        <!-- Local Plan -->
+        <div class="pricing-card glass">
+            <div class="badge-local">Egypt Only</div>
+            <h3>Local Pro</h3>
+            <div class="price">30 EGP <span>/ Month</span></div>
+            <ul class="features-list">
+                <li><i class="fas fa-check"></i> Unlimited Calculations</li>
+                <li><i class="fas fa-check"></i> Access to All Tools</li>
+                <li><i class="fas fa-check"></i> Priority Support</li>
+                <li><i class="fas fa-wallet"></i> InstaPay / Vodafone Cash</li>
+            </ul>
+            <button class="btn-glass btn-orange full-width-btn" onclick="openPaymentModal('local')">Upgrade Now</button>
+        </div>
+
+        <!-- Global Plan -->
+        <div class="pricing-card glass popular">
+            <div class="badge-popular">Most Popular</div>
+            <h3>Global Pro</h3>
+            <div class="price">$5 USD <span>/ Month</span></div>
+            <ul class="features-list">
+                <li><i class="fas fa-check"></i> Unlimited Calculations</li>
+                <li><i class="fas fa-check"></i> Access to All Tools</li>
+                <li><i class="fas fa-check"></i> Priority Support</li>
+                <li><i class="fab fa-paypal"></i> PayPal / Credit Card</li>
+            </ul>
+            <button class="btn-glass btn-orange full-width-btn" onclick="openPaymentModal('global')">Upgrade Now</button>
+        </div>
+    </div>
+    
+    <div class="humanitarian-note">
+        <p style="font-family: 'Cairo', sans-serif; font-size: 16px; color: #e0e0e0; margin-bottom: 0;">
+            <i class="fas fa-hand-holding-heart" style="color: var(--primary-color); margin-left: 8px;"></i>
+            رسالة إلى زملائي الطلاب وغير القادرين: العلم متاح للجميع. بمجرد إرسال الإيميل، سيتم تفعيل حسابك خلال 24 ساعة كحد أقصى. بالتوفيق في دراستك!
+        </p>
+        <button id="requestFreeAccessBtn" class="btn-glass btn-white" style="margin-top: 20px; font-size: 14px; padding: 10px 30px; font-family: 'Cairo', sans-serif;">
+            <i class="fas fa-envelope-open-text"></i> طلب تفعيل للطلاب
+        </button>
+    </div>
+</section>
+
+<!-- Payment Modal -->
+<div id="paymentModal" class="modal">
+    <div class="modal-content" style="max-width: 500px;">
+        <span class="close-modal-btn" onclick="closePaymentModal()">&times;</span>
+        <div class="modal-body" id="paymentModalBody">
+            <!-- Content injected via JS -->
+        </div>
+    </div>
+</div>
+
+ 
+<script src="sections-db.js"></script>
+
+<script src="engineering-tools-details-1.js"></script>
+
+<script src="script.js"></script>
+</body>
+</html>

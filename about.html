@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Me | Eng. Mohamed Ayman Saleh</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="About Me | Eng. Mohamed Ayman Saleh">
+  <meta name="description" content="تعرف على رحلتي المهنية كمهندس مدني ومطور برمجيات، وخبرتي في تصميم المنشآت المعدنية وتقنيات BIM.">
+  
+  <link rel="stylesheet" href="style.css?v=1.2"> 
+  <link rel="stylesheet" href="components/skills.css">
+  <link rel="stylesheet" href="about.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    /* تأثير الوميض للخلفية (Pulse Animation) */
+    @keyframes bg-pulse-animation {
+        0% { background-color: rgba(255, 152, 0, 0.05); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.1); }
+        50% { background-color: rgba(255, 152, 0, 0.15); box-shadow: 0 0 20px 0 rgba(255, 152, 0, 0.2); }
+        100% { background-color: rgba(255, 152, 0, 0.05); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.1); }
+    }
+    .bio-pulse {
+        animation: bg-pulse-animation 2s infinite ease-in-out;
+    }
+    /* تأثير ظهور النص (Fade In Up) */
+    @keyframes fadeInUpText {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /> 
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+  <!-- مكتبة تحويل HTML إلى PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+
+<!-- Loading Spinner -->
+<div id="about-loader" class="loader-overlay">
+    <div class="loader-content">
+        <div class="spinner"></div>
+        <p id="loaderQuote" class="loader-quote"></p>
+    </div>
+</div>
+
+<header class="main-header" style="display: none;">
+  <div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+  </div>
+  
+  <div class="header-left-group">
+      <a href="index.html" class="main-logo">
+        <div class="logo-wrapper">
+            <img src="logo.svg" alt="MAS Design Engineer" class="header-logo-img">
+            <span class="logo-text">Eng. Mo_AYMAN</span>
+        </div>
+      </a>
+      <a href="#" class="search-trigger-btn header-search-icon"><i class="fas fa-search"></i></a>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="#" class="active"><i class="fas fa-user"></i> About</a></li>
+
+    <li class="dropdown">
+      <a href="index.html#skills" class="drop-trigger"><i class="fas fa-tools"></i> Skills <i class="fas fa-chevron-down"></i></a>
+      <!-- Mega Menu Content Omitted for brevity, same as index -->
+    </li>
+
+    <li><a href="projects.html"><i class="fas fa-project-diagram"></i> Projects & Certificates</a></li>
+
+    <li><a href="#contact" class="btn-main"><i class="fas fa-paper-plane"></i> Contact Me</a></li>
+    
+    <li id="authItem"><a href="#" id="loginBtn" class="btn-glass btn-orange" style="padding: 8px 20px; font-size: 14px;"><i class="fab fa-google"></i> Login</a></li>
+    <li id="userProfileItem" style="display: none; color: #fff; font-size: 14px; align-items: center; gap: 10px;"><span id="userCredits" style="color: #ff9800; font-weight: bold;">0 Credits</span> <img id="userAvatar" src="" style="width: 30px; height: 30px; border-radius: 50%;"></li>
+    <li id="adminNavItem" style="display: none;"><a href="#" id="adminBtn" style="color: #ff4b4b; font-weight: bold;"><i class="fas fa-user-shield"></i> Admin</a></li>
+    <li><a href="#" id="themeToggle" class="theme-btn"><i class="fas fa-moon"></i></a></li>
+  </ul>
+
+  <div class="hamburger">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+  </div>
+</header>
+
+<div class="page-content-wrapper">
+
+<section id="about" class="about-section glass reveal" style="min-height: 100vh; padding-top: 40px;">
+  
+  <h2 class="section-title reveal about-title">My Engineering Journey</h2>
+
+<div class="about-card reveal">
+    <div class="about-grid">
+        <!-- Image Column -->
+        <div class="about-visual">
+            <div class="image-frame">
+                <img src="images/profile.jpg" alt="Eng. Mohamed Ayman" class="profile-pic" loading="lazy">
+                <div class="exp-badge">
+                    <span class="exp-num">2026</span>
+                    <span class="exp-text">Graduation<br>Year</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Column -->
+        <div class="about-content">
+            <h3 class="sub-heading">WHO AM I?</h3>
+            <h2 class="main-heading">Engineering Precision Meets <span class="highlight">Digital Innovation</span></h2>
+            
+            <div class="bio-text">
+                أنا لست مجرد مهندس مدني؛ أنا <strong>مطور حلول إنشائية</strong>.
+                بينما يركز الآخرون على التصميم التقليدي، أقوم بدمج <span class="text-accent">قوة البرمجة</span> مع <span class="text-accent">دقة التصميم المعدني (Steel)</span> لخلق منشآت أكثر كفاءة وأماناً.
+                <br><br>
+                من قاعات محاضرات <strong>جامعة الأزهر</strong> إلى مواقع <strong>بتروجيت</strong>  العملاقة، صقلت مهاراتي في تحويل المخططات المعقدة إلى واقع ملموس باستخدام أحدث تقنيات الـ <strong>BIM</strong>.
+                <br><br>
+                <!-- النص الظاهر مع تأثير الكتابة -->
+                <span class="bio-visible type-writer-text" style="color: inherit; font-weight: inherit; font-size: inherit; display: inline;"></span>
+                
+                <!-- الحاوية المخفية للنص الطويل مع حركة ناعمة -->
+                <div class="bio-wrapper" id="bioWrapper" style="max-height: 0; opacity: 0; overflow: hidden; transition: all 2s cubic-bezier(0.25, 1, 0.5, 1); border-radius: 10px;">
+                    <p class="bio-hidden" style="color: inherit; font-weight: inherit; font-size: inherit; margin-top: 15px;">
+                        كل تحدي هندسي هو فرصة لإثبات أن الهندسة تجمع بين الفن الإبداعي والعلم الدقيق، حيث أحول الأفكار المعقدة إلى واقع ملموس يخدم المجتمع.
+                        <br><br>
+                        كخريج حديث من جامعة الأزهر، بدأت رحلتي المهنية بتدريب عملي في شركة بتروجيت العملاقة، حيث نجحت في تصميم جسر معدني يحمل 500 طن، مما ساهم في تقليل التكاليف بنسبة 15% من خلال تحسين الكفاءة الإنشائية. هذا الإنجاز لم يكن مجرد مشروع؛ كان خطوة أولى في مسيرتي نحو الابتكار في مجال المنشآت المعدنية.
+                        <br><br>
+                        أسعى باستمرار لأن أصبح واحداً من أفضل المصممين في العالم، من خلال الابتكار المستمر والتعلم الدائم. أطمح لتطوير برمجيات هندسية مفتوحة المصدر تساعد المهندسين في جميع أنحاء العالم على حل المشكلات الإنشائية بطرق أكثر ذكاءً وكفاءة. في وقت فراغي، أمارس الرياضة للحفاظ على التوازن بين العقل والجسد، أقرأ كتب الهندسة والتكنولوجيا لأبقي نفسي على اطلاع دائم بالتطورات، وأطور مشاريع برمجية مفتوحة المصدر كمساهمة في المجتمع التقني.
+                    </p>
+                </div>
+                <button type="button" id="readMoreBtn" style="background: #ff9800; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; margin-top: 10px; font-weight: bold;">Read More</button>
+                <span id="readingTime" style="font-size: 0.85em; color: #aaa; margin-left: 10px; display: none; opacity: 0; transition: opacity 0.5s;"></span>
+                <br><br>
+                "مهندس موهوب يجمع الخبرة العملية والمعرفة الأكاديمية" - مشرف في بتروجيت.
+            </div>
+
+            <div class="about-stats">
+                <div class="stat-item">
+                    <h4 class="stat-number" data-target="50">0+</h4>
+                    <p>Projects Analyzed</p>
+                </div>
+                <div class="stat-item">
+                    <h4 class="stat-number" data-target="1000">0+</h4>
+                    <p>Hours of BIM</p>
+                </div>
+                <div class="stat-item">
+                    <h4 class="stat-number" data-target="100">0%</h4>
+                    <p>Commitment</p>
+                </div>
+            </div>
+
+            <div class="about-actions">
+                <a href="Mohamed_Ayman_CV.pdf" class="btn-glass btn-orange" download>
+                    Download CV <i class="fas fa-download"></i>
+                </a>
+                <a href="#contact" class="btn-glass btn-white">
+                    Hire Me <i class="fas fa-handshake"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</section>
+
+<!-- قسم فلسفتي (My Philosophy) -->
+<section id="philosophy" class="philosophy-section reveal">
+    <h2 class="section-title about-title">My Philosophy</h2>
+    <div class="philosophy-grid">
+        <div class="philosophy-card">
+            <div class="icon-box">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <h3>Innovation</h3>
+            <p>دمج التكنولوجيا الحديثة مع الهندسة التقليدية لتقديم حلول إبداعية.</p>
+        </div>
+        <div class="philosophy-card">
+            <div class="icon-box">
+                <i class="fas fa-drafting-compass"></i>
+            </div>
+            <h3>Precision</h3>
+            <p>الاهتمام بأدق التفاصيل في كل عنصر إنشائي لضمان الجودة والأمان.</p>
+        </div>
+        <div class="philosophy-card">
+            <div class="icon-box">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <h3>Sustainability</h3>
+            <p>التصميم للمستقبل باستخدام المواد بكفاءة لتقليل الهدر والتكلفة.</p>
+        </div>
+    </div>
+</section>
+
+<!-- قسم آراء العملاء (Testimonials) -->
+<section id="testimonials" class="testimonials-section reveal">
+    <h2 class="section-title about-title">Testimonials</h2>
+    <div class="testimonials-grid">
+        <div class="testimonial-card">
+            <div class="client-info">
+                <div class="client-img">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div>
+                    <h4>Eng. Ahmed Hassan</h4>
+                    <span class="client-role">Project Manager, Petrojet</span>
+                </div>
+            </div>
+            <p class="testimonial-text">"مهندس موهوب يجمع بين الدقة الأكاديمية والخبرة العملية. مساهمته في مشروع الكوبري كانت فعالة جداً."</p>
+            <div class="rating">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+        </div>
+        
+        <div class="testimonial-card">
+            <div class="client-info">
+                <div class="client-img">
+                    <i class="fas fa-user-hard-hat"></i>
+                </div>
+                <div>
+                    <h4>Dr. Mahmoud Ali</h4>
+                    <span class="client-role">Professor, Al-Azhar Univ.</span>
+                </div>
+            </div>
+            <p class="testimonial-text">"أحد أفضل الطلاب الذين قمت بالتدريس لهم. شغفه بالبرمجة الهندسية يميزه عن غيره."</p>
+            <div class="rating">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+        </div>
+
+        <div class="testimonial-card">
+            <div class="client-info">
+                <div class="client-img">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div>
+                    <h4>Eng. Sarah Nabil</h4>
+                    <span class="client-role">Senior Architect</span>
+                </div>
+            </div>
+            <p class="testimonial-text">"التعاون معه في مشاريع الـ BIM كان سلساً للغاية. دقة في المواعيد وجودة في التسليم."</p>
+            <div class="rating">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- زر إضافة تقييم -->
+    <div style="text-align: center; margin-top: 40px;">
+        <button id="openReviewModal" class="btn-glass btn-orange">
+            Add Your Review <i class="fas fa-plus-circle" style="margin-left: 8px;"></i>
+        </button>
+    </div>
+</section>
+
+<!-- قسم الأسئلة الشائعة (FAQ) -->
+<section id="faq" class="faq-section reveal">
+    <h2 class="section-title about-title">FAQ</h2>
+    <div class="faq-container">
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>ما هي الخدمات التي تقدمها؟</h4>
+                <div class="faq-actions">
+                    <button class="share-faq-btn" title="Share Answer"><i class="fas fa-share-alt"></i></button>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+            </div>
+            <div class="faq-answer">
+                <p>أقدم خدمات التصميم الإنشائي للمنشآت المعدنية والخرسانية، إعداد اللوحات التنفيذية (Shop Drawings)، وحسابات التكلفة، بالإضافة إلى تطوير أدوات برمجية هندسية.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>هل تعمل بنظام العمل الحر (Freelance)؟</h4>
+                <div class="faq-actions">
+                    <button class="share-faq-btn" title="Share Answer"><i class="fas fa-share-alt"></i></button>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+            </div>
+            <div class="faq-answer">
+                <p>نعم، أنا متاح للعمل على مشاريع بنظام العمل الحر، سواء كانت مشاريع كاملة أو استشارات هندسية محددة.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h4>ما هي البرامج التي تستخدمها؟</h4>
+                <div class="faq-actions">
+                    <button class="share-faq-btn" title="Share Answer"><i class="fas fa-share-alt"></i></button>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+            </div>
+            <div class="faq-answer">
+                <p>أستخدم مجموعة واسعة من البرامج الاحترافية مثل Tekla Structures, SAP2000, ETABS, Revit, IDEA StatiCa, و AutoCAD.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- قسم مدونتي (My Blog) -->
+<section id="blog" class="blog-section reveal">
+    <h2 class="section-title about-title">My Engineering Blog</h2>
+    <div class="blog-grid">
+        <!-- Blog Card 1 -->
+        <div class="blog-card">
+            <div class="blog-img">
+                <!-- صورة افتراضية للمقال -->
+                <img src="https://via.placeholder.com/400x250/1a2a33/ffffff?text=BIM+Technology" alt="BIM Future">
+            </div>
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <span><i class="far fa-calendar-alt"></i> Oct 15, 2025</span>
+                    <span><i class="far fa-folder"></i> BIM</span>
+                    <span><i class="far fa-eye"></i> <span class="view-count" data-base="1200">1.2k</span></span>
+                </div>
+                <h3>The Future of BIM in Egypt</h3>
+                <p>كيف تعيد نمذجة معلومات البناء (BIM) تشكيل مستقبل الإنشاءات في مصر والشرق الأوسط...</p>
+                <a href="#" class="read-blog-btn" data-id="1">Read Article <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <!-- Blog Card 2 -->
+        <div class="blog-card">
+            <div class="blog-img">
+                <img src="https://via.placeholder.com/400x250/1a2a33/ffffff?text=Steel+Structures" alt="Steel Design">
+            </div>
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <span><i class="far fa-calendar-alt"></i> Sep 22, 2025</span>
+                    <span><i class="far fa-folder"></i> Steel</span>
+                    <span><i class="far fa-eye"></i> <span class="view-count" data-base="850">850</span></span>
+                </div>
+                <h3>Optimizing Steel Connections</h3>
+                <p>أفضل الممارسات لتصميم وصلات معدنية اقتصادية وآمنة باستخدام IDEA StatiCa...</p>
+                <a href="#" class="read-blog-btn" data-id="2">Read Article <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <!-- Blog Card 3 -->
+        <div class="blog-card">
+            <div class="blog-img">
+                <img src="https://via.placeholder.com/400x250/1a2a33/ffffff?text=Automation" alt="Automation">
+            </div>
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <span><i class="far fa-calendar-alt"></i> Aug 10, 2025</span>
+                    <span><i class="far fa-folder"></i> Coding</span>
+                    <span><i class="far fa-eye"></i> <span class="view-count" data-base="2300">2.3k</span></span>
+                </div>
+                <h3>Automating Structural Analysis</h3>
+                <p>كيفية استخدام Python و C# لتقليل الوقت المستغرق في التحليل الإنشائي الروتيني...</p>
+                <a href="#" class="read-blog-btn" data-id="3">Read Article <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- قسم مكتبتي (My Library) -->
+<section id="library" class="library-section reveal">
+    <h2 class="section-title about-title">My Library</h2>
+    
+    <div class="library-search">
+        <input type="text" id="bookSearchInput" placeholder="Search for a book...">
+        <i class="fas fa-search"></i>
+    </div>
+
+    <div class="library-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="steel">Steel</button>
+        <button class="filter-btn" data-filter="bim">BIM</button>
+        <button class="filter-btn" data-filter="coding">Coding</button>
+    </div>
+
+    <div class="library-grid">
+        <!-- Book 1 -->
+        <div class="book-card" data-category="steel" data-book-url="books/book1.pdf">
+            <div class="book-cover">
+                <img src="https://via.placeholder.com/150x220/1a2a33/ffffff?text=Steel+Design" alt="Steel Structures Design">
+            </div>
+            <div class="book-info">
+                <h3>Steel Structures Design</h3>
+                <p class="book-author">By ASD/LRFD</p>
+                <p class="book-desc">مرجع شامل لتصميم المنشآت المعدنية بالكود الأمريكي، يغطي الأساسيات والتفاصيل المتقدمة.</p>
+                <div class="book-progress">
+                    <label>Progress: <span class="progress-val">0%</span></label>
+                    <input type="range" class="progress-range" min="0" max="100" value="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Book 2 -->
+        <div class="book-card" data-category="bim" data-book-url="books/book2.pdf">
+            <div class="book-cover">
+                <img src="https://via.placeholder.com/150x220/1a2a33/ffffff?text=BIM+Guide" alt="BIM Handbook">
+            </div>
+            <div class="book-info">
+                <h3>BIM Handbook</h3>
+                <p class="book-author">Chuck Eastman</p>
+                <p class="book-desc">الدليل الكامل لفهم وتطبيق تكنولوجيا الـ BIM في إدارة المشاريع الهندسية.</p>
+                <div class="book-progress">
+                    <label>Progress: <span class="progress-val">0%</span></label>
+                    <input type="range" class="progress-range" min="0" max="100" value="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Book 3 -->
+        <div class="book-card" data-category="coding" data-book-url="books/book3.pdf">
+            <div class="book-cover">
+                <img src="https://via.placeholder.com/150x220/1a2a33/ffffff?text=Clean+Code" alt="Clean Code">
+            </div>
+            <div class="book-info">
+                <h3>Clean Code</h3>
+                <p class="book-author">Robert C. Martin</p>
+                <p class="book-desc">كتاب أساسي لأي مهندس يريد احتراف البرمجة وكتابة كود نظيف وقابل للصيانة.</p>
+                <div class="book-progress">
+                    <label>Progress: <span class="progress-val">0%</span></label>
+                    <input type="range" class="progress-range" min="0" max="100" value="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Book 4 -->
+        <div class="book-card" data-category="steel" data-book-url="books/book4.pdf">
+            <div class="book-cover">
+                <img src="https://via.placeholder.com/150x220/1a2a33/ffffff?text=Adv+Steel" alt="Advanced Steel">
+            </div>
+            <div class="book-info">
+                <h3>Advanced Steel Design</h3>
+                <p class="book-author">Segui</p>
+                <p class="book-desc">تصميم المنشآت المعدنية المتقدمة وتطبيقات LRFD.</p>
+                <div class="book-progress">
+                    <label>Progress: <span class="progress-val">0%</span></label>
+                    <input type="range" class="progress-range" min="0" max="100" value="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Book 5 -->
+        <div class="book-card" data-category="bim" data-book-url="books/book5.pdf">
+            <div class="book-cover">
+                <img src="https://via.placeholder.com/150x220/1a2a33/ffffff?text=Mastering+Revit" alt="Mastering Revit">
+            </div>
+            <div class="book-info">
+                <h3>Mastering Revit</h3>
+                <p class="book-author">Autodesk</p>
+                <p class="book-desc">احتراف برنامج الريفيت من البداية حتى المستويات المتقدمة.</p>
+                <div class="book-progress">
+                    <label>Progress: <span class="progress-val">0%</span></label>
+                    <input type="range" class="progress-range" min="0" max="100" value="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Book 6 -->
+        <div class="book-card" data-category="coding" data-book-url="books/book6.pdf">
+            <div class="book-cover">
+                <img src="https://via.placeholder.com/150x220/1a2a33/ffffff?text=Python+Eng" alt="Python for Engineers">
+            </div>
+            <div class="book-info">
+                <h3>Python for Engineers</h3>
+                <p class="book-author">Udemy</p>
+                <p class="book-desc">كيفية استخدام بايثون في حل المشكلات الهندسية والأتمتة.</p>
+                <div class="book-progress">
+                    <label>Progress: <span class="progress-val">0%</span></label>
+                    <input type="range" class="progress-range" min="0" max="100" value="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Book 7 -->
+        <div class="book-card" data-category="steel" data-book-url="books/book7.pdf">
+            <div class="book-cover">
+                <img src="https://via.placeholder.com/150x220/1a2a33/ffffff?text=Connections" alt="Steel Connections">
+            </div>
+            <div class="book-info">
+                <h3>Steel Connections</h3>
+                <p class="book-author">AISC Design Guide</p>
+                <p class="book-desc">دليل شامل لتصميم الوصلات المعدنية المختلفة.</p>
+                <div class="book-progress">
+                    <label>Progress: <span class="progress-val">0%</span></label>
+                    <input type="range" class="progress-range" min="0" max="100" value="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Book 8 -->
+        <div class="book-card" data-category="bim" data-book-url="books/book8.pdf">
+            <div class="book-cover">
+                <img src="https://via.placeholder.com/150x220/1a2a33/ffffff?text=BIM+Manager" alt="BIM Manager">
+            </div>
+            <div class="book-info">
+                <h3>BIM Manager Guide</h3>
+                <p class="book-author">Practical BIM</p>
+                <p class="book-desc">إدارة مشاريع الـ BIM وتنسيق العمل بين التخصصات.</p>
+                <div class="book-progress">
+                    <label>Progress: <span class="progress-val">0%</span></label>
+                    <input type="range" class="progress-range" min="0" max="100" value="0">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- زر اقتراح كتاب -->
+    <div style="text-align: center; margin-top: 40px;">
+        <button id="openSuggestBookModal" class="btn-glass btn-orange">
+            Suggest a Book <i class="fas fa-book-medical" style="margin-left: 8px;"></i>
+        </button>
+    </div>
+</section>
+
+
+</div>
+
+<!-- Search Overlay -->
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Type to search...">
+        <button class="close-search" id="closeSearch">&times;</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+</div>
+
+<div class="progress-wrap">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+    </svg>
+    <i class="fa-solid fa-chevron-up scroll-arrow"></i>
+</div>
+
+<!-- زر العودة للرئيسية العائم -->
+<a href="index.html" class="floating-home-btn" title="Back to Home">
+    <i class="fas fa-home"></i>
+</a>
+
+<!-- نافذة إضافة التقييم (Review Modal) -->
+<div id="reviewModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal-btn" id="closeReviewModal">&times;</span>
+        <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 20px;">Add Your Review</h3>
+        <form id="reviewForm">
+            <div class="input-wrapper" style="margin-bottom: 15px;">
+                <input type="text" placeholder="Your Name" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+            </div>
+            <div class="input-wrapper" style="margin-bottom: 15px;">
+                <input type="text" placeholder="Job Title / Company" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+            </div>
+            <div class="input-wrapper" style="margin-bottom: 15px;">
+                <textarea placeholder="Your Feedback..." required style="width: 100%; height: 100px; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; resize: none;"></textarea>
+            </div>
+            <div class="rating-input" style="text-align: center; margin-bottom: 25px;">
+                <p style="color: #aaa; font-size: 14px; margin-bottom: 10px;">Rate your experience:</p>
+                <div class="stars" style="color: #ffc107; font-size: 24px; cursor: pointer;">
+                    <i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i>
+                </div>
+                <input type="hidden" id="ratingValue" value="0">
+            </div>
+            <button type="submit" class="btn-glass btn-orange" style="width: 100%; justify-content: center;">Submit Review</button>
+        </form>
+    </div>
+</div>
+
+<!-- نافذة عرض المقال (Blog Post Modal) -->
+<div id="blogModal" class="modal">
+    <div class="modal-content blog-modal-content">
+        <span class="close-modal-btn" id="closeBlogModal">&times;</span>
+        <button class="save-pdf-btn" id="savePdfBtn" title="Save as PDF">
+            <i class="fas fa-file-pdf"></i>
+        </button>
+        <button class="print-article-btn" id="printArticleBtn" title="Print Article">
+            <i class="fas fa-print"></i>
+        </button>
+        <button class="share-article-btn" id="shareArticleBtn" title="Share Article">
+            <i class="fas fa-share-alt"></i>
+        </button>
+        <div class="blog-modal-header">
+            <span class="blog-modal-category"></span>
+            <span class="blog-modal-date"></span>
+        </div>
+        <h3 class="blog-modal-title"></h3>
+        <img class="blog-modal-image" src="" alt="Article Image">
+        <div class="blog-modal-body"></div>
+    </div>
+</div>
+
+<!-- نافذة اقتراح كتاب (Suggest Book Modal) -->
+<div id="suggestBookModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal-btn" id="closeSuggestBookModal">&times;</span>
+        <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 20px;">Suggest a Book</h3>
+        <form id="suggestBookForm">
+            <div class="input-wrapper" style="margin-bottom: 15px;">
+                <input type="text" id="bookTitle" placeholder="Book Title" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+            </div>
+            <div class="input-wrapper" style="margin-bottom: 15px;">
+                <input type="text" id="bookAuthor" placeholder="Author (Optional)" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+            </div>
+            <div class="input-wrapper" style="margin-bottom: 15px;">
+                <input type="email" id="bookSuggesterEmail" placeholder="Your Email (Optional)" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+            </div>
+            <button type="submit" class="btn-glass btn-orange" style="width: 100%; justify-content: center;">Submit Suggestion</button>
+        </form>
+        
+        <!-- رسالة النجاح (مخفية افتراضياً) -->
+        <div id="suggestSuccessMsg" style="display: none; text-align: center; padding: 10px; animation: fadeInUpText 0.5s ease forwards;">
+            <div style="width: 70px; height: 70px; background: rgba(37, 211, 102, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <i class="fas fa-check" style="font-size: 35px; color: #25D366;"></i>
+            </div>
+            <h3 style="color: #fff; margin-bottom: 10px;">Thank You!</h3>
+            <p style="color: #a8b2d1; font-size: 14px; margin-bottom: 25px;">Your suggestion has been sent successfully.</p>
+            <button id="suggestAnotherBtn" class="btn-glass btn-orange" style="padding: 8px 25px; font-size: 14px;">Suggest Another</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة عرض الكتاب (Book Preview Modal) -->
+<div id="bookViewModal" class="modal">
+    <div class="modal-content book-modal-content">
+        <span class="close-modal-btn" id="closeBookViewModal">&times;</span>
+        <div class="book-modal-grid">
+            <div class="book-modal-cover">
+                <img id="modalBookCover" src="" alt="Book Cover">
+            </div>
+            <div class="book-modal-details">
+                <h3 id="modalBookTitle"></h3>
+                <p id="modalBookAuthor" class="modal-author"></p>
+                <p id="modalBookDesc" class="modal-desc"></p>
+                <a href="#" id="modalBookDownload" class="btn-glass btn-orange" target="_blank">
+                    Download / Read <i class="fas fa-file-pdf" style="margin-left: 8px;"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script src="skill.js"></script>
+<script src="about.js"></script>
+</body>
+</html>
