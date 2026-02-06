@@ -1,3 +1,13 @@
+firebase.auth().getRedirectResult().then((result) => {
+  if (result.user) {
+    console.log("Logged in user:", result.user);
+    // هنا تقدر توجهه لصفحة الأدوات أو تحدث البروفايل
+  }
+}).catch((error) => {
+  console.error("Redirect Error:", error);
+});
+
+
 /* ==========================================================================
    1. دوال الحسابات الهندسية (موجودة هنا لمنع مشاكل الاستدعاء)
    ========================================================================== */
@@ -20,23 +30,6 @@ function calculateFixedBaseLogic({ M, N, L, B, Fcu }) {
     `;
 }
 
-// منطق حساب Hinged Base Plate
-function calculateHingedBaseLogic({ N, L, B, Fcu, grade }) {
-    const area = L * B;
-    const stress = (N * 1000) / area;
-    const allow = 0.3 * Fcu;
-    const status = stress < allow ? "SAFE" : "UNSAFE";
-    const color = status === "SAFE" ? "#25D366" : "#ff4b4b";
-
-    return `
-        <div style="padding:15px; color:#fff;">
-            <h4 style="color:#ff9800; margin-bottom:10px;">Analysis Result</h4>
-            <p><strong>Bearing Stress:</strong> ${stress.toFixed(2)} kg/cm²</p>
-            <p><strong>Allowable:</strong> ${allow.toFixed(2)} kg/cm²</p>
-            <p><strong>Status:</strong> <span style="color:${color}; font-weight:bold;">${status}</span></p>
-        </div>
-    `;
-}
 
 /* ==========================================================================
    2. إعدادات Firebase (Auth & Database)
@@ -357,12 +350,42 @@ let isPro = false;
 let userCredits = 0; // إجمالي الرصيد (مجاني + مدفوع)
 
 // --- ب) مراقبة حالة المستخدم (التحقق + النقاط + القائمة) ---
+// 1. فحص نتيجة الـ Redirect (خارج أي دالة - تعمل فور تحميل الملف)
+firebase.auth().getRedirectResult()
+    .then((result) => {
+        if (result.user) {
+            console.log("تم العودة من Google وتدجيل الدخول بنجاح!");
+            // لا حاجة لعمل شيء هنا، لأن onAuthStateChanged ستلقط المستخدم تلقائياً
+        }
+    }).catch((error) => {
+        if (error.code === 'auth/account-exists-with-different-credential') {
+            alert("هذا الإيميل مستخدم مسبقاً بطريقة دخول أخرى.");
+        }
+        console.error("خطأ في العودة من الـ Redirect:", error);
+    });
+
+// 2. مراقبة حالة المستخدم (onAuthStateChanged)
 firebase.auth().onAuthStateChanged((user) => {
     const authItem = document.getElementById('authItem');
     const profileItem = document.getElementById('userProfileItem');
     const adminNav = document.getElementById('adminNavItem');
     const avatar = document.getElementById('userAvatar');
 
+    if (user) {
+        // ... (باقي الكود الخاص بك لإظهار البروفايل)
+        console.log("المستخدم مسجل دخول حالياً:", user.displayName);
+        if (authItem) authItem.style.display = 'none';
+        if (profileItem) {
+            profileItem.style.display = 'flex';
+            if (avatar) avatar.src = user.photoURL || 'images/default-avatar.png';
+        }
+    } else {
+        // حالة تسجيل الخروج
+        if (authItem) authItem.style.display = 'block';
+        if (profileItem) profileItem.style.display = 'none';
+        if (adminNav) adminNav.style.display = 'none';
+    }
+});
     if (user) {
         // 1. التحقق من البريد الإلكتروني (إجباري لو سجل بإيميل وباسورد)
         if (!user.emailVerified && user.providerData.length > 0 && user.providerData[0].providerId === 'password') {

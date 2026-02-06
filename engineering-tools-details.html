@@ -155,6 +155,45 @@
 
             <!-- Main Content Area -->
             <main class="suite-content">
+                <div id="tool-fixed-base" class="tool-view">
+    <h3 class="tool-title"><i class="fas fa-anchor"></i> Fixed Base Plate Design</h3>
+    <div class="calculator-grid">
+        <div class="calc-row">
+            <div class="input-group"><label>Moment M (m.t)</label><input type="number" id="fb_M" placeholder="e.g. 64"></div>
+            <div class="input-group"><label>Axial N (ton)</label><input type="number" id="fb_N" placeholder="e.g. 30"></div>
+            <div class="input-group"><label>Shear Q (ton)</label><input type="number" id="fb_Q" placeholder="e.g. 6"></div>
+        </div>
+        <div class="calc-divider"><span>Base Plate & Concrete</span></div>
+        <div class="calc-row">
+            <div class="input-group"><label>Length L (cm)</label><input type="number" id="fb_L" placeholder="e.g. 125"></div>
+            <div class="input-group"><label>Width B (cm) </label><input type="number" id="fb_B" placeholder="e.g. 65"></div>
+            <div class="input-group"><label>Concrete Fcu (kg/cm²)</label><input type="number" id="fb_Fcu" value="300"></div>
+        </div>
+        <button class="btn-glass btn-orange full-width-btn" onclick="calculateFixedBase()">
+            <i class="fas fa-calculator"></i> Calculate Fixed Base
+        </button>
+    </div>
+    <div id="fb_Result" class="calculator-result hidden-result"></div>
+</div>
+
+<div id="tool-hinged-base" class="tool-view">
+    <h3 class="tool-title"><i class="fas fa-compress-arrows-alt"></i> Hinged Base Plate Design</h3>
+    <div class="calculator-grid">
+        <div class="calc-row">
+            <div class="input-group"><label>Axial N (ton)</label><input type="number" id="hb_N" placeholder="e.g. 20"></div>
+            <div class="input-group"><label>Shear Q (ton)</label><input type="number" id="hb_Q" placeholder="e.g. 5"></div>
+        </div>
+        <div class="calc-row">
+            <div class="input-group"><label>Length L (cm)</label><input type="number" id="hb_L" placeholder="e.g. 40"></div>
+            <div class="input-group"><label>Width B (cm)</label><input type="number" id="hb_B" placeholder="e.g. 40"></div>
+            <div class="input-group"><label>Concrete Fcu</label><input type="number" id="hb_Fcu" value="250"></div>
+        </div>
+        <button class="btn-glass btn-orange full-width-btn" onclick="calculateHingedBase()">
+            <i class="fas fa-calculator"></i> Calculate Hinged Base
+        </button>
+    </div>
+    <div id="hb_Result" class="calculator-result hidden-result"></div>
+</div>
                 <div id="suite-welcome" class="tool-view active">
                     <div class="empty-state">
                         <i class="fas fa-drafting-compass"></i>
