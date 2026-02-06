@@ -3151,12 +3151,41 @@ transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
     transform: scale(1.2); /* تعديل: تكبير الأيقونة أكثر */
 }
 
+/* التحكم في ظهور البحث حسب الشاشة */
+.mobile-only-search {
+    display: none !important; /* مخفي في اللابتوب */
+}
+.desktop-only-search {
+    display: block; /* ظاهر في اللابتوب */
+}
+
+/* ضمان ظهور زر اللوجن وعدم انكماشه */
+#authItem {
+    display: block; /* التأكد من ظهوره (إلا لو JS أخفاه) */
+    flex-shrink: 0; /* منع الانكماش في الشاشات الضيقة */
+}
+#loginBtn {
+    white-space: nowrap; /* منع نزول النص لسطرين */
+}
+/* تنسيق زر البحث داخل القائمة */
+.nav-links .header-search-icon {
+    margin-left: 5px;
+}
+
 /* ============================================================
    2. التابلت والشاشات المتوسطة - أقل من 992px
    ============================================================ */
 @media (max-width: 992px) {
     .main-header {
         padding: 15px 20px !important; 
+    }
+
+    /* تبديل ظهور البحث في الموبايل */
+    .mobile-only-search {
+        display: flex !important;
+    }
+    .desktop-only-search {
+        display: none !important;
     }
 
     /* تنسيق لوجو الموبايل داخل القائمة */

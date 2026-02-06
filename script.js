@@ -457,41 +457,57 @@ function updateCreditsUI() {
 // --- د) تسجيل الدخول والخصم ---
 
 // --- د) نظام تسجيل الدخول (المحسن لمنع تداخل النوافذ) ---
+// ... الكود اللي قبله (نظام الـ UI والـ Theme)
 
+// --- د) نظام تسجيل الدخول (المحسن لمنع الحجب وتداخل النوافذ) ---
 const loginBtn = document.getElementById('loginBtn');
 
 if (loginBtn) {
-    loginBtn.addEventListener('click', async (e) => {
+    loginBtn.addEventListener('click', (e) => {
         e.preventDefault();
 
-        // لو الزرار عليه "Disable" (يعني فيه عملية شغالة)، ما تعملش حاجة
-        if (loginBtn.getAttribute('disabled') === 'true') return;
+        // 1. فحص سريع لو العملية شغالة فعلاً
+        if (loginBtn.disabled) return;
 
-        // 1. قفل الزرار فوراً
-        loginBtn.setAttribute('disabled', 'true');
+        const provider = new firebase.auth.GoogleAuthProvider();
+        
+        // تغيير شكل الزرار
         const originalContent = loginBtn.innerHTML;
         loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+        loginBtn.disabled = true;
 
-        try {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            // تسجيل الدخول
-            await firebase.auth().signInWithPopup(provider);
-            console.log("تم تسجيل الدخول بنجاح!");
-            
-        } catch (error) {
-            console.error("Login Error:", error);
-            
-            // لو اليوزر قفل النافذة يدوي (خطأ 421 أو popup-closed)، ما تطلعش alert
-            if (error.code !== 'auth/cancelled-popup-request' && error.code !== 'auth/popup-closed-by-user') {
-                alert("عذراً، حدث خطأ: " + error.message);
-            }
-        } finally {
-            // 2. رجع الزرار يشتغل تاني مهما كانت النتيجة
-            loginBtn.removeAttribute('disabled');
-            loginBtn.innerHTML = originalContent;
-        }
+        // 2. محاولة فتح الـ Popup فوراً
+        firebase.auth().signInWithPopup(provider)
+            .then(() => {
+                console.log("تم تسجيل الدخول بنجاح!");
+            })
+            .catch((error) => {
+                console.error("Login Error:", error);
+
+                // 3. لو المتصفح عمل Block للـ Popup، نستخدم الحل البديل فوراً
+                if (error.code === 'auth/popup-blocked') {
+                    console.warn("Popup blocked! Switching to Redirect...");
+                    firebase.auth().signInWithRedirect(provider);
+                } 
+                else if (error.code === 'auth/cancelled-popup-request' || error.code === 'auth/popup-closed-by-user') {
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = originalContent;
+                } else {
+                    alert("عذراً، حدث خطأ: " + error.message);
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = originalContent;
+                }
+            })
+            .finally(() => {
+                if (firebase.auth().currentUser) {
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = originalContent;
+                }
+            });
     });
 }
+
+// ... كمل باقي الكود (دالة خصم الرصيد والأدوات)
 
 // دالة خصم الرصيد الذكية (تخصم من المجاني أولاً)
 window.checkAndDeductCredit = async function() {
