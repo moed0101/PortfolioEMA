@@ -336,56 +336,63 @@ if (jobTitleElement) {
 
     // --- ب) نظام المصادقة وإدارة حالة المستخدم (Authentication & State Management) ---
 
-    // 1. متغيرات حالة المستخدم
-    let currentUser = null;
-    let isPro = false;
-    let userCredits = 0;
+// --- ب) نظام المصادقة وإدارة حالة المستخدم (Authentication & State Management) ---
 
-    // 2. معالجة تسجيل الدخول
-    const loginBtn = document.getElementById('loginBtn');
-    if (loginBtn) {
-        loginBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (loginBtn.disabled || !auth) return;
+// 1. متغيرات حالة المستخدم
+let currentUser = null;
+let isPro = false;
+let userCredits = 0;
 
-            const provider = new firebase.auth.GoogleAuthProvider();
-            const originalContent = loginBtn.innerHTML;
-            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-            loginBtn.disabled = true;
+// 2. معالجة تسجيل الدخول
+const loginBtn = document.getElementById('loginBtn');
+if (loginBtn) {
+    loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (loginBtn.disabled || !auth) return;
 
-            auth.signInWithPopup(provider)
-                .then((result) => {
-                    if (result.user) {
-                        alert(`Welcome back, ${result.user.displayName}!`);
-                    }
-                })
-                .catch((error) => {
-                    console.warn("Popup Error:", error.code);
-                    
-                    // 1. تجاهل الخطأ إذا أغلق المستخدم النافذة بنفسه (بدون رسالة مزعجة)
-                    if (error.code === 'auth/popup-closed-by-user') {
-                        return;
-                    }
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const originalContent = loginBtn.innerHTML;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+        loginBtn.disabled = true;
 
-                    if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
-                        auth.signInWithRedirect(provider);
-                    } else if (error.code === 'auth/operation-not-allowed') {
-                        alert("تنبيه: تسجيل الدخول بجوجل غير مفعل في إعدادات Firebase Console.");
-                    } else if (error.code === 'auth/unauthorized-domain' || error.message.includes('requests-from-referer')) {
-                        alert(`تنبيه هام للمطور: الدومين (${window.location.hostname}) غير مضاف في Firebase Authorized Domains. يرجى إضافته من لوحة التحكم.`);
-                    } else {
-                        alert("عذراً، حدث خطأ: " + error.message);
-                    }
-                })
-                .finally(() => {
-                    // إعادة تفعيل الزر فقط إذا لم يكتمل الدخول (مثلاً أغلق النافذة)
-                    if (!auth.currentUser) {
-                        loginBtn.disabled = false;
-                        loginBtn.innerHTML = originalContent;
-                    }
-                });
-        });
-    }
+        auth.signInWithPopup(provider)
+            .then((result) => {
+                if (result.user) {
+                    alert(`Welcome back, ${result.user.displayName}!`);
+                }
+            })
+            .catch((error) => {
+                console.warn("Auth Error:", error.code, error.message);
+
+                // تجاهل الخطأ إذا أغلق المستخدم النافذة بنفسه
+                if (error.code === 'auth/popup-closed-by-user') {
+                    return;
+                }
+
+                // في حالة منع الـ popup نحول لـ redirect
+                if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
+                    auth.signInWithRedirect(provider);
+                    return;
+                }
+
+                // لو Google Sign-In غير مفعل
+                if (error.code === 'auth/operation-not-allowed') {
+                    alert("تنبيه: تسجيل الدخول بجوجل غير مفعل في إعدادات Firebase Console.");
+                    return;
+                }
+
+                // عرض الخطأ الحقيقي من Firebase
+                alert("Firebase Auth Error:\n" + error.code + "\n" + error.message);
+            })
+            .finally(() => {
+                // إعادة تفعيل الزر فقط إذا لم يكتمل الدخول
+                if (!auth.currentUser) {
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = originalContent;
+                }
+            });
+    });
+}
 
     // 3. مراقبة التغير في حالة المستخدم (الدخول والخروج)
     if (auth) {
