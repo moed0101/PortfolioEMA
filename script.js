@@ -371,6 +371,8 @@ if (jobTitleElement) {
                         auth.signInWithRedirect(provider);
                     } else if (error.code === 'auth/operation-not-allowed') {
                         alert("تنبيه: تسجيل الدخول بجوجل غير مفعل في إعدادات Firebase Console.");
+                    } else if (error.code === 'auth/unauthorized-domain' || error.message.includes('requests-from-referer')) {
+                        alert("تنبيه هام للمطور: هذا الدومين غير مضاف في Firebase Authorized Domains. يرجى إضافته من لوحة التحكم.");
                     } else {
                         alert("عذراً، حدث خطأ: " + error.message);
                     }
