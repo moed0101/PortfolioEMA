@@ -365,7 +365,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
     if (user) {
         // 1. التحقق من البريد الإلكتروني (إجباري لو سجل بإيميل وباسورد)
-        if (!user.emailVerified && user.providerData[0].providerId === 'password') {
+        if (!user.emailVerified && user.providerData.length > 0 && user.providerData[0].providerId === 'password') {
             alert("يا هندسة فعل الحساب من الإيميل الأول! تم إرسال رابط التحقق لك.");
             user.sendEmailVerification(); // إعادة إرسال الرابط للتأكيد
             firebase.auth().signOut();
@@ -375,50 +375,69 @@ firebase.auth().onAuthStateChanged((user) => {
         currentUser = user;
         
         // إظهار البروفايل وإخفاء زرار الدخول
-        if (authItem) authItem.style.display = 'none';
+        if (authItem) {
+            authItem.style.display = 'none';
+        } else {
+            // حل بديل: لو الحاوية مش موجودة، نخفي الزرار نفسه
+            const btn = document.getElementById('loginBtn');
+            if (btn) btn.style.display = 'none';
+        }
+
         if (profileItem) {
             profileItem.style.display = 'flex';
             if (avatar) avatar.src = user.photoURL || 'images/default-avatar.png';
         }
 
         // 2. جلب بيانات المستخدم والنقاط من Firestore
-        const userDocRef = db.collection('users').doc(user.uid);
-        userDocRef.onSnapshot((doc) => {
-            if (!doc.exists) {
-                // إنشاء سجل لمستخدم جديد
-                userDocRef.set({
-                    email: user.email,
-                    name: user.displayName || "User",
-                    freeCredits: 3,
-                    paidCredits: 0,
-                    isPro: false,
-                    role: 'user',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            } else {
-                const data = doc.data();
-                isPro = data.isPro;
-                
-                // تحديث الأرقام في القائمة المنسدلة (تأكد من وجود الـ IDs دي في الـ HTML)
-                if (document.getElementById('freeLabel')) document.getElementById('freeLabel').innerText = data.freeCredits || 0;
-                if (document.getElementById('paidLabel')) document.getElementById('paidLabel').innerText = data.paidCredits || 0;
-                
-                // تحديث الرصيد الإجمالي للـ UI القديم
-                userCredits = (data.freeCredits || 0) + (data.paidCredits || 0);
-                updateCreditsUI();
+        if (db) {
+            const userDocRef = db.collection('users').doc(user.uid);
+            userDocRef.onSnapshot((doc) => {
+                if (!doc.exists) {
+                    // إنشاء سجل لمستخدم جديد
+                    userDocRef.set({
+                        email: user.email,
+                        name: user.displayName || "User",
+                        freeCredits: 3,
+                        paidCredits: 0,
+                        isPro: false,
+                        role: 'user',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }).catch(err => console.error("Error creating user:", err));
+                } else {
+                    const data = doc.data();
+                    isPro = data.isPro;
+                    
+                    // تحديث الأرقام في القائمة المنسدلة (تأكد من وجود الـ IDs دي في الـ HTML)
+                    if (document.getElementById('freeLabel')) document.getElementById('freeLabel').innerText = data.freeCredits || 0;
+                    if (document.getElementById('paidLabel')) document.getElementById('paidLabel').innerText = data.paidCredits || 0;
+                    
+                    // تحديث الرصيد الإجمالي للـ UI القديم
+                    userCredits = (data.freeCredits || 0) + (data.paidCredits || 0);
+                    updateCreditsUI();
 
-                // التحقق من صلاحيات الأدمن
-                if (data.role === 'admin' || user.email === "moayman.work@gmail.com") {
-                    if (adminNav) adminNav.style.display = 'block';
+                    // التحقق من صلاحيات الأدمن
+                    if (data.role === 'admin' || user.email === "moayman.work@gmail.com") {
+                        if (adminNav) adminNav.style.display = 'block';
+                    }
                 }
-            }
-        });
+            }, (error) => {
+                console.error("Error fetching user data:", error);
+            });
+        } else {
+            console.warn("Firestore (db) is not initialized.");
+        }
 
     } else {
         // حالة تسجيل الخروج
         currentUser = null;
         userCredits = 0;
-        if (authItem) authItem.style.display = 'block';
+        if (authItem) {
+            authItem.style.display = 'block';
+        } else {
+            const btn = document.getElementById('loginBtn');
+            if (btn) btn.style.display = 'block';
+        }
+        
         if (profileItem) profileItem.style.display = 'none';
         if (adminNav) adminNav.style.display = 'none';
     }
@@ -1164,4 +1183,3 @@ window.checkAndDeductCredit = async function() {
         }
     };
 }); // <--- تأكد إن ده هو آخر سطر في الملف ومفيش بعده أي حاجة
-
