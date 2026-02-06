@@ -175,7 +175,7 @@
 </li>
     
     <!-- زر لوحة التحكم (يظهر للمدير فقط) -->
-    <li id="adminNavItem" style="display: none;"><a href="#" id="adminBtn" style="color: #ff4b4b; font-weight: bold;"><i class="fas fa-user-shield"></i> Admin</a></li>
+    <li id="adminNavItem" style="display: none;"><a href="admin.html" id="adminBtn" style="color: #ff4b4b; font-weight: bold;"><i class="fas fa-user-shield"></i> Admin</a></li>
   </ul>
 
   <!-- زر القائمة للموبايل (الثلاث شرط) -->
@@ -690,6 +690,55 @@
         <h3>Message Sent Successfully!</h3>
         <p>شكراً لتواصلك معي! تم استلام رسالتك بنجاح وسأقوم بالرد عليك في أقرب وقت.</p>
         <button class="close-success-btn" id="closeSuccessBtn">Awesome! 🚀</button>
+    </div>
+</div>
+
+
+<!-- مثال لزر يوضع داخل القائمة -->
+<a href="#" onclick="openProfileSettings(); return false;">
+    <i class="fas fa-user-cog"></i> Profile Settings
+</a>
+
+
+<!-- نافذة تعديل البروفايل -->
+<div id="profileModal" class="modal">
+    <div class="modal-content profile-modal-content">
+        <span class="close-modal-btn" id="closeProfileModal">&times;</span>
+        
+        <div class="profile-header">
+            <h3>Edit Profile</h3>
+            <p>Update your personal information</p>
+        </div>
+
+        <form id="profileForm" class="modern-contact-form">
+            <div class="profile-avatar-section">
+                <img id="previewAvatar" src="images/default-avatar.png" alt="Profile" class="profile-pic-preview">
+                <!-- ملاحظة: رفع الصور يحتاج إعدادات Storage، هنا سنعتمد على الرابط أو الاسم مؤقتاً -->
+            </div>
+
+            <div class="form-row">
+                <div class="input-wrapper">
+                    <input type="text" id="editName" placeholder=" " required>
+                    <label>Full Name</label>
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" id="editJob" placeholder=" " required>
+                    <label>Job Title</label>
+                    <i class="fas fa-briefcase input-icon"></i>
+                </div>
+            </div>
+
+            <div class="input-wrapper">
+                <textarea id="editBio" placeholder=" " style="height: 100px;"></textarea>
+                <label>Short Bio</label>
+                <i class="fas fa-info-circle input-icon"></i>
+            </div>
+
+            <button type="submit" class="contact-submit-btn" style="width: 100%; justify-content: center;">
+                Save Changes <i class="fas fa-save"></i>
+            </button>
+        </form>
     </div>
 </div>
 

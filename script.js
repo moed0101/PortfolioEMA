@@ -359,8 +359,8 @@ let userCredits = 0; // إجمالي الرصيد (مجاني + مدفوع)
 // --- ب) مراقبة حالة المستخدم (التحقق + النقاط + القائمة) ---
 firebase.auth().onAuthStateChanged((user) => {
     const authItem = document.getElementById('authItem');
-    const profileItem = document.getElementById('profileItem');
-    const adminNav = document.getElementById('adminNav');
+    const profileItem = document.getElementById('userProfileItem');
+    const adminNav = document.getElementById('adminNavItem');
     const avatar = document.getElementById('userAvatar');
 
     if (user) {
@@ -416,7 +416,7 @@ firebase.auth().onAuthStateChanged((user) => {
                     updateCreditsUI();
 
                     // التحقق من صلاحيات الأدمن
-                    if (data.role === 'admin' || user.email === "moayman.work@gmail.com") {
+                    if (data.role === 'admin' || user.email === "01012025103l@gmail.com") {
                         if (adminNav) adminNav.style.display = 'block';
                     }
                 }
@@ -1181,5 +1181,113 @@ window.checkAndDeductCredit = async function() {
                 });
             }
         }
+    };
+
+    // --- ن) نظام البروفايل وتعديل البيانات (Profile Settings) ---
+    window.openProfileSettings = function() {
+        if (!currentUser) {
+            alert("يرجى تسجيل الدخول أولاً!");
+            return;
+        }
+
+        let modal = document.getElementById('profileModal');
+        
+        // إنشاء المودال ديناميكياً لو مش موجود
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'profileModal';
+            modal.className = 'modal'; // نستخدم نفس كلاس المودال الموجود في CSS
+            modal.innerHTML = `
+                <div class="modal-content profile-modal-content">
+                    <span class="close-modal-btn" onclick="document.getElementById('profileModal').classList.remove('active')">&times;</span>
+                    <h3 style="color: var(--primary-color); margin-bottom: 20px; text-align: center;">Edit Profile</h3>
+                    <div class="profile-form">
+                        <div class="input-wrapper">
+                            <label>Full Name</label>
+                            <input type="text" id="profileName" placeholder="Enter your name">
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Job Title</label>
+                            <input type="text" id="profileJob" placeholder="e.g. Civil Engineer">
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Phone Number</label>
+                            <input type="tel" id="profilePhone" placeholder="Enter phone number">
+                        </div>
+                        <button class="btn-glass btn-orange" onclick="saveProfileChanges()" style="width: 100%; justify-content: center; margin-top: 10px;">
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // إغلاق عند الضغط خارج الصندوق
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        }
+
+        // تعبئة البيانات
+        const nameInput = document.getElementById('profileName');
+        const jobInput = document.getElementById('profileJob');
+        const phoneInput = document.getElementById('profilePhone');
+
+        // القيم الافتراضية من الـ Auth
+        nameInput.value = currentUser.displayName || "";
+
+        // جلب باقي البيانات من Firestore
+        if (db) {
+            db.collection('users').doc(currentUser.uid).get().then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    if (data.name) nameInput.value = data.name;
+                    if (data.jobTitle) jobInput.value = data.jobTitle;
+                    if (data.phone) phoneInput.value = data.phone;
+                }
+            }).catch(err => console.error("Error fetching profile:", err));
+        }
+
+        // إظهار المودال
+        setTimeout(() => modal.classList.add('active'), 10);
+    };
+
+    window.saveProfileChanges = function() {
+        const name = document.getElementById('profileName').value;
+        const job = document.getElementById('profileJob').value;
+        const phone = document.getElementById('profilePhone').value;
+        const btn = document.querySelector('#profileModal button');
+
+        if (!name) return alert("Name is required!");
+
+        const originalText = btn.innerText;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        btn.disabled = true;
+
+        // 1. تحديث الـ Auth Profile
+        currentUser.updateProfile({
+            displayName: name
+        }).then(() => {
+            // 2. تحديث Firestore
+            if (db) {
+                return db.collection('users').doc(currentUser.uid).set({
+                    name: name,
+                    jobTitle: job,
+                    phone: phone,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+            }
+        }).then(() => {
+            alert("Profile updated successfully!");
+            document.getElementById('profileModal').classList.remove('active');
+            // تحديث الاسم في الموقع فوراً لو موجود (اختياري)
+            // location.reload(); 
+        }).catch((error) => {
+            console.error("Error updating profile:", error);
+            alert("Failed to update profile: " + error.message);
+        }).finally(() => {
+            btn.innerText = originalText;
+            btn.disabled = false;
+        });
     };
 }); // <--- تأكد إن ده هو آخر سطر في الملف ومفيش بعده أي حاجة

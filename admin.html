@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | PortfolioEMA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <a href="index.html" class="main-logo">
+            <div class="logo-wrapper">
+                <span class="logo-text" style="opacity: 1; transform: none; position: relative;">Admin Dashboard</span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#" onclick="firebase.auth().signOut()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </header>
+
+    <!-- Main Content -->
+    <div class="page-content-wrapper" style="padding-top: 120px; padding-bottom: 50px; min-height: 100vh;">
+        <div class="container-hero" style="flex-direction: column; align-items: stretch; max-width: 1200px; margin: 0 auto;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px;">
+                <h2 class="section-title" style="margin: 0; font-size: 2rem;">User Management</h2>
+                <div class="admin-controls" style="display: flex; gap: 10px;">
+                    <input type="text" id="searchUser" placeholder="Search by name or email..." 
+                           style="padding: 10px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; width: 250px;">
+                    <button class="btn-glass btn-orange" onclick="loadUsers()" style="padding: 10px 20px;">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <div style="overflow-x: auto; background: rgba(15, 23, 42, 0.6); border-radius: 15px; padding: 20px; border: 1px solid rgba(255,255,255,0.05);">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Free Credits</th>
+                            <th>Paid Credits</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
