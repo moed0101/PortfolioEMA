@@ -3394,7 +3394,7 @@ transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
     
     /* إخفاء سهم القائمة المنسدلة في الموبايل لأنها أصبحت روابط مباشرة */
     .dropdown .drop-trigger i.fa-chevron-down {
-        display: none;
+        display: none !important;
     }
 
     /* تنسيق القوائم المنسدلة داخل الموبايل (Accordion Style) */
@@ -3405,7 +3405,7 @@ transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
         box-shadow: none !important;
         background: rgba(0, 0, 0, 0.2) !important; /* خلفية أغمق شوية للتمييز */
         padding: 0 !important;
-        display: none;
+        display: none !important;
         opacity: 1 !important;
         visibility: visible !important;
         grid-template-columns: 1fr !important;
@@ -3415,11 +3415,7 @@ transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
     }
 
     .dropdown.active .mega-menu {
-        display: grid !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        height: auto !important;
-        margin-top: 10px;
+        display: none !important;
     }
 
     /* إخفاء الخط الطويل والنص الجانبي عشان الزحمة في الموبايل */

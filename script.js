@@ -354,10 +354,23 @@ if (jobTitleElement) {
             loginBtn.disabled = true;
 
             auth.signInWithPopup(provider)
+                .then((result) => {
+                    if (result.user) {
+                        alert(`Welcome back, ${result.user.displayName}!`);
+                    }
+                })
                 .catch((error) => {
                     console.warn("Popup Error:", error.code);
+                    
+                    // 1. تجاهل الخطأ إذا أغلق المستخدم النافذة بنفسه (بدون رسالة مزعجة)
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        return;
+                    }
+
                     if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
                         auth.signInWithRedirect(provider);
+                    } else if (error.code === 'auth/operation-not-allowed') {
+                        alert("تنبيه: تسجيل الدخول بجوجل غير مفعل في إعدادات Firebase Console.");
                     } else {
                         alert("عذراً، حدث خطأ: " + error.message);
                     }
