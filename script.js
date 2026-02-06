@@ -402,14 +402,50 @@ firebase.auth().onAuthStateChanged((user) => {
             authItem.style.display = 'none';
         } else {
             // حل بديل: لو الحاوية مش موجودة، نخفي الزرار نفسه
-            const btn = document.getElementById('loginBtn');
-            if (btn) btn.style.display = 'none';
+            const loginBtn = document.getElementById('loginBtn');
+
+if (loginBtn) {
+    loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log("1. تم الضغط على زر الدخول...");
+
+        // فحص هل firebase موجود أصلاً
+        if (typeof firebase === 'undefined') {
+            console.error("خطأ: Firebase logic غير محمل في الصفحة!");
+            alert("حدث خطأ في تحميل مكتبات النظام.");
+            return;
         }
 
-        if (profileItem) {
-            profileItem.style.display = 'flex';
-            if (avatar) avatar.src = user.photoURL || 'images/default-avatar.png';
-        }
+        const provider = new firebase.auth.GoogleAuthProvider();
+        
+        // تغيير شكل الزرار
+        const originalContent = loginBtn.innerHTML;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+        loginBtn.disabled = true;
+
+        console.log("2. محاولة فتح الـ Popup...");
+
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+                console.log("3. نجاح الدخول عبر الـ Popup:", result.user.displayName);
+            })
+            .catch((error) => {
+                console.warn("4. حدث خطأ أو تم حجب النافذة:", error.code);
+
+                if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
+                    console.log("5. يتم الآن التحويل (Redirect) بدلاً من الـ Popup...");
+                    firebase.auth().signInWithRedirect(provider);
+                } else {
+                    console.error("خطأ غير متوقع:", error.message);
+                    alert("عذراً، حدث خطأ: " + error.message);
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = originalContent;
+                }
+            });
+    });
+} else {
+    console.error("خطأ: لم يتم العثور على عنصر ID 'loginBtn' في الصفحة!");
+}
 
         // 2. جلب بيانات المستخدم والنقاط من Firestore
         if (db) {
