@@ -456,13 +456,40 @@ function updateCreditsUI() {
 
 // --- د) تسجيل الدخول والخصم ---
 
-// زرار الدخول بجوجل
+// --- د) نظام تسجيل الدخول (المحسن لمنع تداخل النوافذ) ---
+
 const loginBtn = document.getElementById('loginBtn');
+
 if (loginBtn) {
-    loginBtn.addEventListener('click', (e) => {
+    loginBtn.addEventListener('click', async (e) => {
         e.preventDefault();
-        const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).catch(err => alert(err.message));
+
+        // لو الزرار عليه "Disable" (يعني فيه عملية شغالة)، ما تعملش حاجة
+        if (loginBtn.getAttribute('disabled') === 'true') return;
+
+        // 1. قفل الزرار فوراً
+        loginBtn.setAttribute('disabled', 'true');
+        const originalContent = loginBtn.innerHTML;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+
+        try {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            // تسجيل الدخول
+            await firebase.auth().signInWithPopup(provider);
+            console.log("تم تسجيل الدخول بنجاح!");
+            
+        } catch (error) {
+            console.error("Login Error:", error);
+            
+            // لو اليوزر قفل النافذة يدوي (خطأ 421 أو popup-closed)، ما تطلعش alert
+            if (error.code !== 'auth/cancelled-popup-request' && error.code !== 'auth/popup-closed-by-user') {
+                alert("عذراً، حدث خطأ: " + error.message);
+            }
+        } finally {
+            // 2. رجع الزرار يشتغل تاني مهما كانت النتيجة
+            loginBtn.removeAttribute('disabled');
+            loginBtn.innerHTML = originalContent;
+        }
     });
 }
 
