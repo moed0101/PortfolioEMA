@@ -1,13 +1,3 @@
-firebase.auth().getRedirectResult().then((result) => {
-  if (result.user) {
-    console.log("Logged in user:", result.user);
-    // هنا تقدر توجهه لصفحة الأدوات أو تحدث البروفايل
-  }
-}).catch((error) => {
-  console.error("Redirect Error:", error);
-});
-
-
 /* ==========================================================================
    1. دوال الحسابات الهندسية (موجودة هنا لمنع مشاكل الاستدعاء)
    ========================================================================== */
@@ -344,274 +334,204 @@ if (jobTitleElement) {
     }
 
 
- // --- أ) متغيرات النظام الأساسية ---
-let currentUser = null;
-let isPro = false;
-let userCredits = 0; // إجمالي الرصيد (مجاني + مدفوع)
+    // --- ب) نظام المصادقة وإدارة حالة المستخدم (Authentication & State Management) ---
 
-// --- ب) مراقبة حالة المستخدم (التحقق + النقاط + القائمة) ---
-// 1. فحص نتيجة الـ Redirect (خارج أي دالة - تعمل فور تحميل الملف)
-firebase.auth().getRedirectResult()
-    .then((result) => {
-        if (result.user) {
-            console.log("تم العودة من Google وتدجيل الدخول بنجاح!");
-            // لا حاجة لعمل شيء هنا، لأن onAuthStateChanged ستلقط المستخدم تلقائياً
-        }
-    }).catch((error) => {
-        if (error.code === 'auth/account-exists-with-different-credential') {
-            alert("هذا الإيميل مستخدم مسبقاً بطريقة دخول أخرى.");
-        }
-        console.error("خطأ في العودة من الـ Redirect:", error);
-    });
+    // 1. متغيرات حالة المستخدم
+    let currentUser = null;
+    let isPro = false;
+    let userCredits = 0;
 
-// 2. مراقبة حالة المستخدم (onAuthStateChanged)
-firebase.auth().onAuthStateChanged((user) => {
-    const authItem = document.getElementById('authItem');
-    const profileItem = document.getElementById('userProfileItem');
-    const adminNav = document.getElementById('adminNavItem');
-    const avatar = document.getElementById('userAvatar');
+    // 2. معالجة تسجيل الدخول
+    const loginBtn = document.getElementById('loginBtn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (loginBtn.disabled || !auth) return;
 
-    if (user) {
-        // ... (باقي الكود الخاص بك لإظهار البروفايل)
-        console.log("المستخدم مسجل دخول حالياً:", user.displayName);
-        if (authItem) authItem.style.display = 'none';
-        if (profileItem) {
-            profileItem.style.display = 'flex';
-            if (avatar) avatar.src = user.photoURL || 'images/default-avatar.png';
-        }
-    } else {
-        // حالة تسجيل الخروج
-        if (authItem) authItem.style.display = 'block';
-        if (profileItem) profileItem.style.display = 'none';
-        if (adminNav) adminNav.style.display = 'none';
-    }
-});
-    if (user) {
-        // 1. التحقق من البريد الإلكتروني (إجباري لو سجل بإيميل وباسورد)
-        if (!user.emailVerified && user.providerData.length > 0 && user.providerData[0].providerId === 'password') {
-            alert("يا هندسة فعل الحساب من الإيميل الأول! تم إرسال رابط التحقق لك.");
-            user.sendEmailVerification(); // إعادة إرسال الرابط للتأكيد
-            firebase.auth().signOut();
-            return;
-        }
+            const provider = new firebase.auth.GoogleAuthProvider();
+            const originalContent = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            loginBtn.disabled = true;
 
-        currentUser = user;
-        
-        // إظهار البروفايل وإخفاء زرار الدخول
-        if (authItem) {
-            authItem.style.display = 'none';
-        } else {
-            // حل بديل: لو الحاوية مش موجودة، نخفي الزرار نفسه
-            const loginBtn = document.getElementById('loginBtn');
-
-if (loginBtn) {
-    loginBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log("1. تم الضغط على زر الدخول...");
-
-        // فحص هل firebase موجود أصلاً
-        if (typeof firebase === 'undefined') {
-            console.error("خطأ: Firebase logic غير محمل في الصفحة!");
-            alert("حدث خطأ في تحميل مكتبات النظام.");
-            return;
-        }
-
-        const provider = new firebase.auth.GoogleAuthProvider();
-        
-        // تغيير شكل الزرار
-        const originalContent = loginBtn.innerHTML;
-        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-        loginBtn.disabled = true;
-
-        console.log("2. محاولة فتح الـ Popup...");
-
-        firebase.auth().signInWithPopup(provider)
-            .then((result) => {
-                console.log("3. نجاح الدخول عبر الـ Popup:", result.user.displayName);
-            })
-            .catch((error) => {
-                console.warn("4. حدث خطأ أو تم حجب النافذة:", error.code);
-
-                if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
-                    console.log("5. يتم الآن التحويل (Redirect) بدلاً من الـ Popup...");
-                    firebase.auth().signInWithRedirect(provider);
-                } else {
-                    console.error("خطأ غير متوقع:", error.message);
-                    alert("عذراً، حدث خطأ: " + error.message);
-                    loginBtn.disabled = false;
-                    loginBtn.innerHTML = originalContent;
-                }
-            });
-    });
-} else {
-    console.error("خطأ: لم يتم العثور على عنصر ID 'loginBtn' في الصفحة!");
-}
-
-        // 2. جلب بيانات المستخدم والنقاط من Firestore
-        if (db) {
-            const userDocRef = db.collection('users').doc(user.uid);
-            userDocRef.onSnapshot((doc) => {
-                if (!doc.exists) {
-                    // إنشاء سجل لمستخدم جديد
-                    userDocRef.set({
-                        email: user.email,
-                        name: user.displayName || "User",
-                        freeCredits: 3,
-                        paidCredits: 0,
-                        isPro: false,
-                        role: 'user',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    }).catch(err => console.error("Error creating user:", err));
-                } else {
-                    const data = doc.data();
-                    isPro = data.isPro;
-                    
-                    // تحديث الأرقام في القائمة المنسدلة (تأكد من وجود الـ IDs دي في الـ HTML)
-                    if (document.getElementById('freeLabel')) document.getElementById('freeLabel').innerText = data.freeCredits || 0;
-                    if (document.getElementById('paidLabel')) document.getElementById('paidLabel').innerText = data.paidCredits || 0;
-                    
-                    // تحديث الرصيد الإجمالي للـ UI القديم
-                    userCredits = (data.freeCredits || 0) + (data.paidCredits || 0);
-                    updateCreditsUI();
-
-                    // التحقق من صلاحيات الأدمن
-                    if (data.role === 'admin' || user.email === "01012025103l@gmail.com") {
-                        if (adminNav) adminNav.style.display = 'block';
+            auth.signInWithPopup(provider)
+                .catch((error) => {
+                    console.warn("Popup Error:", error.code);
+                    if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
+                        auth.signInWithRedirect(provider);
+                    } else {
+                        alert("عذراً، حدث خطأ: " + error.message);
                     }
+                })
+                .finally(() => {
+                    // إعادة تفعيل الزر فقط إذا لم يكتمل الدخول (مثلاً أغلق النافذة)
+                    if (!auth.currentUser) {
+                        loginBtn.disabled = false;
+                        loginBtn.innerHTML = originalContent;
+                    }
+                });
+        });
+    }
+
+    // 3. مراقبة التغير في حالة المستخدم (الدخول والخروج)
+    if (auth) {
+        // معالجة العودة من عملية التحويل (Redirect)
+        auth.getRedirectResult()
+            .then((result) => {
+                if (result.user) {
+                    console.log("تم العودة من Google وتسجيل الدخول بنجاح!");
                 }
-            }, (error) => {
-                console.error("Error fetching user data:", error);
+            }).catch((error) => {
+                if (error.code === 'auth/account-exists-with-different-credential') {
+                    alert("هذا الإيميل مستخدم مسبقاً بطريقة دخول أخرى.");
+                }
+                console.error("خطأ في العودة من الـ Redirect:", error);
             });
-        } else {
-            console.warn("Firestore (db) is not initialized.");
-        }
 
-    } else {
-        // حالة تسجيل الخروج
-        currentUser = null;
-        userCredits = 0;
-        if (authItem) {
-            authItem.style.display = 'block';
-        } else {
-            const btn = document.getElementById('loginBtn');
-            if (btn) btn.style.display = 'block';
-        }
-        
-        if (profileItem) profileItem.style.display = 'none';
-        if (adminNav) adminNav.style.display = 'none';
-    }
-});
+        // المستمع الرئيسي لحالة المستخدم
+        auth.onAuthStateChanged((user) => {
+            const authItem = document.getElementById('authItem');
+            const profileItem = document.getElementById('userProfileItem');
+            const adminNav = document.getElementById('adminNavItem');
+            const avatar = document.getElementById('userAvatar');
 
-// --- ج) دوال الواجهة (UI) ---
+            if (user) {
+                // --- حالة تسجيل الدخول ---
 
-// فتح وقفل القائمة عند الضغط على الصورة
-window.toggleMyMenu = function(e) {
-    if(e) e.stopPropagation();
-    const menu = document.getElementById('userDropdownMenu');
-    if (menu) {
-        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-    }
-};
+                // 1. التحقق من تفعيل الإيميل (إذا كان التسجيل بكلمة مرور)
+                if (!user.emailVerified && user.providerData.length > 0 && user.providerData[0].providerId === 'password') {
+                    alert("يا هندسة فعل الحساب من الإيميل الأول! تم إرسال رابط التحقق لك.");
+                    user.sendEmailVerification();
+                    auth.signOut();
+                    return;
+                }
 
-// إغلاق القائمة لو ضغطت في أي مكان بره
-window.onclick = function() {
-    const menu = document.getElementById('userDropdownMenu');
-    if (menu) menu.style.display = 'none';
-};
+                currentUser = user;
 
-// تحديث عداد الرصيد المكتوب في الصفحة
-function updateCreditsUI() {
-    const creditEl = document.getElementById('userCredits');
-    if (!creditEl) return;
-    if (isPro) {
-        creditEl.innerHTML = '<i class="fas fa-infinity"></i> Pro';
-        creditEl.style.color = '#00d4ff';
-    } else {
-        creditEl.innerText = `${userCredits} Credits`;
-        creditEl.style.color = userCredits > 0 ? '#ff9800' : '#ff4b4b';
-    }
-}
+                // 2. تحديث واجهة المستخدم (إخفاء زر الدخول وإظهار البروفايل)
+                if (authItem) authItem.style.display = 'none';
+                if (profileItem) {
+                    profileItem.style.display = 'flex';
+                    if (avatar) avatar.src = user.photoURL || 'images/default-avatar.png';
+                }
 
-// --- د) تسجيل الدخول والخصم ---
+                // 3. جلب بيانات المستخدم من Firestore
+                if (db) {
+                    const userDocRef = db.collection('users').doc(user.uid);
+                    userDocRef.onSnapshot((doc) => {
+                        if (!doc.exists) {
+                            // إنشاء سجل لمستخدم جديد
+                            userDocRef.set({
+                                email: user.email,
+                                name: user.displayName || "User",
+                                freeCredits: 3,
+                                paidCredits: 0,
+                                isPro: false,
+                                role: 'user',
+                                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                            }).catch(err => console.error("Error creating user record:", err));
+                        } else {
+                            // تحديث البيانات للمستخدم الحالي
+                            const data = doc.data();
+                            isPro = data.isPro || false;
+                            
+                            // تحديث عرض النقاط في القائمة المنسدلة
+                            if (document.getElementById('freeLabel')) document.getElementById('freeLabel').innerText = data.freeCredits || 0;
+                            if (document.getElementById('paidLabel')) document.getElementById('paidLabel').innerText = data.paidCredits || 0;
+                            
+                            // تحديث إجمالي الرصيد
+                            userCredits = (data.freeCredits || 0) + (data.paidCredits || 0);
+                            updateCreditsUI();
 
-// --- د) نظام تسجيل الدخول (المحسن لمنع تداخل النوافذ) ---
-// ... الكود اللي قبله (نظام الـ UI والـ Theme)
-
-// --- د) نظام تسجيل الدخول (المحسن لمنع الحجب وتداخل النوافذ) ---
-const loginBtn = document.getElementById('loginBtn');
-
-if (loginBtn) {
-    loginBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        // 1. فحص سريع لو العملية شغالة فعلاً
-        if (loginBtn.disabled) return;
-
-        const provider = new firebase.auth.GoogleAuthProvider();
-        
-        // تغيير شكل الزرار
-        const originalContent = loginBtn.innerHTML;
-        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-        loginBtn.disabled = true;
-
-        // 2. محاولة فتح الـ Popup فوراً
-        firebase.auth().signInWithPopup(provider)
-            .then(() => {
-                console.log("تم تسجيل الدخول بنجاح!");
-            })
-            .catch((error) => {
-                console.error("Login Error:", error);
-
-                // 3. لو المتصفح عمل Block للـ Popup، نستخدم الحل البديل فوراً
-                if (error.code === 'auth/popup-blocked') {
-                    console.warn("Popup blocked! Switching to Redirect...");
-                    firebase.auth().signInWithRedirect(provider);
-                } 
-                else if (error.code === 'auth/cancelled-popup-request' || error.code === 'auth/popup-closed-by-user') {
-                    loginBtn.disabled = false;
-                    loginBtn.innerHTML = originalContent;
+                            // التحقق من صلاحيات الأدمن وإظهار الزر الخاص به
+                            if (data.role === 'admin' || user.email === ADMIN_EMAIL) {
+                                if (adminNav) adminNav.style.display = 'block';
+                            } else {
+                                if (adminNav) adminNav.style.display = 'none';
+                            }
+                        }
+                    }, (error) => {
+                        console.error("Error fetching user data from Firestore:", error);
+                        updateCreditsUI(); 
+                    });
                 } else {
-                    alert("عذراً، حدث خطأ: " + error.message);
-                    loginBtn.disabled = false;
-                    loginBtn.innerHTML = originalContent;
+                    console.warn("Firestore (db) is not initialized. Cannot fetch user data.");
                 }
-            })
-            .finally(() => {
-                if (firebase.auth().currentUser) {
-                    loginBtn.disabled = false;
-                    loginBtn.innerHTML = originalContent;
-                }
-            });
-    });
-}
 
-// ... كمل باقي الكود (دالة خصم الرصيد والأدوات)
+            } else {
+                // --- حالة تسجيل الخروج ---
+                currentUser = null;
+                userCredits = 0;
+                isPro = false;
+                updateCreditsUI(); // تحديث الواجهة لتعرض 0 نقاط
 
-// دالة خصم الرصيد الذكية (تخصم من المجاني أولاً)
-window.checkAndDeductCredit = async function() {
-    if (!currentUser) {
-        alert("يرجى تسجيل الدخول أولاً لاستخدام الأدوات.");
-        return false;
+                if (authItem) authItem.style.display = 'block';
+                if (profileItem) profileItem.style.display = 'none';
+                if (adminNav) adminNav.style.display = 'none';
+            }
+        });
     }
-    if (isPro) return true;
 
-    const userDocRef = db.collection('users').doc(currentUser.uid);
-    const doc = await userDocRef.get();
-    const data = doc.data();
-    let free = data.freeCredits || 0;
-    let paid = data.paidCredits || 0;
-
-    if (free > 0) {
-        await userDocRef.update({ freeCredits: free - 1 });
-        return true;
-    } else if (paid > 0) {
-        await userDocRef.update({ paidCredits: paid - 1 });
-        return true;
-    } else {
-        alert("لقد نفذ رصيدك (المجاني والمدفوع). يرجى الترقية.");
-        return false;
+    // --- ج) دوال الواجهة (UI) ---
+    function updateCreditsUI() {
+        const creditEl = document.getElementById('userCredits');
+        if (!creditEl) return;
+        if (isPro) {
+            creditEl.innerHTML = '<i class="fas fa-infinity"></i> Pro';
+            creditEl.style.color = '#00d4ff';
+        } else {
+            creditEl.innerText = `${userCredits} Credits`;
+            creditEl.style.color = userCredits > 0 ? '#ff9800' : '#ff4b4b';
+        }
     }
-};
+
+    window.toggleMyMenu = function(e) {
+        if(e) e.stopPropagation();
+        const menu = document.getElementById('userDropdownMenu');
+        if (menu) {
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+    };
+
+    window.onclick = function(event) {
+        const menu = document.getElementById('userDropdownMenu');
+        // إغلاق القائمة فقط إذا لم يكن الضغط على صورة البروفايل
+        if (menu && !event.target.closest('#userProfileItem')) {
+            menu.style.display = 'none';
+        }
+    };
+
+    // --- د) دالة خصم الرصيد ---
+    window.checkAndDeductCredit = async function() {
+        if (!currentUser) {
+            alert("يرجى تسجيل الدخول أولاً لاستخدام الأدوات.");
+            return false;
+        }
+        if (isPro) return true;
+
+        const userDocRef = db.collection('users').doc(currentUser.uid);
+        try {
+            const doc = await userDocRef.get();
+            if (!doc.exists) return false;
+            const data = doc.data();
+            let free = data.freeCredits || 0;
+            let paid = data.paidCredits || 0;
+
+            if (free > 0) {
+                await userDocRef.update({ freeCredits: free - 1 });
+                return true;
+            } else if (paid > 0) {
+                await userDocRef.update({ paidCredits: paid - 1 });
+                return true;
+            } else {
+                alert("لقد نفذ رصيدك. يرجى الترقية للاستمرار.");
+                return false;
+            }
+        } catch (error) {
+            console.error("Error deducting credit:", error);
+            return false;
+        }
+    };
+
     // --- ج) الأدوات والحاسبات (Tools Logic) ---
 
     // 1. التنقل في القائمة الجانبية (Sidebar)
