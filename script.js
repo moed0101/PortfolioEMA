@@ -4,7 +4,7 @@ emailjs.init("yqjvXcdxAy0y4uOM_");
 let currentUser = null;
 let isPro = false;
 let userCredits = 0;
-const ADMIN_EMAIL = "01012025103l@gmail.com"; // إيميلك الشخصي
+
 
 /* ==========================================================================
    1. دوال الحسابات الهندسية (موجودة هنا لمنع مشاكل الاستدعاء)
@@ -62,6 +62,73 @@ try {
     console.error("Firebase Init Error:", e);
 }
 
+
+// --- 4. المستمع الرئيسي لحالة المستخدم (المدمج) ---
+if (auth) {
+    auth.onAuthStateChanged((user) => {
+        const authItem = document.getElementById('authItem');
+        const profileItem = document.getElementById('userProfileItem');
+        const adminNav = document.getElementById('adminNavItem');
+        const avatar = document.getElementById('userAvatar');
+
+        if (user) {
+            // أ) التحقق من الـ OTP أولاً
+            const isTrusted = localStorage.getItem('trusted_device_' + user.uid);
+            if (!isTrusted) {
+                sendOTP(user, loginBtn, loginBtn ? loginBtn.innerHTML : "");
+                return; 
+            }
+
+            // ب) إذا كان موثوقاً، نُكمل جلب البيانات
+            currentUser = user;
+            if (authItem) authItem.style.display = 'none';
+            if (profileItem) {
+                profileItem.style.display = 'flex';
+                if (avatar) avatar.src = user.photoURL || 'images/default-avatar.png';
+            }
+
+            // ج) جلب الرصيد من Firestore
+            if (db) {
+                const userDocRef = db.collection('users').doc(user.uid);
+                userDocRef.onSnapshot((doc) => {
+                    if (!doc.exists) {
+                        userDocRef.set({
+                            email: user.email,
+                            name: user.displayName || "User",
+                            freeCredits: 3,
+                            paidCredits: 0,
+                            isPro: false,
+                            role: 'user',
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    } else {
+                        const data = doc.data();
+                        isPro = data.isPro || false;
+                        userCredits = (data.freeCredits || 0) + (data.paidCredits || 0);
+                        
+                        if (document.getElementById('freeLabel')) document.getElementById('freeLabel').innerText = data.freeCredits || 0;
+                        if (document.getElementById('paidLabel')) document.getElementById('paidLabel').innerText = data.paidCredits || 0;
+                        
+                        updateCreditsUI();
+
+                        if (data.role === 'admin' || user.email === ADMIN_EMAIL) {
+                            if (adminNav) adminNav.style.display = 'block';
+                        }
+                    }
+                });
+            }
+        } else {
+            // حالة تسجيل الخروج
+            currentUser = null;
+            userCredits = 0;
+            isPro = false;
+            updateCreditsUI();
+            if (authItem) authItem.style.display = 'block';
+            if (profileItem) profileItem.style.display = 'none';
+            if (adminNav) adminNav.style.display = 'none';
+        }
+    });
+}
 /* ==========================================================================
    3. كود الموقع الرئيسي (DOM Ready)
    ========================================================================== */
@@ -415,72 +482,7 @@ window.sendOTP = function(user, btn, originalHtml) {
         });
 }
 
-// --- 4. المستمع الرئيسي لحالة المستخدم (المدمج) ---
-if (auth) {
-    auth.onAuthStateChanged((user) => {
-        const authItem = document.getElementById('authItem');
-        const profileItem = document.getElementById('userProfileItem');
-        const adminNav = document.getElementById('adminNavItem');
-        const avatar = document.getElementById('userAvatar');
 
-        if (user) {
-            // أ) التحقق من الـ OTP أولاً
-            const isTrusted = localStorage.getItem('trusted_device_' + user.uid);
-            if (!isTrusted) {
-                sendOTP(user, loginBtn, loginBtn ? loginBtn.innerHTML : "");
-                return; 
-            }
-
-            // ب) إذا كان موثوقاً، نُكمل جلب البيانات
-            currentUser = user;
-            if (authItem) authItem.style.display = 'none';
-            if (profileItem) {
-                profileItem.style.display = 'flex';
-                if (avatar) avatar.src = user.photoURL || 'images/default-avatar.png';
-            }
-
-            // ج) جلب الرصيد من Firestore
-            if (db) {
-                const userDocRef = db.collection('users').doc(user.uid);
-                userDocRef.onSnapshot((doc) => {
-                    if (!doc.exists) {
-                        userDocRef.set({
-                            email: user.email,
-                            name: user.displayName || "User",
-                            freeCredits: 3,
-                            paidCredits: 0,
-                            isPro: false,
-                            role: 'user',
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    } else {
-                        const data = doc.data();
-                        isPro = data.isPro || false;
-                        userCredits = (data.freeCredits || 0) + (data.paidCredits || 0);
-                        
-                        if (document.getElementById('freeLabel')) document.getElementById('freeLabel').innerText = data.freeCredits || 0;
-                        if (document.getElementById('paidLabel')) document.getElementById('paidLabel').innerText = data.paidCredits || 0;
-                        
-                        updateCreditsUI();
-
-                        if (data.role === 'admin' || user.email === ADMIN_EMAIL) {
-                            if (adminNav) adminNav.style.display = 'block';
-                        }
-                    }
-                });
-            }
-        } else {
-            // حالة تسجيل الخروج
-            currentUser = null;
-            userCredits = 0;
-            isPro = false;
-            updateCreditsUI();
-            if (authItem) authItem.style.display = 'block';
-            if (profileItem) profileItem.style.display = 'none';
-            if (adminNav) adminNav.style.display = 'none';
-        }
-    });
-}
     // --- ج) الأدوات والحاسبات (Tools Logic) ---
 
     // 1. التنقل في القائمة الجانبية (Sidebar)
