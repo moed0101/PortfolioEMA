@@ -77,6 +77,39 @@ if (auth) {
             if (!isTrusted) {
                 sendOTP(user, loginBtn, loginBtn ? loginBtn.innerHTML : "");
                 return; 
+                // دالة لتفعيل زر إعادة الإرسال مع تايمر 30 ثانية
+function setupResendButton(user) {
+    const resendBtn = document.getElementById('resendOtpBtn');
+    const timerEl = document.getElementById('resendTimer');
+    let timeLeft = 30;
+
+    if (!resendBtn) return;
+
+    resendBtn.disabled = true;
+    resendBtn.style.opacity = "0.5";
+    resendBtn.style.cursor = "not-allowed";
+
+    const countdown = setInterval(() => {
+        timerEl.innerText = `يمكنك إعادة الإرسال بعد ${timeLeft} ثانية`;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            clearInterval(countdown);
+            resendBtn.disabled = false;
+            resendBtn.style.opacity = "1";
+            resendBtn.style.cursor = "pointer";
+            timerEl.innerText = "";
+        }
+    }, 1000);
+
+    resendBtn.onclick = () => {
+        console.log("Re-sending OTP...");
+        // استدعاء الدالة اللي موجودة في كودك الأصلي
+        window.sendOTP(user); 
+        // إعادة تشغيل التايمر
+        setupResendButton(user);
+    };
+}
             }
 
             // ب) إذا كان موثوقاً، نُكمل جلب البيانات
@@ -461,6 +494,9 @@ window.sendOTP = function(user, btn, originalHtml) {
             const otpModal = document.getElementById('otpModal');
             if (otpModal) otpModal.style.display = 'flex';
 
+            // ✅ استدعي دالة التايمر هنا عشان يبدأ بعد نجاح الإرسال
+            setupResendButton(user);
+
             const verifyBtn = document.getElementById('verifyOtpBtn');
             if (verifyBtn) {
                 verifyBtn.onclick = () => {
@@ -480,7 +516,34 @@ window.sendOTP = function(user, btn, originalHtml) {
             alert("فشل إرسال الكود.");
             if(btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
         });
-}
+} 
+
+    emailjs.send('service_y1varvx', 'template_yc240wh', templateParams)
+        .then(() => {
+            console.log("OTP Sent Successfully!");
+            const otpModal = document.getElementById('otpModal');
+            if (otpModal) otpModal.style.display = 'flex';
+
+            const verifyBtn = document.getElementById('verifyOtpBtn');
+            if (verifyBtn) {
+                verifyBtn.onclick = () => {
+                    const enteredCode = document.getElementById('userInputOTP').value;
+                    if (enteredCode == generatedOTP) {
+                        localStorage.setItem('trusted_device_' + user.uid, "true");
+                        alert(`مرحباً بك يا هندسة ${user.displayName}!`);
+                        location.reload(); 
+                    } else {
+                        alert("الكود غير صحيح!");
+                    }
+                };
+            }
+        })
+        .catch((err) => {
+            console.error("EmailJS Error:", err);
+            alert("فشل إرسال الكود.");
+            if(btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
+        });
+
 
 
     // --- ج) الأدوات والحاسبات (Tools Logic) ---
