@@ -1284,3 +1284,39 @@ window.sendOTP = function(user, btn, originalHtml) {
         });
     };
 }); // <--- تأكد إن ده هو آخر سطر في الملف ومفيش بعده أي حاجة
+
+
+
+// --- دالة فتح وغلق قائمة البروفايل ---
+window.toggleMyMenu = function(event) {
+    event.stopPropagation();
+    const menu = document.getElementById('userDropdownMenu');
+    if (menu) {
+        if (menu.style.display === 'none' || menu.style.display === '') {
+            menu.style.display = 'block';
+        } else {
+            menu.style.display = 'none';
+        }
+    }
+};
+
+// --- دالة تسجيل الخروج ---
+window.handleLogout = function() {
+    if (firebase.auth()) {
+        firebase.auth().signOut().then(() => {
+            alert("تم تسجيل الخروج");
+            location.reload();
+        }).catch((error) => {
+            console.error("Logout Error:", error);
+        });
+    }
+};
+
+// إغلاق القائمة عند الضغط في أي مكان بره
+window.addEventListener('click', function(event) {
+    const menu = document.getElementById('userDropdownMenu');
+    const avatar = document.getElementById('userAvatar');
+    if (menu && event.target !== avatar && !menu.contains(event.target)) {
+        menu.style.display = 'none';
+    }
+});
