@@ -1,84 +1,27 @@
-// استخدم الكود ده في أول سطر في ملف script.js
-emailjs.init("yqjvXcdxAy0y4uOM_");
+// --- 1. الدوال العامة (Global Functions) ---
 
-let currentUser = null;
-let isPro = false;
-let userCredits = 0;
-
-
-/* ==========================================================================
-   1. دوال الحسابات الهندسية (موجودة هنا لمنع مشاكل الاستدعاء)
-   ========================================================================== */
-
-// منطق حساب Fixed Base Plate
-function calculateFixedBaseLogic({ M, N, L, B, Fcu }) {
-    const area = L * B;
-    // معادلة تقريبية للإجهاد (للعرض فقط)
-    const stress = (N * 1000) / area; 
-    const status = stress < (0.3 * Fcu) ? "SAFE" : "UNSAFE";
-    const color = status === "SAFE" ? "#25D366" : "#ff4b4b";
-    
-    return `
-        <div style="padding:15px; color:#fff;">
-            <h4 style="color:#ff9800; margin-bottom:10px;">Analysis Result</h4>
-            <p><strong>Contact Stress:</strong> ${stress.toFixed(2)} kg/cm²</p>
-            <p><strong>Status:</strong> <span style="color:${color}; font-weight:bold;">${status}</span></p>
-            <p style="font-size:12px; color:#aaa; margin-top:5px;">* Based on simplified contact pressure.</p>
-        </div>
-    `;
-}
-
-
-/* ==========================================================================
-   2. إعدادات Firebase (Auth & Database)
-   ========================================================================== */
-
-let auth = null;
-let db = null;
-let storage = null;
-
-try {
-    if (typeof firebase !== 'undefined') {
-        const firebaseConfig = {
-            apiKey: "AIzaSyDYHq7cvVBU_Z8X3H-PkL_ApmQXpa-ooXA",
-            authDomain: "portfolioema-1.firebaseapp.com",
-            projectId: "portfolioema-1",
-            storageBucket: "portfolioema-1.firebasestorage.app",
-            messagingSenderId: "601561055999",
-            appId: "1:601561055999:web:bb8142834cb824f9f9c2ca",
-            measurementId: "G-G50XF6F14R"
-        };
-
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        auth = firebase.auth();
-        db = firebase.firestore();
-        storage = firebase.storage();
-    } else {
-        console.warn("Firebase SDK not loaded.");
+// دالة فتح وغلق قائمة البروفايل
+window.toggleMyMenu = function(event) {
+    if (event) event.stopPropagation();
+    const menu = document.getElementById('userDropdownMenu');
+    if (menu) {
+        const isHidden = menu.style.display === 'none' || menu.style.display === '';
+        menu.style.display = isHidden ? 'block' : 'none';
     }
-} catch (e) {
-    console.error("Firebase Init Error:", e);
-}
+};
 
+// دالة تسجيل الخروج
+window.handleLogout = function() {
+    if (auth) {
+        auth.signOut().then(() => {
+            alert("تم تسجيل الخروج");
+            location.reload();
+        });
+    }
+};
 
-// --- 4. المستمع الرئيسي لحالة المستخدم (المدمج) ---
-if (auth) {
-    auth.onAuthStateChanged((user) => {
-        const authItem = document.getElementById('authItem');
-        const profileItem = document.getElementById('userProfileItem');
-        const adminNav = document.getElementById('adminNavItem');
-        const avatar = document.getElementById('userAvatar');
-
-        if (user) {
-            // أ) التحقق من الـ OTP أولاً
-            const isTrusted = localStorage.getItem('trusted_device_' + user.uid);
-            if (!isTrusted) {
-                sendOTP(user, loginBtn, loginBtn ? loginBtn.innerHTML : "");
-                return; 
-                // دالة لتفعيل زر إعادة الإرسال مع تايمر 30 ثانية
-function setupResendButton(user) {
+// دالة تايمر إعادة إرسال الكود
+window.setupResendButton = function(user) {
     const resendBtn = document.getElementById('resendOtpBtn');
     const timerEl = document.getElementById('resendTimer');
     let timeLeft = 30;
@@ -90,7 +33,7 @@ function setupResendButton(user) {
     resendBtn.style.cursor = "not-allowed";
 
     const countdown = setInterval(() => {
-        timerEl.innerText = `يمكنك إعادة الإرسال بعد ${timeLeft} ثانية`;
+        if (timerEl) timerEl.innerText = `إعادة الإرسال بعد ${timeLeft} ثانية`;
         timeLeft--;
 
         if (timeLeft < 0) {
@@ -98,21 +41,43 @@ function setupResendButton(user) {
             resendBtn.disabled = false;
             resendBtn.style.opacity = "1";
             resendBtn.style.cursor = "pointer";
-            timerEl.innerText = "";
+            if (timerEl) timerEl.innerText = "";
         }
     }, 1000);
 
     resendBtn.onclick = () => {
-        console.log("Re-sending OTP...");
-        // استدعاء الدالة اللي موجودة في كودك الأصلي
         window.sendOTP(user); 
-        // إعادة تشغيل التايمر
-        setupResendButton(user);
+        window.setupResendButton(user);
     };
-}
+};
+
+// إغلاق القائمة عند الضغط في أي مكان بره
+window.addEventListener('click', function(event) {
+    const menu = document.getElementById('userDropdownMenu');
+    const avatar = document.getElementById('userAvatar');
+    if (menu && event.target !== avatar && !menu.contains(event.target)) {
+        menu.style.display = 'none';
+    }
+});
+
+// --- 4. المستمع الرئيسي لحالة المستخدم ---
+if (auth) {
+    auth.onAuthStateChanged((user) => {
+        const authItem = document.getElementById('authItem');
+        const profileItem = document.getElementById('userProfileItem');
+        const adminNav = document.getElementById('adminNavItem');
+        const avatar = document.getElementById('userAvatar');
+
+        if (user) {
+            const isTrusted = localStorage.getItem('trusted_device_' + user.uid);
+            if (!isTrusted) {
+                // استدعاء دالة الإرسال الأصلية اللي عندك
+                if (typeof sendOTP === "function") {
+                    sendOTP(user);
+                }
+                return; 
             }
 
-            // ب) إذا كان موثوقاً، نُكمل جلب البيانات
             currentUser = user;
             if (authItem) authItem.style.display = 'none';
             if (profileItem) {
@@ -120,30 +85,15 @@ function setupResendButton(user) {
                 if (avatar) avatar.src = user.photoURL || 'images/default-avatar.png';
             }
 
-            // ج) جلب الرصيد من Firestore
             if (db) {
                 const userDocRef = db.collection('users').doc(user.uid);
                 userDocRef.onSnapshot((doc) => {
-                    if (!doc.exists) {
-                        userDocRef.set({
-                            email: user.email,
-                            name: user.displayName || "User",
-                            freeCredits: 3,
-                            paidCredits: 0,
-                            isPro: false,
-                            role: 'user',
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    } else {
+                    if (doc.exists) {
                         const data = doc.data();
                         isPro = data.isPro || false;
-                        userCredits = (data.freeCredits || 0) + (data.paidCredits || 0);
-                        
                         if (document.getElementById('freeLabel')) document.getElementById('freeLabel').innerText = data.freeCredits || 0;
                         if (document.getElementById('paidLabel')) document.getElementById('paidLabel').innerText = data.paidCredits || 0;
                         
-                        updateCreditsUI();
-
                         if (data.role === 'admin' || user.email === ADMIN_EMAIL) {
                             if (adminNav) adminNav.style.display = 'block';
                         }
@@ -151,11 +101,6 @@ function setupResendButton(user) {
                 });
             }
         } else {
-            // حالة تسجيل الخروج
-            currentUser = null;
-            userCredits = 0;
-            isPro = false;
-            updateCreditsUI();
             if (authItem) authItem.style.display = 'block';
             if (profileItem) profileItem.style.display = 'none';
             if (adminNav) adminNav.style.display = 'none';
@@ -1300,23 +1245,3 @@ window.toggleMyMenu = function(event) {
     }
 };
 
-// --- دالة تسجيل الخروج ---
-window.handleLogout = function() {
-    if (firebase.auth()) {
-        firebase.auth().signOut().then(() => {
-            alert("تم تسجيل الخروج");
-            location.reload();
-        }).catch((error) => {
-            console.error("Logout Error:", error);
-        });
-    }
-};
-
-// إغلاق القائمة عند الضغط في أي مكان بره
-window.addEventListener('click', function(event) {
-    const menu = document.getElementById('userDropdownMenu');
-    const avatar = document.getElementById('userAvatar');
-    if (menu && event.target !== avatar && !menu.contains(event.target)) {
-        menu.style.display = 'none';
-    }
-});
