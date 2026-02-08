@@ -120,13 +120,18 @@ if (auth) {
                 if (typeof window.sendOTP === 'function') {
                     window.sendOTP(user);
                 }
+                if (authItem) authItem.style.display = 'none';
                 return; 
             }
 
             // ثانياً: لو موثوق، كمل تحميل البيانات عادي
             currentUser = user;
             if (authItem) authItem.style.display = 'none';
-            if (profileItem) profileItem.style.display = 'flex';
+            if (profileItem){
+                profileItem.style.display = 'flex';
+                const avatar = document.getElementById('userAvatar');
+                if (avatar) avatar.src = user.photoURL || 'images/default-avatar.png';
+            }
 
             // جلب بيانات Firestore
             if (db) {
@@ -138,12 +143,17 @@ if (auth) {
                         if (document.getElementById('paidLabel')) document.getElementById('paidLabel').innerText = data.paidCredits || 0;
                         
                         // إظهار لوحة الأدمن لو إيميلك هو الأدمن
-                        if (data.role === 'admin') {
-                            if (adminNav) adminNav.style.display = 'block';
-                        }
-                    }
+                        if (data.role === 'admin'&& adminNav) adminNav.style.display = 'block';
+                           }
+                    
                 });
             }
+
+// إخفاء الـ Loader يدوياً لو كان معلقاً
+            const loader = document.getElementById('top-loader');
+            if (loader) loader.style.opacity = '0';
+            document.body.style.overflow = 'auto';
+
         } else {
             // حالة تسجيل الخروج: رجع كل حاجة لأصلها
             if (authItem) authItem.style.display = 'block';
@@ -494,7 +504,8 @@ window.sendOTP = function(user, btn, originalHtml) {
                     if (enteredCode == generatedOTP) {
                         localStorage.setItem('trusted_device_' + user.uid, "true");
                         alert(`مرحباً بك يا هندسة ${user.displayName}!`);
-                        location.reload(); 
+                        document.getElementById('otpModal').style.display = 'none'; // أخفي المودال بدل الـ Reload
+    // هنا استدعي دالة تحديث البيانات اللي فوق يدوياً أو سيب الـ Listener يقوم بدوره 
                     } else {
                         alert("الكود غير صحيح!");
                     }
