@@ -519,31 +519,6 @@ window.sendOTP = function(user, btn, originalHtml) {
         });
 } 
 
-    emailjs.send('service_y1varvx', 'template_yc240wh', templateParams)
-        .then(() => {
-            console.log("OTP Sent Successfully!");
-            const otpModal = document.getElementById('otpModal');
-            if (otpModal) otpModal.style.display = 'flex';
-
-            const verifyBtn = document.getElementById('verifyOtpBtn');
-            if (verifyBtn) {
-                verifyBtn.onclick = () => {
-                    const enteredCode = document.getElementById('userInputOTP').value;
-                    if (enteredCode == generatedOTP) {
-                        localStorage.setItem('trusted_device_' + user.uid, "true");
-                        alert(`مرحباً بك يا هندسة ${user.displayName}!`);
-                        location.reload(); 
-                    } else {
-                        alert("الكود غير صحيح!");
-                    }
-                };
-            }
-        })
-        .catch((err) => {
-            console.error("EmailJS Error:", err);
-            alert("فشل إرسال الكود.");
-            if(btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
-        });
 
 
 
