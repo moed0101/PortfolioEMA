@@ -616,7 +616,7 @@ body.light-mode .footer-col h4 {
 .hamburger {
     display: none;
     cursor: pointer;
-    z-index: 20001; /* تعديل: رقم أعلى من القائمة (19000) لتظهر فوقها */
+    z-index: 20005; /* تعديل: رفع الطبقة لتكون فوق القائمة الجديدة */
     position: relative; /* ضروري جداً عشان الـ z-index يشتغل */
     flex-direction: column;
     justify-content: center;
@@ -3207,14 +3207,21 @@ transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
         display: flex !important;
         justify-content: center;
         align-items: center;
-        padding: 0 0 10px 0; /* تعديل: تقليل المسافة لرفع اللوجو */
-        margin-bottom: 5px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* خط فاصل تحت اللوجو */
+        padding: 0 0 15px 0; 
+        margin-bottom: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
     }
     .mobile-nav-logo .logo-wrapper {
         display: flex;
         align-items: center;
         gap: 10px;
+        /* تحسين اللوجو: خلفية لزيادة الوضوح وفصله عن الخلفية الغامقة */
+        background: linear-gradient(270deg, rgba(255, 255, 255, 0.03), rgba(255, 152, 0, 0.15), rgba(255, 255, 255, 0.03));
+        background-size: 200% 200%;
+        animation: logoGradientMove 4s ease infinite;
+        padding: 10px 20px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
     }
     .logo-text-mobile {
         font-size: 22px;
@@ -3229,7 +3236,15 @@ transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
 
     /* تكبير اللوجو في الموبايل */
     .mobile-nav-logo .header-logo-img {
-        height: 120px !important; /* تعديل: تكبير اللوجو أكثر */
+        height: 100px !important; /* حجم متناسق وواضح */
+        filter: drop-shadow(0 0 5px rgba(255, 152, 0, 0.2)) brightness(1.2); /* زيادة السطوع والوضوح للقراءة */
+    }
+
+    /* أنميشن حركة الخلفية المتدرجة */
+    @keyframes logoGradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
     @keyframes spinLogo {
@@ -3250,11 +3265,11 @@ transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
         left: 0;
         width: 100%;
         height: 100vh;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* تعديل: خلفية متدرجة (Gradient) */
+        background: linear-gradient(135deg, #050b0e, #0a1316, #0f1c22) !important; /* تعديل: خلفية أغمق بكثير */
         backdrop-filter: blur(50px); /* تغبيش قوي جداً (Blur) حسب الطلب */
         flex-direction: column;
         justify-content: flex-start; /* البداية من الأعلى لرص اللوجو ثم الروابط */
-        padding-top: 10px; /* تعديل: رفع القائمة لأقصى حد للأعلى */
+        padding-top: 30px; /* تعديل: تقليل المسافة لتبدأ القائمة من أول الصفحة */
         align-items: stretch; /* عشان العناصر تاخد العرض بالكامل */
         gap: 0; /* إلغاء المسافات الكبيرة بين العناصر */
         overflow-y: auto; /* السماح بالسكرول لو القائمة طويلة */
@@ -3264,7 +3279,7 @@ transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
         transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.5s ease;
         transform: translateY(-120%); /* رفع القائمة أكثر للأعلى */
         opacity: 0; /* إخفاء القائمة تماماً */
-        z-index: 19000; /* تحت الهيدر مباشرة (الهيدر 20000) */
+        z-index: 20002; /* تعديل: رفع القائمة لتغطي الهيدر (الهيدر 20000) */
     }
     .nav-links.active {
         transform: translateY(0); /* تنزل وتغطي الشاشة */
@@ -3272,15 +3287,28 @@ transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
     }
     .nav-links li {
         width: 100%; /* العنصر ياخد العرض كامل */
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* خط فاصل خفيف */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* اقتراح 1: خط فاصل أوضح للفصل بين العناصر */
     }
     .nav-links a {
         font-size: 16px !important; /* تعديل: تصغير الخط ليتناسب مع الباقي */
         width: 100%;
-        justify-content: space-between; /* النص يمين والسهم شمال */
-        padding: 15px 20px !important; /* تعديل: تقليل المسافات (Shrink) لتكون مثل باقي العناصر */
+        justify-content: flex-start; /* محاذاة لليسار لترتيب الأيقونة بجانب النص */
+        padding: 15px 25px !important; /* تحسين المسافات للضغط المريح */
+        gap: 15px; /* مسافة واضحة بين الأيقونة والنص */
         display: flex;
     }
+    
+    /* اقتراح 2: تنسيق خاص ومميز لزر تسجيل الدخول في الموبايل */
+    #authItem a {
+        background: rgba(255, 152, 0, 0.1) !important; /* خلفية برتقالية خفيفة */
+        color: #ff9800 !important; /* لون النص برتقالي */
+        justify-content: center !important; /* توسيط المحتوى */
+        margin: 15px 20px; /* هوامش جانبية لفصله عن القائمة */
+        width: auto !important;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 152, 0, 0.3);
+    }
+
     /* إظهار زر الهامبرغر */
     .hamburger {
         display: flex !important; /* ضمان ظهور الزر في الموبايل */
@@ -3362,6 +3390,23 @@ transform: skewX(-45deg); /* زاوية مائلة بس ناعمة */
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* ظل خفيف للعمق */
         -webkit-background-clip: border-box !important; /* إلغاء قص النص في الموبايل للحفاظ على شكل الصندوق */
         -webkit-text-fill-color: #ffffff !important; /* النص يرجع أبيض في الموبايل */
+    }
+
+    /* إخفاء القائمة المنسدلة (Mega Menu) والسهم تماماً في الموبايل */
+    .mega-menu,
+    .dropdown:hover .mega-menu,
+    .dropdown.active .mega-menu {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    .nav-links .dropdown .fa-chevron-down {
+        display: none !important;
+    }
+    
+    /* ضمان أن عنصر Skills لا يأخذ ارتفاعاً زائداً */
+    .dropdown {
+        height: auto !important;
     }
 }
 

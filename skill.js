@@ -115,46 +115,53 @@ function initSkills() {
     const activeSections = document.querySelectorAll('.skill-section');
     
     activeSections.forEach(section => {
-        section.addEventListener('click', (e) => {
-            // منع الفتح عند الضغط على الروابط الداخلية
+        section.addEventListener('click', function(e) {
+            // منع الفتح عند الضغط على الروابط الداخلية أو الأزرار
             if (e.target.closest('a') || e.target.closest('button')) return;
             
-            // تبديل حالة الفتح
-            const wasOpen = section.classList.contains('is-open');
+            const isCurrentlyOpen = this.classList.contains('is-open');
             
-            // فتح القسم الحالي إذا لم يكن مفتوحاً
-            if (!wasOpen) {
-                // تغبيش جميع الأقسام الأخرى (Blur Effect - الاقتراح الثاني)
-                activeSections.forEach(s => {
-                    if (s !== section) {
-                        s.classList.remove('is-open', 'active-card');
-                        s.classList.add('blurred-card'); // تغبيش بدلاً من إخفاء
-                    }
-                });
+            // أولاً، أغلق جميع الأقسام لإعادة التعيين
+            closeAllSections();
 
-                section.classList.add('is-open');
-                section.classList.add('active-card');
-                section.classList.remove('hidden-card', 'blurred-card');
-                animateSkillsIn(section); // تشغيل العدادات
+            // إذا لم يكن القسم الحالي مفتوحاً، افتحه
+            if (!isCurrentlyOpen) {
+                this.classList.add('is-open', 'active-card');
+                animateSkillsIn(this); // تشغيل العدادات والأنميشن
             }
+            // إذا كان مفتوحاً بالفعل، فإن دالة closeAllSections أعلاه ستكون قد أغلقته
+            // وهذا يحقق سلوك الفتح والإغلاق عند الضغط المتكرر
         });
     });
 
     // 3. تفعيل الضغط على العنوان الرئيسي لإعادة الفتح
-    const skillsTitle = document.querySelector('#skills .section-title');
-    const skillsWrapper = document.querySelector('.skills-wrapper');
+    const skillsTitle = document.getElementById('skillsTitle');
+    const skillsWrapper = document.getElementById('skillsWrapper');
+    const skillsArrow = document.getElementById('skillsArrow');
     const closeWrapperBtn = document.querySelector('.close-wrapper-btn');
 
     if (skillsTitle && skillsWrapper) {
-        skillsTitle.style.cursor = 'pointer'; // تغيير شكل الماوس ليد
-        
         skillsTitle.addEventListener('click', () => {
-            // لو القائمة مخفية -> اظهرها
-            if (skillsWrapper.classList.contains('collapsed')) {
-                skillsWrapper.classList.remove('collapsed');
+            const isHidden = skillsWrapper.classList.contains('hidden');
+            
+            if (isHidden) {
+                // إظهار القائمة
+                skillsWrapper.classList.remove('hidden');
+                skillsTitle.style.color = "#ff9800"; // تغيير لون العنوان للبرتقالي
+                skillsTitle.style.backgroundColor = "rgba(255, 152, 0, 0.1)"; // خلفية خفيفة
+                if(skillsArrow) {
+                    skillsArrow.style.transform = "rotate(180deg)";
+                    skillsArrow.style.color = "#ff9800"; // تغيير اللون للبرتقالي عند الفتح
+                }
             } else {
-                // لو ظاهرة -> اخفيها (Collapse)
-                skillsWrapper.classList.add('collapsed');
+                // إخفاء القائمة
+                skillsWrapper.classList.add('hidden');
+                skillsTitle.style.color = ""; // استعادة لون العنوان الأصلي
+                skillsTitle.style.backgroundColor = ""; // إزالة الخلفية
+                if(skillsArrow) {
+                    skillsArrow.style.transform = "rotate(0deg)";
+                    skillsArrow.style.color = ""; // استعادة اللون الأصلي
+                }
                 // إعادة تعيين الكروت الداخلية بعد انتهاء الأنميشن لضمان بداية نظيفة المرة القادمة
                 setTimeout(() => closeAllSections(), 600);
             }

@@ -49,6 +49,43 @@
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
+    /* تنسيقات إخفاء وإظهار قائمة المهارات (Skill CSS) */
+    .skills-wrapper {
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* حركة انسيابية أكثر */
+        max-height: 2500px; /* ارتفاع يكفي المحتوى */
+        opacity: 1;
+        overflow: hidden; /* ضروري لضمان نعومة الفتح والإغلاق */
+        text-align: left; /* إعادة محاذاة المحتوى لليسار لإصلاح مشكلة تكلا ورام */
+    }
+    .skills-wrapper.hidden {
+        max-height: 0;
+        opacity: 0;
+        margin: 0;
+        padding: 0;
+        pointer-events: none;
+    }
+    /* تنسيق الإطار العصري للعنوان (Modern Frame) */
+    .framed-title {
+        border: 1px solid rgba(255, 152, 0, 0.3); /* إطار برتقالي خفيف */
+        background: rgba(255, 255, 255, 0.02); /* خلفية زجاجية شفافة */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* ظل ناعم */
+        backdrop-filter: blur(5px); /* تأثير الضباب */
+        padding: 12px 45px; /* مساحة داخلية مريحة */
+        border-radius: 50px; /* حواف دائرية بالكامل */
+        animation: neonPulse 2s infinite alternate; /* تشغيل أنميشن النيون المستمر */
+    }
+    .framed-title:hover {
+        border-color: rgba(255, 152, 0, 0.8); /* توهج الإطار عند الوقوف عليه */
+        box-shadow: 0 8px 25px rgba(255, 152, 0, 0.15); /* زيادة الظل */
+        transform: translateY(-2px); /* حركة بسيطة للأعلى */
+    }
+    /* أنميشن النيون المستمر */
+    @keyframes neonPulse {
+        0% { box-shadow: 0 0 5px rgba(255, 152, 0, 0.2), inset 0 0 5px rgba(255, 152, 0, 0.1); border-color: rgba(255, 152, 0, 0.3); }
+        100% { box-shadow: 0 0 20px rgba(255, 152, 0, 0.6), inset 0 0 10px rgba(255, 152, 0, 0.2); border-color: rgba(255, 152, 0, 0.9); }
+    }
+    /* ضمان بقاء عناوين الأقسام الفرعية في المنتصف */
+    .skill-section h3 { text-align: center; }
   </style>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /> 
@@ -257,12 +294,14 @@
 
 
 <!-- إزالة الخلفية الغامقة (background: #0a192f) ليتناسب مع الهوية البصرية -->
-<section id="skills" class="reveal" style="position: relative; overflow: hidden; padding: 100px 0;">
+<section id="skills" class="reveal" style="position: relative; overflow: hidden; padding: 100px 0; text-align: center;">
     
     <!-- تم إزالة كرات النيون من هنا أيضاً -->
-    <h2 class="section-title reveal about-title">Skills & Tools</h2>
+    <h2 class="section-title reveal about-title framed-title" id="skillsTitle" style="cursor: pointer; user-select: none; transition: all 0.3s; display: inline-block;">
+        Skills & Tools <i id="skillsArrow" class="fas fa-chevron-down" style="font-size: 0.7rem; vertical-align: middle; transition: transform 0.3s;"></i>
+    </h2>
     
-    <div class="skills-wrapper">
+    <div class="skills-wrapper hidden" id="skillsWrapper">
         
         <div class="skill-section" id="steel-skills">
             <h3>Steel Structure</h3>
@@ -742,6 +781,16 @@
     </div>
 </div>
 
+
+<div id="otpModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:10000; align-items:center; justify-content:center;">
+    <div style="background:#1a1a1a; padding:30px; border-radius:15px; text-align:center; border:1px solid #ff9800; width:90%; max-width:400px;">
+        <h3 style="color:#ff9800;">التحقق من الهوية</h3>
+        <p style="color:#fff;">أدخل الكود المرسل لبريدك الإلكتروني</p>
+        <input type="text" id="userInputOTP" placeholder="000000" style="width:100%; padding:12px; margin:20px 0; border-radius:8px; text-align:center; font-size:20px;">
+        <button id="verifyOtpBtn" class="btn-glass btn-orange" style="width:100%; padding:12px; cursor:pointer;">دخول</button>
+    </div>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <script src="script.js"></script>
 <script src="skill.js"></script>
