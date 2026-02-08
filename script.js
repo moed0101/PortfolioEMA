@@ -64,20 +64,11 @@ try {
 
 
 // --- 4. المستمع الرئيسي لحالة المستخدم (المدمج) ---
-if (auth) {
-    auth.onAuthStateChanged((user) => {
-        const authItem = document.getElementById('authItem');
-        const profileItem = document.getElementById('userProfileItem');
-        const adminNav = document.getElementById('adminNavItem');
-        const avatar = document.getElementById('userAvatar');
+/* ==========================================================================
+   1. تعريف الدوال (دي تتحط بره لوحدها فوق)
+   ========================================================================== */
 
-        if (user) {
-            // أ) التحقق من الـ OTP أولاً
-            const isTrusted = localStorage.getItem('trusted_device_' + user.uid);
-            if (!isTrusted) {
-                sendOTP(user, loginBtn, loginBtn ? loginBtn.innerHTML : "");
-                return; 
-                // دالة لتفعيل زر إعادة الإرسال مع تايمر 30 ثانية
+// دالة التايمر - عرفناها بره عشان المتصفح يشوفها أول ما يفتح
 function setupResendButton(user) {
     const resendBtn = document.getElementById('resendOtpBtn');
     const timerEl = document.getElementById('resendTimer');
@@ -90,7 +81,7 @@ function setupResendButton(user) {
     resendBtn.style.cursor = "not-allowed";
 
     const countdown = setInterval(() => {
-        timerEl.innerText = `يمكنك إعادة الإرسال بعد ${timeLeft} ثانية`;
+        if (timerEl) timerEl.innerText = `يمكنك إعادة الإرسال بعد ${timeLeft} ثانية`;
         timeLeft--;
 
         if (timeLeft < 0) {
@@ -98,64 +89,63 @@ function setupResendButton(user) {
             resendBtn.disabled = false;
             resendBtn.style.opacity = "1";
             resendBtn.style.cursor = "pointer";
-            timerEl.innerText = "";
+            if (timerEl) timerEl.innerText = "";
         }
     }, 1000);
 
     resendBtn.onclick = () => {
-        console.log("Re-sending OTP...");
-        // استدعاء الدالة اللي موجودة في كودك الأصلي
-        window.sendOTP(user); 
-        // إعادة تشغيل التايمر
-        setupResendButton(user);
+        if (typeof window.sendOTP === 'function') {
+            window.sendOTP(user); 
+            setupResendButton(user);
+        }
     };
 }
+
+/* ==========================================================================
+   2. مستمع حالة المستخدم (ده اللي بيراقب الدخول والخروج)
+   ========================================================================== */
+
+if (auth) {
+    auth.onAuthStateChanged((user) => {
+        const authItem = document.getElementById('authItem');
+        const profileItem = document.getElementById('userProfileItem');
+        const adminNav = document.getElementById('adminNavItem');
+
+        if (user) {
+            // أولاً: فحص هل الجهاز موثوق؟
+            const isTrusted = localStorage.getItem('trusted_device_' + user.uid);
+            
+            if (!isTrusted) {
+                // لو مش موثوق، ابعت الكود ووقف تحميل باقي البيانات
+                if (typeof window.sendOTP === 'function') {
+                    window.sendOTP(user);
+                }
+                return; 
             }
 
-            // ب) إذا كان موثوقاً، نُكمل جلب البيانات
+            // ثانياً: لو موثوق، كمل تحميل البيانات عادي
             currentUser = user;
             if (authItem) authItem.style.display = 'none';
-            if (profileItem) {
-                profileItem.style.display = 'flex';
-                if (avatar) avatar.src = user.photoURL || 'images/default-avatar.png';
-            }
+            if (profileItem) profileItem.style.display = 'flex';
 
-            // ج) جلب الرصيد من Firestore
+            // جلب بيانات Firestore
             if (db) {
-                const userDocRef = db.collection('users').doc(user.uid);
-                userDocRef.onSnapshot((doc) => {
-                    if (!doc.exists) {
-                        userDocRef.set({
-                            email: user.email,
-                            name: user.displayName || "User",
-                            freeCredits: 3,
-                            paidCredits: 0,
-                            isPro: false,
-                            role: 'user',
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    } else {
+                db.collection('users').doc(user.uid).onSnapshot((doc) => {
+                    if (doc.exists) {
                         const data = doc.data();
-                        isPro = data.isPro || false;
-                        userCredits = (data.freeCredits || 0) + (data.paidCredits || 0);
-                        
+                        // تحديث الواجهة بالرصيد
                         if (document.getElementById('freeLabel')) document.getElementById('freeLabel').innerText = data.freeCredits || 0;
                         if (document.getElementById('paidLabel')) document.getElementById('paidLabel').innerText = data.paidCredits || 0;
                         
-                        updateCreditsUI();
-
-                        if (data.role === 'admin' || user.email === ADMIN_EMAIL) {
+                        // إظهار لوحة الأدمن لو إيميلك هو الأدمن
+                        if (data.role === 'admin') {
                             if (adminNav) adminNav.style.display = 'block';
                         }
                     }
                 });
             }
         } else {
-            // حالة تسجيل الخروج
-            currentUser = null;
-            userCredits = 0;
-            isPro = false;
-            updateCreditsUI();
+            // حالة تسجيل الخروج: رجع كل حاجة لأصلها
             if (authItem) authItem.style.display = 'block';
             if (profileItem) profileItem.style.display = 'none';
             if (adminNav) adminNav.style.display = 'none';
