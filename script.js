@@ -1,6 +1,10 @@
 // استخدم الكود ده في أول سطر في ملف script.js
 emailjs.init("yqjvXcdxAy0y4uOM_");
 
+let currentUser = null;
+let isPro = false;
+let userCredits = 0;
+const ADMIN_EMAIL = "01012025103l@gmail.com"; // إيميلك الشخصي
 
 /* ==========================================================================
    1. دوال الحسابات الهندسية (موجودة هنا لمنع مشاكل الاستدعاء)
@@ -28,7 +32,7 @@ function calculateFixedBaseLogic({ M, N, L, B, Fcu }) {
 /* ==========================================================================
    2. إعدادات Firebase (Auth & Database)
    ========================================================================== */
-const ADMIN_EMAIL = "eng.mohamedayman1@gmail.com";
+
 let auth = null;
 let db = null;
 let storage = null;
@@ -340,10 +344,7 @@ if (jobTitleElement) {
 // --- ب) نظام المصادقة وإدارة حالة المستخدم (Authentication & State Management) ---
 
 // 1. متغيرات حالة المستخدم
-let currentUser = null;
-let isPro = false;
-let userCredits = 0;
-const ADMIN_EMAIL = "admin@example.com"; // تأكد من وضع إيميل الأدمن الصحيح هنا
+
 
 // تهيئة EmailJS
 emailjs.init("yqjvXcdxAy0y4uOM_"); 
