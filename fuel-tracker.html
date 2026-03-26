@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تطبيق حسابات التفويلات</title>
+  <link rel="stylesheet" href="fuel-tracker.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>⛽ تطبيق حسابات العربات والتفويلات</h1>
+      <p>سجل العربات والتفويلات اليومية واحسب التكلفة بسهولة.</p>
+    </header>
+
+    <section class="card">
+      <h2>إضافة عربة</h2>
+      <form id="vehicleForm" class="grid-form">
+        <input id="vehicleName" type="text" placeholder="اسم العربة (مثال: دبابة 1)" required />
+        <input id="plateNumber" type="text" placeholder="اللوحة / الكود" required />
+        <button type="submit">إضافة عربة</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>تسجيل تفويلة جديدة</h2>
+      <form id="fuelForm" class="grid-form">
+        <select id="vehicleSelect" required>
+          <option value="">اختر العربة</option>
+        </select>
+        <input id="fuelDate" type="date" required />
+        <input id="liters" type="number" step="0.1" min="0" placeholder="عدد اللترات" required />
+        <input id="pricePerLiter" type="number" step="0.01" min="0" placeholder="سعر اللتر" required />
+        <input id="odometer" type="number" min="0" placeholder="العداد (اختياري)" />
+        <button type="submit">حفظ التفويلة</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="table-header">
+        <h2>سجل التفويلات</h2>
+        <button id="clearAll" class="danger">مسح كل البيانات</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>التاريخ</th>
+              <th>العربة</th>
+              <th>اللترات</th>
+              <th>سعر اللتر</th>
+              <th>إجمالي التكلفة</th>
+              <th>العداد</th>
+              <th>حذف</th>
+            </tr>
+          </thead>
+          <tbody id="fuelTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card stats" id="stats"></section>
+  </main>
+
+  <script src="fuel-tracker.js"></script>
+</body>
+</html>
